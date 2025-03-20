@@ -32,4 +32,31 @@ class SignInViewController: UIViewController {
 
         }
     }
-}
+    @IBAction func loginButtonTapped(_ sender: Any) {
+            guard let username = emailTextField.text, !username.isEmpty,
+                  let password = passwordTextField.text, !password.isEmpty else {
+                showAlert(message: "Please enter both username and password")
+                return
+            }
+            
+            // Check credentials (replace this with your actual authentication logic)
+            if username == "admin" && password == "password" {
+                // Successful login
+                performSegue(withIdentifier: "loginToHome", sender: nil)
+            } else {
+                // Failed login
+                showAlert(message: "Incorrect username or password")
+            }
+        }
+        
+        private func showAlert(message: String) {
+            let alert = UIAlertController(title: "Alert",
+                                        message: message,
+                                        preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(okAction)
+            
+            present(alert, animated: true)
+        }
+    }
