@@ -28,7 +28,7 @@ class DataController {
 
     func updateStaff(_ newStaff: Staff) async -> Bool {
         guard let body = newStaff.toData() else { return false }
-        let response: UpdateResponse? = await MiddlewareManager.shared.put(url: "/admin/staff/\(newStaff.id)", body: body)
+        let response: UpdateResponse? = await MiddlewareManager.shared.patch(url: "/admin/staff/\(newStaff.id)", body: body)
         return response?.success ?? false
     }
 }

@@ -19,6 +19,7 @@ struct UnavailablePeriod: Codable, Equatable {
 
     let startDate: Date
     let endDate: Date
+
 }
 
 struct Staff: Codable, Equatable {
@@ -37,20 +38,20 @@ struct Staff: Codable, Equatable {
         case role = "role"
     }
 
-    let id: String = UUID().uuidString
-    let firstName: String
-    let lastName: String? = nil
+    var id: String = UUID().uuidString
+    var firstName: String
+    var lastName: String? = nil
 
-    let emailAddress: String
-    let password: String
-    let contactNumber: String
-    let specializations: [String]
-    let department: String
-    let onLeave: Bool = false
+    var emailAddress: String
+    var password: String
+    var contactNumber: String
+    var specializations: [String]
+    var department: String
+    var onLeave: Bool = false
 
-    let unavailabilityPeriods: [UnavailablePeriod] = []
-    let licenseId: String
-    let role: Role = .doctor
+    var unavailabilityPeriods: [UnavailablePeriod] = []
+    var licenseId: String
+    var role: Role = .doctor
 
     var fullName: String {
         let lastName = lastName ?? ""
