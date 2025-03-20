@@ -12,10 +12,12 @@ extension Encodable {
         let encoder = JSONEncoder()
         guard let data = try? encoder.encode(self) else { return nil }
 
-        return try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+        return try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+            as? [String: Any]
     }
 
-    func toData(keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .convertToSnakeCase) -> Data? {
+    func toData(keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .convertToSnakeCase) -> Data?
+    {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = keyEncodingStrategy
         encoder.dateEncodingStrategy = .iso8601

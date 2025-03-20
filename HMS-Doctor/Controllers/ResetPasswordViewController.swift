@@ -17,6 +17,7 @@ class ResetPasswordViewController: UIViewController {
         guard let password = passwordField.text, !password.isEmpty else {
             return
         }
+
         guard let confirmPassword = confirmPasswordField.text, !confirmPassword.isEmpty else {
             return
         }
@@ -25,6 +26,14 @@ class ResetPasswordViewController: UIViewController {
             return
         }
 
-        performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+        staff?.password = password
+        Task {
+            guard let staff else { return }
+            let success = await DataController.shared.updateStaff(staff)
+            if success {
+                performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+                UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+            }
+        }
     }
 }
