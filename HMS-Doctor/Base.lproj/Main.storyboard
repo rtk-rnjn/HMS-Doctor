@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="u6F-5e-8op">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZFc-0v-cvZ">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
@@ -8,6 +8,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--On Boarding Hosting Controller-->
+        <scene sceneID="cPv-OQ-qhv">
+            <objects>
+                <hostingController id="REL-91-mpa" customClass="OnBoardingHostingController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="7ot-zW-iNz"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="segueShowSignInViewController" id="HsC-zi-OsF"/>
+                    </connections>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="muc-PF-4v8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="908" y="-27"/>
+        </scene>
         <!--Sign In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -81,7 +94,7 @@
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="signInButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IZz-dD-voU"/>
+                                            <action selector="signInButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xst-kg-ihM"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -99,15 +112,19 @@
                             <constraint firstItem="7lB-7c-cVf" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="pi1-w1-8mw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="9fN-7J-H3f"/>
+                    <navigationItem key="navigationItem" id="9fN-7J-H3f">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="17b-sO-Szd"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="emailTextField" destination="HGU-6E-k4L" id="ZKw-b7-ceD"/>
+                        <outlet property="passwordTextField" destination="PfP-jf-EXB" id="Ofm-dY-wAY"/>
                         <segue destination="pef-3o-PN0" kind="show" identifier="segueShowInitialTabBarController" id="nii-GI-W5J"/>
                         <segue destination="GGi-QF-tqf" kind="show" identifier="segueShowResetPasswordViewController" id="mjj-af-yJO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982.44274809160299" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="1909.1603053435115" y="-27.464788732394368"/>
         </scene>
         <!--Initial-->
         <scene sceneID="sn0-rZ-hFz">
@@ -117,7 +134,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGu-gJ-QUR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1960" y="263"/>
+            <point key="canvasLocation" x="2798" y="244"/>
         </scene>
         <!--Reset Password View Controller-->
         <scene sceneID="nAa-8u-mXj">
@@ -186,7 +203,7 @@
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="signInButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x7s-bg-J7H"/>
+                                            <action selector="signInButtonTapped:" destination="GGi-QF-tqf" eventType="touchUpInside" id="Idz-Uw-L9L"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -207,34 +224,36 @@
                     </view>
                     <navigationItem key="navigationItem" id="jwt-W4-2cg"/>
                     <connections>
+                        <outlet property="confirmPasswordField" destination="WDw-ud-EUY" id="J78-Qu-bWD"/>
+                        <outlet property="passwordField" destination="7hB-L5-8x5" id="I8e-d1-WOT"/>
                         <segue destination="pef-3o-PN0" kind="show" identifier="segueShowInitialTabBarController" id="OEq-7f-nXI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOk-zC-aVr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982" y="700"/>
+            <point key="canvasLocation" x="1909" y="741"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="QxW-zj-sGy">
+        <scene sceneID="o1G-Gv-6Bs">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="u6F-5e-8op" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZFc-0v-cvZ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pVF-cu-TLT">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3Dt-pq-JiH">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="CF5-2J-fO5"/>
+                        <segue destination="REL-91-mpa" kind="relationship" relationship="rootViewController" id="4A1-nW-sGB"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RYl-wD-Ntf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AVy-69-J04" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="55.725190839694655" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="47" y="-27"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nii-GI-W5J"/>
+        <segue reference="OEq-7f-nXI"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

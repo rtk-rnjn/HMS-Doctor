@@ -1,5 +1,5 @@
 //
-//  DoctorOnboardingWalkthroughView.swift
+//  OnboardingView.swift
 //  HMS-Doctor
 //
 //  Created by Dhruvi on 20/03/25.
@@ -7,14 +7,16 @@
 import Foundation
 import SwiftUI
 
-struct DoctorOnboardingItem {
+struct OnboardingItem {
     var imageName: String
     var title: String?
     var description: String
 }
 
-struct DoctorOnboardingWalkthroughView: View {
-    private let onboardingData: [DoctorOnboardingItem] = [
+struct OnboardingView: View {
+    weak var delegate: OnBoardingHostingController?
+
+    private let onboardingData: [OnboardingItem] = [
         .init(imageName: "doctorWelcomeImage", title: "Welcome, Doctor!", description: "Your Smart Medical Assistant Awaits"),
         .init(imageName: "doctorAppointmentsImage", title: nil, description: "View Your Appointments At A Glance!"),
         .init(imageName: "doctorPrescriptionsImage", title: nil, description: "Prescribe Paper-free Instantly!"),
@@ -22,7 +24,7 @@ struct DoctorOnboardingWalkthroughView: View {
         .init(imageName: "doctorAlertsImage", description: "Stay Up-to-Date With All Alerts!")
     ]
     @State private var currentPageIndex: Int = 0
-    @State private var isOnboardingComplete: Bool = false
+    @State var isOnboardingComplete: Bool = false
 
     private var isLastPage: Bool {
         currentPageIndex == onboardingData.count - 1
@@ -96,19 +98,13 @@ struct DoctorOnboardingWalkthroughView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
                     isOnboardingComplete = true
+                    delegate?.onboardingComplete()
                 }) {
                     Text("Skip")
                         .foregroundColor(.blue)
                 }
             }
         }
-        .navigationDestination(isPresented: $isOnboardingComplete) {
-       //     HelloScreen()
-        }
+        .navigationDestination(isPresented: $isOnboardingComplete) {}
     }
-
 }
-
-// #Preview {
-//    DoctorOnboardingWalkthroughView()
-// }
