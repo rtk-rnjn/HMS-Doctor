@@ -109,6 +109,7 @@ struct OnboardingView: View {
         .navigationDestination(isPresented: $isOnboardingComplete) {}
     }
 }
-#Preview{
+
+#Preview {
     OnboardingView()
 }

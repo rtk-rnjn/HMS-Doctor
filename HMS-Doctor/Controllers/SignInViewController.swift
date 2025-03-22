@@ -10,12 +10,12 @@ import UIKit
 class SignInViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowResetPasswordViewController", let resetPasswordViewController = segue.destination as? ResetPasswordViewController {
             resetPasswordViewController.staff = sender as? Staff

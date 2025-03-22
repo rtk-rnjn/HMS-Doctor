@@ -40,7 +40,7 @@ struct Staff: Codable, Equatable {
 
     var id: String = UUID().uuidString
     var firstName: String
-    var lastName: String? = nil
+    var lastName: String?
 
     var emailAddress: String
     var password: String

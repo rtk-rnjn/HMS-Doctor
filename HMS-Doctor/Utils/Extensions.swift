@@ -16,8 +16,7 @@ extension Encodable {
             as? [String: Any]
     }
 
-    func toData(keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .convertToSnakeCase) -> Data?
-    {
+    func toData(keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .convertToSnakeCase) -> Data? {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = keyEncodingStrategy
         encoder.dateEncodingStrategy = .iso8601
