@@ -13,6 +13,11 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet var passwordField: UITextField!
     @IBOutlet var confirmPasswordField: UITextField!
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        staff = DataController.shared.staff
+    }
+
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         guard let password = passwordField.text, !password.isEmpty else {
             return
@@ -26,13 +31,14 @@ class ResetPasswordViewController: UIViewController {
             return
         }
 
-        staff?.password = password
         Task {
             guard let staff else { return }
-            let success = await DataController.shared.updateStaff(staff)
+            let success = await DataController.shared.changePassword(oldPassword: staff.password, newPassword: password)
             if success {
-                performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
-                UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+                    UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+                }
             }
         }
     }

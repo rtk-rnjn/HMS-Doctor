@@ -8,6 +8,9 @@
 import UIKit
 
 class SignInViewController: UIViewController {
+
+    // MARK: Internal
+
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
 
@@ -32,9 +35,24 @@ class SignInViewController: UIViewController {
         }
 
         Task {
-            guard let staff = await DataController.shared.fetchStaff(email: email, password: password) else { return }
-            performSegue(withIdentifier: "segueShowResetPasswordViewController", sender: staff)
+            let loggedIn = await DataController.shared.login(emailAddress: email, password: password)
 
+            DispatchQueue.main.async {
+                if loggedIn {
+                    self.performSegue(withIdentifier: "segueShowResetPasswordViewController", sender: nil)
+
+                } else {
+                    self.showAlert(message: "Invalid email or password")
+
+                }
+            }
         }
+    }
+
+    // MARK: Private
+
+    private func showAlert(message: String) {
+        let alert = Utils.getAlert(title: "Error", message: message)
+        present(alert, animated: true, completion: nil)
     }
 }

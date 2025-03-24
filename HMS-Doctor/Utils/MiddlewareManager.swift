@@ -7,7 +7,7 @@
 
 import Foundation
 
-private let endpoint = "http://13.233.139.216:8080"
+private let endpoint = "http://localhost:8080"
 
 actor MiddlewareManager {
 
@@ -29,13 +29,13 @@ actor MiddlewareManager {
         return await request(url: url, method: "PUT", body: body)
     }
 
+    func patch<T: Codable>(url: String, body: Data) async -> T? {
+        return await request(url: url, method: "PATCH", body: body)
+    }
+
     func delete(url: String, body: Data) async -> Bool {
         let result: Bool? = await request(url: url, method: "DELETE", body: body)
         return result != nil
-    }
-
-    func patch<T: Codable>(url: String, body: Data) async -> T? {
-        return await request(url: url, method: "PATCH", body: body)
     }
 
     // MARK: Private
@@ -58,9 +58,14 @@ actor MiddlewareManager {
         if let body { request.httpBody = body }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
                 return nil
             }
 
@@ -69,7 +74,7 @@ actor MiddlewareManager {
             return try decoder.decode(T.self, from: data)
 
         } catch {
-            return nil
+            fatalError("WHITEEE AMEERIICAAAA!!!!!! \(error.localizedDescription)")
         }
     }
 }
