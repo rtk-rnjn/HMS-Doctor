@@ -13,5 +13,9 @@ class InitialTabBarController: UITabBarController {
 
         navigationController?.navigationBar.isHidden = true
         navigationController?.setNavigationBarHidden(true, animated: false)
+
+        Task {
+            _ = DataController.shared.staff
+        }
     }
 }

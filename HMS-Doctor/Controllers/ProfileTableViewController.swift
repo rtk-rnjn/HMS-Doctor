@@ -19,8 +19,16 @@ class ProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        staff = DataController.shared.staff
-        updateUI()
+        Task {
+            let loggedIn = await DataController.shared.autoLogin()
+            if loggedIn {
+                DispatchQueue.main.async {
+                    self.staff = DataController.shared.staff
+                    self.updateUI()
+                }
+            }
+
+        }
     }
 
     // MARK: Private
