@@ -12,7 +12,7 @@ class ResetPasswordViewController: UIViewController {
 
     @IBOutlet var passwordField: UITextField!
     @IBOutlet var confirmPasswordField: UITextField!
-
+    @IBOutlet weak var signInButton: UIButton!
     
     let eyeButton1 = UIButton(type: .custom)
     let eyeButton2 = UIButton(type: .custom)
@@ -32,7 +32,26 @@ class ResetPasswordViewController: UIViewController {
         confirmPasswordField.addTarget(self, action: #selector(passwordEnteredForCnfrmPass), for: .editingChanged)
         
         
+        
+        passwordField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+            confirmPasswordField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+
+            signInButton.isEnabled = false
+            signInButton.alpha = 0.5 //
+        
+        
         staff = DataController.shared.staff
+    }
+    
+    
+    @objc func textFieldsChanged() {
+        let password = passwordField.text ?? ""
+        let confirmPassword = confirmPasswordField.text ?? ""
+        
+        let isValid = password.count >= 8 && confirmPassword.count >= 8 && password == confirmPassword
+        
+        signInButton.isEnabled = isValid
+        signInButton.alpha = isValid ? 1.0 : 0.7 // Adjusted opacity for better visibility
     }
     
     
