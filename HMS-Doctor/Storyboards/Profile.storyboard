@@ -138,17 +138,17 @@
                             <tableViewSection id="XsX-4O-ccl">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ftu-iQ-1OM">
-                                        <rect key="frame" x="20" y="5" width="353" height="351.66665649414062"/>
+                                        <rect key="frame" x="20" y="5" width="353" height="352.33334350585938"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ftu-iQ-1OM" id="fXR-Lf-rxb">
-                                            <rect key="frame" x="0.0" y="0.0" width="353" height="351.66665649414062"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="353" height="352.33334350585938"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-wL-Luu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="351.66666666666669"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="352.33333333333331"/>
                                                     <subviews>
                                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="FfT-kh-T3d">
-                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="352"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="352.33333333333331"/>
                                                             <connections>
                                                                 <action selector="dateChanged:" destination="Zze-2d-bv9" eventType="valueChanged" id="Tgy-Xc-eyO"/>
                                                             </connections>
@@ -175,7 +175,7 @@
                             <tableViewSection id="x1s-1U-jBH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="elB-X4-eZt">
-                                        <rect key="frame" x="20" y="366.66665649414062" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="367.33334350585938" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="elB-X4-eZt" id="n4I-Hw-cgt">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -192,6 +192,9 @@
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E6X-lb-nGH">
                                                             <rect key="frame" x="264" y="9.6666666666666643" width="51" height="31"/>
+                                                            <connections>
+                                                                <action selector="availabilityToggleButtonOn:" destination="Zze-2d-bv9" eventType="valueChanged" id="7QZ-a6-rfT"/>
+                                                            </connections>
                                                         </switch>
                                                     </subviews>
                                                 </stackView>
@@ -209,7 +212,7 @@
                             <tableViewSection id="OPz-rW-Dmv">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SetAvailablityTableViewCell" id="V2h-B2-aUI" customClass="SetAvailablityTableViewCell" customModule="HMS_Doctor" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="426.66665649414062" width="353" height="180.33332824707031"/>
+                                        <rect key="frame" x="20" y="427.33334350585938" width="353" height="180.33332824707031"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="V2h-B2-aUI" id="tDg-dk-XAj">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="180.33332824707031"/>
