@@ -1,0 +1,84 @@
+import Foundation
+import SwiftUI
+
+// Appointment Status
+public enum AppointmentStatus: String {
+    case confirmed = "Confirmed"
+    case pending = "Pending"
+    case canceled = "Canceled"
+    case completed = "Completed"
+    
+    public var color: Color {
+        switch self {
+        case .confirmed: return .green
+        case .pending: return .orange
+        case .canceled: return .red
+        case .completed: return .blue
+        }
+    }
+}
+
+// Appointment Item for the appointments screen
+public struct AppointmentItem: Identifiable {
+    public let id = UUID()
+    public let patientName: String
+    public let patientAge: Int
+    public let appointmentType: String
+    public let time: String
+    public let status: AppointmentStatus
+    
+    public init(patientName: String, patientAge: Int, appointmentType: String, time: String, status: AppointmentStatus) {
+        self.patientName = patientName
+        self.patientAge = patientAge
+        self.appointmentType = appointmentType
+        self.time = time
+        self.status = status
+    }
+}
+
+// Appointment for the dashboard screen
+public struct Appointment: Identifiable {
+    public let id = UUID()
+    public let patientName: String
+    public let appointmentType: String
+    public let time: String
+    public let status: AppointmentStatus
+    
+    public init(patientName: String, appointmentType: String, time: String, status: AppointmentStatus) {
+        self.patientName = patientName
+        self.appointmentType = appointmentType
+        self.time = time
+        self.status = status
+    }
+}
+
+// Emergency alert priority
+public enum AlertPriority: String {
+    case urgent = "Urgent"
+    case normal = "Normal" 
+    case low = "Low"
+    
+    public var color: Color {
+        switch self {
+        case .urgent: return .red
+        case .normal: return .green
+        case .low: return .blue
+        }
+    }
+}
+
+// Emergency alert model
+public struct EmergencyAlert: Identifiable {
+    public let id = UUID()
+    public let title: String
+    public let details: String
+    public let timeAgo: String
+    public let priority: AlertPriority
+    
+    public init(title: String, details: String, timeAgo: String, priority: AlertPriority) {
+        self.title = title
+        self.details = details
+        self.timeAgo = timeAgo
+        self.priority = priority
+    }
+} 
