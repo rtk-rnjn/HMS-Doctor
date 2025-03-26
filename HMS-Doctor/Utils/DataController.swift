@@ -43,19 +43,19 @@ struct ChangePassword: Codable {
     var newPassword: String
 }
 
-class DataController {
+class DataController: ObservableObject {
 
     // MARK: Lifecycle
 
     private init() {
-        Task {
-            _ = await autoLogin()
-        }
+//        Task {
+//            _ = await autoLogin()
+//        }
     }
 
     // MARK: Public
 
-    public private(set) var staff: Staff?
+    @Published public private(set) var staff: Staff?
 
     // MARK: Internal
 

@@ -13,6 +13,18 @@ class InitialTabBarController: UITabBarController {
 
         navigationController?.navigationBar.isHidden = true
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        // Set up Dashboard as the first tab
+        if let viewControllers = viewControllers, viewControllers.count > 0 {
+            let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
+            if let dashboardController = dashboardStoryboard.instantiateInitialViewController() {
+                var controllers = viewControllers
+                // Replace the first tab (usually Home) with Dashboard
+                controllers[0] = dashboardController
+                setViewControllers(controllers, animated: false)
+                selectedIndex = 0
+            }
+        }
 
         Task {
             _ = DataController.shared.staff
