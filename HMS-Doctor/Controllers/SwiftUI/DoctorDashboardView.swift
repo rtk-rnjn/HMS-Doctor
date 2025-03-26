@@ -1,25 +1,9 @@
 import SwiftUI
 
 struct DoctorDashboardView: View {
-    // Sample data - replace with actual data from your model
-    private let totalAppointments = 10
-    private let completedAppointments = 8
-    private let canceledAppointments = 2
-    private let rating = 4.8
-    
-    // Sample appointments data
-    private let todaysAppointments = [
-        Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", status: .confirmed),
-        Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", status: .confirmed),
-        Appointment(patientName: "Mike Johnson", appointmentType: "Consultation", time: "11:45 AM", status: .completed)
-    ]
-    
-    // Sample alerts data
-    private let emergencyAlerts = [
-        EmergencyAlert(title: "Urgent Care Required", details: "Patient with severe chest pain", timeAgo: "10 mins ago", priority: .urgent),
-        EmergencyAlert(title: "Lab Results", details: "Critical test results available", timeAgo: "30 mins ago", priority: .normal)
-    ]
-    
+
+    // MARK: Internal
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
@@ -31,7 +15,7 @@ struct DoctorDashboardView: View {
                     .padding(.horizontal)
                     .padding(.top, 16)
                     .padding(.bottom, 12)
-                
+
                 // Overview Grid
                 LazyVGrid(columns: [
                     GridItem(.flexible()),
@@ -45,7 +29,7 @@ struct DoctorDashboardView: View {
                         backgroundColor: Color(.systemBlue).opacity(0.12),
                         iconColor: .blue
                     )
-                    
+
                     // Completed Appointments Card
                     DashboardCard(
                         value: String(completedAppointments),
@@ -54,7 +38,7 @@ struct DoctorDashboardView: View {
                         backgroundColor: Color.green.opacity(0.12),
                         iconColor: .green
                     )
-                    
+
                     // Canceled Appointments Card
                     DashboardCard(
                         value: String(canceledAppointments),
@@ -63,7 +47,7 @@ struct DoctorDashboardView: View {
                         backgroundColor: Color.red.opacity(0.12),
                         iconColor: .red
                     )
-                    
+
                     // Rating Card
                     DashboardCard(
                         value: String(format: "%.1f", rating),
@@ -74,16 +58,16 @@ struct DoctorDashboardView: View {
                     )
                 }
                 .padding(.horizontal)
-                
+
                 // Today's Appointments Section
                 HStack {
                     Text("Today's Appointments")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         // Action to see all appointments
                     }) {
@@ -95,7 +79,7 @@ struct DoctorDashboardView: View {
                 .padding(.horizontal)
                 .padding(.top, 32)
                 .padding(.bottom, 12)
-                
+
                 // Appointments List
                 VStack(spacing: 12) {
                     ForEach(todaysAppointments) { appointment in
@@ -103,16 +87,16 @@ struct DoctorDashboardView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 // Emergency Alerts Section
                 HStack {
                     Text("Emergency Alerts")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         // Action to see all alerts
                     }) {
@@ -124,7 +108,7 @@ struct DoctorDashboardView: View {
                 .padding(.horizontal)
                 .padding(.top, 32)
                 .padding(.bottom, 12)
-                
+
                 // Alerts List
                 VStack(spacing: 12) {
                     ForEach(emergencyAlerts) { alert in
@@ -137,6 +121,28 @@ struct DoctorDashboardView: View {
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
+
+    // MARK: Private
+
+    // Sample data - replace with actual data from your model
+    private let totalAppointments = 10
+    private let completedAppointments = 8
+    private let canceledAppointments = 2
+    private let rating = 4.8
+
+    // Sample appointments data
+    private let todaysAppointments = [
+        Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", status: .confirmed),
+        Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", status: .confirmed),
+        Appointment(patientName: "Mike Johnson", appointmentType: "Consultation", time: "11:45 AM", status: .completed)
+    ]
+
+    // Sample alerts data
+    private let emergencyAlerts = [
+        EmergencyAlert(title: "Urgent Care Required", details: "Patient with severe chest pain", timeAgo: "10 mins ago", priority: .urgent),
+        EmergencyAlert(title: "Lab Results", details: "Critical test results available", timeAgo: "30 mins ago", priority: .normal)
+    ]
+
 }
 
 // Dashboard Card Component
@@ -146,7 +152,7 @@ struct DashboardCard: View {
     let icon: String
     let backgroundColor: Color
     let iconColor: Color
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             // Icon at top
@@ -154,20 +160,20 @@ struct DashboardCard: View {
                 Circle()
                     .fill(backgroundColor)
                     .frame(width: 34, height: 34)
-                
+
                 Image(systemName: icon)
                     .font(.system(size: 15))
                     .foregroundColor(iconColor)
             }
-            
+
             Spacer()
                 .frame(height: 4)
-            
+
             // Value - make it larger and more prominent
             Text(value)
                 .font(.system(size: 30, weight: .bold))
                 .foregroundColor(.primary)
-            
+
             // Title - smaller and lighter
             Text(title)
                 .font(.system(size: 13))
@@ -188,7 +194,7 @@ struct DashboardCard: View {
 // Appointment Card Component
 struct AppointmentCard: View {
     let appointment: Appointment
-    
+
     var body: some View {
         HStack(spacing: 12) {
             // Left side - Patient info
@@ -196,14 +202,14 @@ struct AppointmentCard: View {
                 Text(appointment.patientName)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
-                
+
                 Text(appointment.appointmentType)
                     .font(.system(size: 14))
                     .foregroundColor(Color(.systemGray))
             }
-            
+
             Spacer()
-            
+
             // Right side - Time and status
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
@@ -216,7 +222,7 @@ struct AppointmentCard: View {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color(.systemGray6))
                     )
-                
+
                 // Status tag
                 if appointment.status == .completed {
                     Text("Completed")
@@ -252,7 +258,7 @@ struct AppointmentCard: View {
 // Alert Card Component
 struct AlertCard: View {
     let alert: EmergencyAlert
-    
+
     var body: some View {
         HStack(spacing: 12) {
             // Left side - Alert info
@@ -260,14 +266,14 @@ struct AlertCard: View {
                 Text(alert.title)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
-                
+
                 Text(alert.details)
                     .font(.system(size: 14))
                     .foregroundColor(Color(.systemGray))
             }
-            
+
             Spacer()
-            
+
             // Right side - Time and priority
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
@@ -280,7 +286,7 @@ struct AlertCard: View {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color(.systemGray6))
                     )
-                
+
                 PriorityTag(priority: alert.priority)
             }
         }
@@ -296,8 +302,11 @@ struct AlertCard: View {
 
 // Priority Tag Component
 struct PriorityTag: View {
+
+    // MARK: Internal
+
     let priority: AlertPriority
-    
+
     var body: some View {
         Text(priority.rawValue)
             .font(.system(size: 11, weight: .medium))
@@ -307,7 +316,9 @@ struct PriorityTag: View {
             .background(priorityColor.opacity(0.12))
             .clipShape(Capsule())
     }
-    
+
+    // MARK: Private
+
     private var priorityColor: Color {
         switch priority {
         case .urgent: return .red
@@ -319,8 +330,11 @@ struct PriorityTag: View {
 
 // Status Tag Component
 struct StatusTag: View {
+
+    // MARK: Internal
+
     let status: AppointmentStatus
-    
+
     var body: some View {
         // Text label for statuses
         Text(status.rawValue)
@@ -331,7 +345,9 @@ struct StatusTag: View {
             .background(statusColor.opacity(0.12))
             .clipShape(Capsule())
     }
-    
+
+    // MARK: Private
+
     private var statusColor: Color {
         switch status {
         case .confirmed: return .green
@@ -344,7 +360,7 @@ struct StatusTag: View {
 
 // Appointment Model
 struct Appointment: Identifiable {
-    let id = UUID()
+    let id: UUID = .init()
     let patientName: String
     let appointmentType: String
     let time: String
@@ -353,7 +369,7 @@ struct Appointment: Identifiable {
 
 // Emergency Alert Model
 struct EmergencyAlert: Identifiable {
-    let id = UUID()
+    let id: UUID = .init()
     let title: String
     let details: String
     let timeAgo: String
@@ -369,7 +385,7 @@ enum AppointmentStatus: String {
 
 enum AlertPriority: String {
     case urgent = "Urgent"
-    case normal = "Normal" 
+    case normal = "Normal"
     case low = "Low"
 }
 
@@ -379,9 +395,9 @@ struct DoctorDashboardView_Previews: PreviewProvider {
         Group {
             DoctorDashboardView()
                 .preferredColorScheme(.light)
-            
+
             DoctorDashboardView()
                 .preferredColorScheme(.dark)
         }
     }
-} 
+}
