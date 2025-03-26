@@ -1,20 +1,9 @@
 import SwiftUI
 
 struct AppointmentView: View {
-    // MARK: - Properties
-    @State private var selectedDate = Date()
-    @State private var showingAllAppointments = false
-    
-    // Sample data - replace with actual data from your model
-    private let appointments: [Appointment]
-    
-    // Date formatter for displaying dates
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d, yyyy"
-        return formatter
-    }()
-    
+
+    // MARK: Lifecycle
+
     // MARK: - Initialization
     init(appointments: [Appointment] = [
         Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", date: Date(), status: .confirmed),
@@ -24,7 +13,9 @@ struct AppointmentView: View {
     ]) {
         self.appointments = appointments
     }
-    
+
+    // MARK: Internal
+
     // MARK: - Body
     var body: some View {
         ScrollView {
@@ -39,22 +30,22 @@ struct AppointmentView: View {
                     .cornerRadius(12)
                     .padding(.horizontal)
                     .padding(.top, 8)
-                    .onChange(of: selectedDate) { newDate in
+                    .onChange(of: selectedDate) { _ in
                         // When user selects a date, switch to filtered view
                         if showingAllAppointments {
                             showingAllAppointments = false
                         }
                     }
-                
+
                 // Selected Date Header
                 HStack {
                     Text(showingAllAppointments ? "All Appointments" : "Appointments")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         showingAllAppointments.toggle()
                     }) {
@@ -67,7 +58,7 @@ struct AppointmentView: View {
                 .padding(.horizontal)
                 .padding(.top, 20)
                 .padding(.bottom, 4)
-                
+
                 // Appointments List
                 LazyVStack(spacing: 12) {
                     if displayedAppointments.isEmpty {
@@ -83,30 +74,45 @@ struct AppointmentView: View {
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
-    
+
+    // MARK: Private
+
+    @State private var selectedDate: Date = .init()
+    @State private var showingAllAppointments = false
+
+    // Sample data - replace with actual data from your model
+    private let appointments: [Appointment]
+
+    // Date formatter for displaying dates
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM d, yyyy"
+        return formatter
+    }()
+
     // MARK: - Supporting Views
     private var noAppointmentsView: some View {
         VStack(spacing: 16) {
             Spacer()
-            
+
             Image(systemName: "calendar.badge.exclamationmark")
                 .font(.system(size: 60))
                 .foregroundColor(Color(.systemGray3))
                 .padding(.bottom, 8)
-            
+
             Text("No Appointments Found")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
-            
-            Text(showingAllAppointments 
+
+            Text(showingAllAppointments
                  ? "You don't have any appointments scheduled."
                  : "You don't have any appointments scheduled for \(dateFormatter.string(from: selectedDate)). Select a different date to view other appointments.")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
-            
+
             if !showingAllAppointments {
                 Button(action: {
                     // Reset to today's date
@@ -123,7 +129,7 @@ struct AppointmentView: View {
                 }
                 .padding(.top, 8)
             }
-            
+
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -134,7 +140,7 @@ struct AppointmentView: View {
 // MARK: - Enhanced Appointment Card
 struct EnhancedAppointmentCard: View {
     let appointment: Appointment
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Patient Info Row
@@ -143,14 +149,14 @@ struct EnhancedAppointmentCard: View {
                     Text(appointment.patientName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
-                    
+
                     Text(appointment.appointmentType)
                         .font(.system(size: 15))
                         .foregroundColor(.gray)
                 }
-                
+
                 Spacer()
-                
+
                 // Time with background
                 Text(appointment.time)
                     .font(.system(size: 15, weight: .medium))
@@ -162,7 +168,7 @@ struct EnhancedAppointmentCard: View {
                             .fill(Color(.systemGray6))
                     )
             }
-            
+
             // Status Badge
             HStack {
                 Spacer()
@@ -178,8 +184,11 @@ struct EnhancedAppointmentCard: View {
 
 // MARK: - Status Badge
 struct StatusBadge: View {
+
+    // MARK: Internal
+
     let status: AppointmentStatus
-    
+
     var body: some View {
         Text(status.rawValue)
             .font(.system(size: 13, weight: .medium))
@@ -189,7 +198,9 @@ struct StatusBadge: View {
             .background(statusColor.opacity(0.12))
             .clipShape(Capsule())
     }
-    
+
+    // MARK: Private
+
     private var statusColor: Color {
         switch status {
         case .confirmed: return .blue
@@ -213,4 +224,4 @@ extension AppointmentView {
             }.sorted { $0.date < $1.date }
         }
     }
-} 
+}
