@@ -6,21 +6,19 @@ class AppointmentsViewController: UIViewController {
     // MARK: Internal
 
     let appointments = [
-        // Today's appointments
         Appointment(
             patientName: "John Doe",
             appointmentType: "Regular Checkup",
             time: "9:00 AM",
-            date: today,
+            date: Date(),
             status: .confirmed
         ),
 
-        // Tomorrow's appointments
         Appointment(
             patientName: "Sarah Smith",
             appointmentType: "Follow-up",
             time: "10:30 AM",
-            date: calendar.date(byAdding: .day, value: 1, to: today)!,
+            date: Calendar.current.date(byAdding: .day, value: 1, to: Date())!,
             status: .confirmed
         ),
 
@@ -29,7 +27,7 @@ class AppointmentsViewController: UIViewController {
             patientName: "Mike Johnson",
             appointmentType: "Consultation",
             time: "11:45 AM",
-            date: calendar.date(byAdding: .day, value: 2, to: today)!,
+            date: Calendar.current.date(byAdding: .day, value: 2, to: Date())!,
             status: .completed
         ),
 
@@ -38,7 +36,7 @@ class AppointmentsViewController: UIViewController {
             patientName: "Emily Wilson",
             appointmentType: "Emergency",
             time: "2:15 PM",
-            date: calendar.date(byAdding: .day, value: 7, to: today)!,
+            date: Calendar.current.date(byAdding: .day, value: 7, to: Date())!,
             status: .pending
         ),
 
@@ -47,7 +45,7 @@ class AppointmentsViewController: UIViewController {
             patientName: "David Brown",
             appointmentType: "Follow-up",
             time: "3:30 PM",
-            date: calendar.date(byAdding: .month, value: 1, to: today)!,
+            date: Calendar.current.date(byAdding: .month, value: 1, to: Date())!,
             status: .canceled
         )
     ]
@@ -98,19 +96,9 @@ class AppointmentsViewController: UIViewController {
     }
 
     private func setupAppointmentView() {
-        // Create a calendar for date manipulation
-        let calendar = Calendar.current
-
-        // Get today's date
-        let today = Date()
-
-        // Create the SwiftUI view
         let appointmentView = AppointmentView(appointments: appointments)
-
-        // Create a hosting controller
         let hostingController = UIHostingController(rootView: appointmentView)
 
-        // Add the hosting controller as a child view controller
         addChild(hostingController)
 
         // Add the hosting controller's view as a subview
