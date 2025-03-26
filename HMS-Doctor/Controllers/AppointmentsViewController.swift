@@ -85,7 +85,7 @@ class AppointmentsViewController: UIViewController {
             // Next week
             Appointment(
                 patientName: "Emily Wilson",
-                appointmentType: "Emergency",
+                appointmentType: "Follow-up",
                 time: "2:15 PM",
                 date: calendar.date(byAdding: .day, value: 7, to: today)!,
                 status: .pending

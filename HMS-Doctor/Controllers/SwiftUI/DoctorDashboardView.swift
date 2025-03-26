@@ -22,7 +22,7 @@ struct DoctorDashboardView: View {
         todaysAppointments: [Appointment] = [
             Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", date: Date(), status: .confirmed),
             Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", date: Date(), status: .confirmed),
-            Appointment(patientName: "Mike Johnson", appointmentType: "Consultation", time: "11:45 AM", date: Date(), status: .completed)
+            Appointment(patientName: "Mike Johnson", appointmentType: "Regular Checkup", time: "11:45 AM", date: Date(), status: .completed)
         ],
         emergencyAlerts: [EmergencyAlert] = [
             EmergencyAlert(title: "Urgent Care Required", details: "Patient with severe chest pain", timeAgo: "10 mins ago", priority: .urgent),
