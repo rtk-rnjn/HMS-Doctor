@@ -2,6 +2,32 @@ import SwiftUI
 
 struct DoctorDashboardView: View {
 
+    // MARK: Lifecycle
+
+    // Initializer with default values for preview and testing
+    init(
+        totalAppointments: Int = 10,
+        completedAppointments: Int = 8,
+        canceledAppointments: Int = 2,
+        rating: Double = 4.8,
+        todaysAppointments: [Appointment] = [
+            Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", date: Date(), status: .confirmed),
+            Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", date: Date(), status: .confirmed),
+            Appointment(patientName: "Mike Johnson", appointmentType: "Consultation", time: "11:45 AM", date: Date(), status: .completed)
+        ],
+        emergencyAlerts: [EmergencyAlert] = [
+            EmergencyAlert(title: "Urgent Care Required", details: "Patient with severe chest pain", timeAgo: "10 mins ago", priority: .urgent),
+            EmergencyAlert(title: "Lab Results", details: "Critical test results available", timeAgo: "30 mins ago", priority: .normal)
+        ]
+    ) {
+        self.totalAppointments = totalAppointments
+        self.completedAppointments = completedAppointments
+        self.canceledAppointments = canceledAppointments
+        self.rating = rating
+        self.todaysAppointments = todaysAppointments
+        self.emergencyAlerts = emergencyAlerts
+    }
+
     // MARK: Internal
 
     var body: some View {
@@ -125,23 +151,16 @@ struct DoctorDashboardView: View {
     // MARK: Private
 
     // Sample data - replace with actual data from your model
-    private let totalAppointments = 10
-    private let completedAppointments = 8
-    private let canceledAppointments = 2
-    private let rating = 4.8
+    private let totalAppointments: Int
+    private let completedAppointments: Int
+    private let canceledAppointments: Int
+    private let rating: Double
 
     // Sample appointments data
-    private let todaysAppointments = [
-        Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", status: .confirmed),
-        Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", status: .confirmed),
-        Appointment(patientName: "Mike Johnson", appointmentType: "Consultation", time: "11:45 AM", status: .completed)
-    ]
+    private let todaysAppointments: [Appointment]
 
     // Sample alerts data
-    private let emergencyAlerts = [
-        EmergencyAlert(title: "Urgent Care Required", details: "Patient with severe chest pain", timeAgo: "10 mins ago", priority: .urgent),
-        EmergencyAlert(title: "Lab Results", details: "Critical test results available", timeAgo: "30 mins ago", priority: .normal)
-    ]
+    private let emergencyAlerts: [EmergencyAlert]
 
 }
 
@@ -364,6 +383,7 @@ struct Appointment: Identifiable {
     let patientName: String
     let appointmentType: String
     let time: String
+    let date: Date
     let status: AppointmentStatus
 }
 
