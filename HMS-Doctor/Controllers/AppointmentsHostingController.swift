@@ -1,7 +1,12 @@
 import SwiftUI
 
 class AppointmentsHostingController: UIHostingController<AppointmentView>, UISearchResultsUpdating, UISearchBarDelegate {
-    
+
+    // MARK: Lifecycle
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder, rootView: AppointmentView(appointments: appointments))
+    }
 
     // MARK: Internal
 
@@ -50,15 +55,17 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
         )
     ]
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder, rootView: AppointmentView(appointments: appointments))
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         prepareSearchController()
     }
+
+    func updateSearchResults(for searchController: UISearchController) {}
+
+    // MARK: Private
+
+    private var searchController: UISearchController = .init()
 
     private func prepareSearchController() {
         searchController.searchBar.delegate = self
@@ -69,7 +76,4 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    func updateSearchResults(for searchController: UISearchController) {}
-
-    private var searchController: UISearchController = .init()
 }
