@@ -82,7 +82,7 @@ struct AppointmentView: View {
                         noAppointmentsView
                     } else {
                         ForEach(displayedAppointments) { appointment in
-                            EnhancedAppointmentCard(appointment: appointment)
+                            AppointmentCard(appointment: appointment)
                         }
                     }
                 }
