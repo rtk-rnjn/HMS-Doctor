@@ -17,25 +17,55 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="biP-Jg-zCT" kind="relationship" relationship="viewControllers" id="c4D-et-HOy"/>
+                        <segue destination="9FT-RC-kLu" kind="relationship" relationship="viewControllers" id="4Yl-YM-zqy"/>
+                        <segue destination="Ehd-7a-xaQ" kind="relationship" relationship="viewControllers" id="XOG-u3-igR"/>
+                        <segue destination="762-Ei-tLx" kind="relationship" relationship="viewControllers" id="rrE-6R-0i5"/>
+                        <segue destination="gOf-pF-2P0" kind="relationship" relationship="viewControllers" id="g8w-jT-NiI"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMo-IY-axt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
         </scene>
-        <!--Profile-->
-        <scene sceneID="UIp-s9-pOa">
+        <!--Dashboard-->
+        <scene sceneID="lcn-ml-sdw">
             <objects>
-                <viewControllerPlaceholder storyboardName="Profile" id="biP-Jg-zCT" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="OIE-X3-okg"/>
+                <viewControllerPlaceholder storyboardName="Dashboard" id="9FT-RC-kLu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="hgR-1s-cdq"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5M4-sd-H1a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pK6-P4-wfk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="341" y="422"/>
+            <point key="canvasLocation" x="830" y="-151"/>
+        </scene>
+        <!--Appointments-->
+        <scene sceneID="px0-Fn-eLT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Appointments" id="Ehd-7a-xaQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="aZ4-8h-F1y"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PPA-9f-f8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="-51"/>
+        </scene>
+        <!--Availability-->
+        <scene sceneID="u2u-P0-AWk">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Availability" id="762-Ei-tLx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="vFc-vc-Xev"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RtP-WM-12q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="37"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="VEy-do-Jid">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" id="gOf-pF-2P0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="0tS-K7-OHf"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dD2-We-vpJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="186"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
-    </resources>
 </document>
