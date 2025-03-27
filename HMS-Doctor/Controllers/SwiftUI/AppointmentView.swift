@@ -2,10 +2,8 @@ import SwiftUI
 
 struct AppointmentView: View {
     // MARK: - Properties
-    @State private var selectedDate = Date()
+    @State private var selectedDate: Date = .init()
     @State private var showingAllAppointments = false
-    
-    // Sample data - replace with actual data from your model
     private let appointments: [Appointment]
     
     // Date formatter for displaying dates
@@ -15,6 +13,17 @@ struct AppointmentView: View {
         return formatter
     }()
     
+    // MARK: - Computed Properties
+    private var displayedAppointments: [Appointment] {
+        if showingAllAppointments {
+            return appointments.sorted { $0.date < $1.date }
+        } else {
+            return appointments.filter { appointment in
+                Calendar.current.isDate(appointment.date, inSameDayAs: selectedDate)
+            }
+        }
+    }
+
     // MARK: - Initialization
     init(appointments: [Appointment] = [
         Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", date: Date(), status: .confirmed),
@@ -24,7 +33,7 @@ struct AppointmentView: View {
     ]) {
         self.appointments = appointments
     }
-    
+
     // MARK: - Body
     var body: some View {
         ScrollView {
@@ -39,22 +48,21 @@ struct AppointmentView: View {
                     .cornerRadius(12)
                     .padding(.horizontal)
                     .padding(.top, 8)
-                    .onChange(of: selectedDate) { newDate in
-                        // When user selects a date, switch to filtered view
+                    .onChange(of: selectedDate) { _ in
                         if showingAllAppointments {
                             showingAllAppointments = false
                         }
                     }
-                
+
                 // Selected Date Header
                 HStack {
                     Text(showingAllAppointments ? "All Appointments" : "Appointments")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {
                         showingAllAppointments.toggle()
                     }) {
@@ -67,7 +75,7 @@ struct AppointmentView: View {
                 .padding(.horizontal)
                 .padding(.top, 20)
                 .padding(.bottom, 4)
-                
+
                 // Appointments List
                 LazyVStack(spacing: 12) {
                     if displayedAppointments.isEmpty {
@@ -83,33 +91,32 @@ struct AppointmentView: View {
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
-    
+
     // MARK: - Supporting Views
     private var noAppointmentsView: some View {
         VStack(spacing: 16) {
             Spacer()
-            
+
             Image(systemName: "calendar.badge.exclamationmark")
                 .font(.system(size: 60))
                 .foregroundColor(Color(.systemGray3))
                 .padding(.bottom, 8)
-            
+
             Text("No Appointments Found")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
-            
-            Text(showingAllAppointments 
+
+            Text(showingAllAppointments
                  ? "You don't have any appointments scheduled."
                  : "You don't have any appointments scheduled for \(dateFormatter.string(from: selectedDate)). Select a different date to view other appointments.")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
-            
+
             if !showingAllAppointments {
                 Button(action: {
-                    // Reset to today's date
                     selectedDate = Date()
                 }) {
                     Text("Go to Today")
@@ -123,7 +130,7 @@ struct AppointmentView: View {
                 }
                 .padding(.top, 8)
             }
-            
+
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -202,18 +209,3 @@ struct StatusBadge: View {
         }
     }
 }
-
-// MARK: - Filtered Appointments
-extension AppointmentView {
-    private var displayedAppointments: [Appointment] {
-        if showingAllAppointments {
-            // Sort all appointments by date
-            return appointments.sorted { $0.date < $1.date }
-        } else {
-            // Filter appointments for selected date
-            return appointments.filter { appointment in
-                Calendar.current.isDate(appointment.date, inSameDayAs: selectedDate)
-            }.sorted { $0.date < $1.date }
-        }
-    }
-} 

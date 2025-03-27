@@ -13,9 +13,9 @@ class InitialTabBarController: UITabBarController {
 
         navigationController?.navigationBar.isHidden = true
         navigationController?.setNavigationBarHidden(true, animated: false)
-        
+
         // Set up Dashboard as the first tab
-        if let viewControllers = viewControllers, viewControllers.count > 0 {
+        if let viewControllers, !viewControllers.isEmpty {
             let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
             if let dashboardController = dashboardStoryboard.instantiateInitialViewController() {
                 var controllers = viewControllers
