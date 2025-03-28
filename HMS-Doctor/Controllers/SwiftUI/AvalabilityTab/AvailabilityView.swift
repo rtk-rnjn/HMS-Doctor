@@ -101,6 +101,7 @@ struct AvailabilityView: View {
                     
                 }
             }
+            .background(Color(uiColor: .systemGray6))
         
     }
     
