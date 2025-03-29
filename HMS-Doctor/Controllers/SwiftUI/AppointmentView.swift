@@ -4,7 +4,7 @@ struct AppointmentView: View {
     // MARK: - Properties
     @State private var selectedDate: Date = .init()
     @State private var showingAllAppointments = false
-    private let appointments: [Appointment]
+    var appointments: [Appointment]
     
     // Date formatter for displaying dates
     private let dateFormatter: DateFormatter = {
@@ -16,22 +16,12 @@ struct AppointmentView: View {
     // MARK: - Computed Properties
     private var displayedAppointments: [Appointment] {
         if showingAllAppointments {
-            return appointments.sorted { $0.date < $1.date }
+            return appointments.sorted { $0.startDate < $1.startDate }
         } else {
             return appointments.filter { appointment in
-                Calendar.current.isDate(appointment.date, inSameDayAs: selectedDate)
+                Calendar.current.isDate(appointment.startDate, inSameDayAs: selectedDate)
             }
         }
-    }
-
-    // MARK: - Initialization
-    init(appointments: [Appointment] = [
-        Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", date: Date(), status: .confirmed),
-        Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", date: Date(), status: .confirmed),
-        Appointment(patientName: "Mike Johnson", appointmentType: "Regular Checkup", time: "11:45 AM", date: Date(), status: .completed),
-        Appointment(patientName: "Emily Wilson", appointmentType: "Regular Checkup", time: "2:15 PM", date: Date(), status: .pending)
-    ]) {
-        self.appointments = appointments
     }
 
     // MARK: - Body
@@ -148,11 +138,11 @@ struct EnhancedAppointmentCard: View {
                 // Patient Info Row
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(appointment.patientName)
+                        Text("Unknown User")  // TODO: 
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.primary)
                         
-                        Text(appointment.appointmentType)
+                        Text(appointment.status.rawValue)
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
                     }
@@ -160,7 +150,7 @@ struct EnhancedAppointmentCard: View {
                     Spacer()
                     
                     // Time with background
-                    Text(appointment.time)
+                    Text(appointment.startDate.humanReadableString())
                         .font(.system(size: 15, weight: .medium))
                         .foregroundColor(.primary)
                         .padding(.horizontal, 8)
@@ -202,10 +192,10 @@ struct StatusBadge: View {
     
     private var statusColor: Color {
         switch status {
-        case .confirmed: return .blue
-        case .completed: return .green
-        case .pending: return .orange
-        case .canceled: return .red
+        case .confirmed: return .green
+        case .cancelled: return .red
+        case .confirmed: return .gray
+        default: return .gray
         }
     }
 }

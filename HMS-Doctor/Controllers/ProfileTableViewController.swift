@@ -37,7 +37,7 @@ class ProfileTableViewController: UITableViewController {
         guard let staff else { return }
 
         staffNameLabel.text = staff.fullName
-        staffSpecializationLabel.text = staff.specializations.joined(separator: ", ")
+        staffSpecializationLabel.text = staff.specialization
     }
 
 }

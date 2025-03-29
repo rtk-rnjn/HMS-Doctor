@@ -67,7 +67,7 @@ struct PatientProfileView: View {
                         .foregroundColor(.gray)
                         .padding(.top)
                     
-                    Text(patient.patientName)
+                    Text("Unknown Patient")
                         .font(.title2)
                         .fontWeight(.semibold)
                 }
