@@ -8,35 +8,30 @@
 import SwiftUI
 
 struct AvailabilityView: View {
-    @State private var selectedDates: [Date] = []
-    @State private var isOnLeave: Bool = false
-    @State private var leaveReason: String = ""
 
-    private let daysLimit = 14
-    private let calendar = Calendar.current
-    private let today = Date()
+    // MARK: Internal
 
     var next14Days: [Date] {
         (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
     }
 
     var body: some View {
-        
+
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    
+
                     // Schedule for Multiple Days
                     Text("Schedule for Multiple Days")
                         .font(.headline)
                         .padding(.horizontal)
-                    
+
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
                             ForEach(next14Days, id: \.self) { date in
                                 VStack {
                                     Text(shortDay(date))
                                         .font(.caption)
-                                    
+
                                     Text(dayNumber(date))
                                         .font(.headline)
                                         .frame(width: 40, height: 40)
@@ -51,9 +46,9 @@ struct AvailabilityView: View {
                         }
                         .padding(.horizontal)
                     }
-                    
+
                     Divider()
-                    
+
                     // Toggle for On Leave
                     Toggle("On Leave", isOn: $isOnLeave)
                         .padding()
@@ -67,8 +62,7 @@ struct AvailabilityView: View {
                             Text("Reason for Leave")
                                 .font(.headline)
                                 .padding(.horizontal)
-                               
-                            
+
                             TextEditor(text: $leaveReason)
                                 .frame(height: 120) // Bigger TextField
                                 .padding(8) // Add padding inside the TextEditor
@@ -81,9 +75,9 @@ struct AvailabilityView: View {
                         }
                         .padding(.horizontal)
                     }
-                    
+
                     Spacer()
-                    
+
                     // Apply Button
                     Button(action: {
                         // Apply leave logic
@@ -98,32 +92,42 @@ struct AvailabilityView: View {
                     }
                     .padding()
                     .disabled(selectedDates.isEmpty)
-                    
+
                 }
             }
             .background(Color(uiColor: .systemGray6))
-        
+
     }
-    
+
+    // MARK: Private
+
+    @State private var selectedDates: [Date] = []
+    @State private var isOnLeave: Bool = false
+    @State private var leaveReason: String = ""
+
+    private let daysLimit = 14
+    private let calendar: Calendar = .current
+    private let today: Date = .init()
+
     // MARK: - Helpers
     private func shortDay(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "E"
         return formatter.string(from: date)
     }
-    
+
     private func dayNumber(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"
         return formatter.string(from: date)
     }
-    
+
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d"
         return formatter.string(from: date)
     }
-    
+
     private func toggleSelection(for date: Date) {
         if let index = selectedDates.firstIndex(of: date) {
             selectedDates.remove(at: index)

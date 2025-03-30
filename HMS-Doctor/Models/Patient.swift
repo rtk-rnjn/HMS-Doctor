@@ -1,10 +1,9 @@
 //
-//  Role.swift
+//  Patient.swift
 //  HMS-Doctor
 //
 //  Created by Dhruvi on 30/03/25.
 //
-
 
 import Foundation
 
@@ -25,7 +24,6 @@ enum BloodGroup: String, Codable, CaseIterable {
     case oh = "Oh"
     case na = "N/A"
 }
-
 
 struct Patient: Codable, Equatable {
     enum CodingKeys: String, CodingKey {

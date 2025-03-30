@@ -5,14 +5,14 @@ struct AppointmentView: View {
     @State private var selectedDate: Date = .init()
     @State private var showingAllAppointments = false
     var appointments: [Appointment]
-    
+
     // Date formatter for displaying dates
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM d, yyyy"
         return formatter
     }()
-    
+
     // MARK: - Computed Properties
     private var displayedAppointments: [Appointment] {
         if showingAllAppointments {
@@ -131,24 +131,24 @@ struct AppointmentView: View {
 // MARK: - Enhanced Appointment Card
 struct EnhancedAppointmentCard: View {
     let appointment: Appointment
-    
+
     var body: some View {
         NavigationLink(destination: PatientProfileView(patient: appointment)) {
             VStack(alignment: .leading, spacing: 12) {
                 // Patient Info Row
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Unknown User")  // TODO: 
+                        Text("Unknown User") // TODO:
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.primary)
-                        
+
                         Text(appointment.status.rawValue)
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
                     }
-                    
+
                     Spacer()
-                    
+
                     // Time with background
                     Text(appointment.startDate.humanReadableString())
                         .font(.system(size: 15, weight: .medium))
@@ -160,7 +160,7 @@ struct EnhancedAppointmentCard: View {
                                 .fill(Color(.systemGray6))
                         )
                 }
-                
+
                 // Status Badge
                 HStack {
                     Spacer()
@@ -178,8 +178,11 @@ struct EnhancedAppointmentCard: View {
 
 // MARK: - Status Badge
 struct StatusBadge: View {
+
+    // MARK: Internal
+
     let status: AppointmentStatus
-    
+
     var body: some View {
         Text(status.rawValue)
             .font(.system(size: 13, weight: .medium))
@@ -189,7 +192,9 @@ struct StatusBadge: View {
             .background(statusColor.opacity(0.12))
             .clipShape(Capsule())
     }
-    
+
+    // MARK: Private
+
     private var statusColor: Color {
         switch status {
         case .confirmed: return .green
