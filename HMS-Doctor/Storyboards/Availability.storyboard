@@ -15,7 +15,7 @@
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dqV-WJ-Wl3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3852.6717557251909" y="5.6338028169014089"/>
+            <point key="canvasLocation" x="4779.3893129770986" y="5.6338028169014089"/>
         </scene>
         <!--Availablity-->
         <scene sceneID="elg-zu-AAY">
@@ -141,10 +141,11 @@
             </objects>
             <point key="canvasLocation" x="4779.3893129770986" y="738.73239436619724"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Availiblity-->
         <scene sceneID="dwx-C2-6PQ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fu4-hG-ktQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Availiblity" image="clock.arrow.trianglehead.2.counterclockwise.rotate.90" catalog="system" id="POJ-Js-mF4"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="ggS-rb-Nap">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
@@ -157,7 +158,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k3u-af-5iD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2925.9541984732823" y="5.6338028169014089"/>
+            <point key="canvasLocation" x="3852.6717557251909" y="5.6338028169014089"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2zB-Hn-bsY">
@@ -179,8 +180,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="clock.arrow.trianglehead.2.counterclockwise.rotate.90" catalog="system" width="128" height="117"/>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

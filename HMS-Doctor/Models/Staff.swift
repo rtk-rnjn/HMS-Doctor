@@ -7,8 +7,10 @@
 
 import Foundation
 
-enum Role: String, Codable {
-    case doctor
+enum Gender: String, Codable {
+    case male = "Male"
+    case female = "Female"
+    case other = "Other"
 }
 
 struct UnavailablePeriod: Codable, Equatable {
@@ -27,27 +29,34 @@ struct Staff: Codable, Equatable {
         case id = "_id"
         case firstName = "first_name"
         case lastName = "last_name"
+        case gender
         case emailAddress = "email_address"
         case password = "password"
         case contactNumber = "contact_number"
-        case specializations = "specializations"
+        case dateOfBirth = "date_of_birth"
+        case specialization = "specialization"
         case department = "department"
         case onLeave = "on_leave"
         case consultationFee = "consultation_fee"
         case unavailabilityPeriods = "unavailability_periods"
         case joiningDate = "joining_date"
         case licenseId = "license_id"
+        case yearOfExperience = "year_of_experience"
         case role = "role"
+        case hospitalId = "hospital_id"
     }
 
     var id: String = UUID().uuidString
     var firstName: String
     var lastName: String?
 
+    var gender: Gender = .other
+
     var emailAddress: String
+    var dateOfBirth: Date
     var password: String
     var contactNumber: String
-    var specializations: [String]
+    var specialization: String
     var department: String
     var onLeave: Bool = false
     var consultationFee: Int = 0
@@ -55,7 +64,13 @@ struct Staff: Codable, Equatable {
     var unavailabilityPeriods: [UnavailablePeriod] = []
     var joiningDate: Date = .init()
     var licenseId: String
+    var yearOfExperience: Int = 0
     var role: Role = .doctor
+
+    var hospitalId: String = ""
+
+    var shiftStartTime: Int = 9
+    var shiftEndTime: Int = 17
 
     var fullName: String {
         let lastName = lastName ?? ""

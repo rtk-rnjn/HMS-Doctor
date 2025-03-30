@@ -10,15 +10,8 @@ struct DoctorDashboardView: View {
         completedAppointments: Int = 8,
         canceledAppointments: Int = 2,
         rating: Double = 4.8,
-        todaysAppointments: [Appointment] = [
-            Appointment(patientName: "John Doe", appointmentType: "Regular Checkup", time: "9:00 AM", date: Date(), status: .confirmed),
-            Appointment(patientName: "Sarah Smith", appointmentType: "Follow-up", time: "10:30 AM", date: Date(), status: .confirmed),
-            Appointment(patientName: "Mike Johnson", appointmentType: "Regular Checkup", time: "11:45 AM", date: Date(), status: .completed)
-        ],
-        emergencyAlerts: [EmergencyAlert] = [
-            EmergencyAlert(title: "Urgent Care Required", details: "Patient with severe chest pain", timeAgo: "10 mins ago", priority: .urgent),
-            EmergencyAlert(title: "Lab Results", details: "Critical test results available", timeAgo: "30 mins ago", priority: .normal)
-        ]
+        todaysAppointments: [Appointment] = [],
+        emergencyAlerts: [Announcement] = []
     ) {
         self.totalAppointments = totalAppointments
         self.completedAppointments = completedAppointments
@@ -160,7 +153,7 @@ struct DoctorDashboardView: View {
     private let todaysAppointments: [Appointment]
 
     // Sample alerts data
-    private let emergencyAlerts: [EmergencyAlert]
+    private let emergencyAlerts: [Announcement]
 
 }
 
@@ -218,13 +211,13 @@ struct AppointmentCard: View {
         HStack(spacing: 12) {
             // Left side - Patient info
             VStack(alignment: .leading, spacing: 4) {
-                Text(appointment.patientName)
+                Text("Unknown User") // TODO:
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
 
-                Text(appointment.appointmentType)
-                    .font(.system(size: 14))
-                    .foregroundColor(Color(.systemGray))
+//                Text(appointment.status)
+//                    .font(.system(size: 14))
+//                    .foregroundColor(Color(.systemGray))
             }
 
             Spacer()
@@ -232,7 +225,7 @@ struct AppointmentCard: View {
             // Right side - Time and status
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
-                Text(appointment.time)
+                Text(appointment.createdAt.humanReadableString())
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
                     .padding(.horizontal, 8)
@@ -276,7 +269,7 @@ struct AppointmentCard: View {
 
 // Alert Card Component
 struct AlertCard: View {
-    let alert: EmergencyAlert
+    let alert: Announcement
 
     var body: some View {
         HStack(spacing: 12) {
@@ -286,7 +279,7 @@ struct AlertCard: View {
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
 
-                Text(alert.details)
+                Text(alert.body)
                     .font(.system(size: 14))
                     .foregroundColor(Color(.systemGray))
             }
@@ -296,7 +289,7 @@ struct AlertCard: View {
             // Right side - Time and priority
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
-                Text(alert.timeAgo)
+                Text(alert.createdAt.humanReadableString())
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
                     .padding(.horizontal, 8)
@@ -306,7 +299,7 @@ struct AlertCard: View {
                             .fill(Color(.systemGray6))
                     )
 
-                PriorityTag(priority: alert.priority)
+                PriorityTag(category: alert.category)
             }
         }
         .padding(.vertical, 14)
@@ -324,25 +317,26 @@ struct PriorityTag: View {
 
     // MARK: Internal
 
-    let priority: AlertPriority
+    let category: AnnouncementCategory
 
     var body: some View {
-        Text(priority.rawValue)
+        Text(category.rawValue)
             .font(.system(size: 11, weight: .medium))
-            .foregroundColor(priorityColor)
+            .foregroundColor(categoryColor)
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
-            .background(priorityColor.opacity(0.12))
+            .background(categoryColor.opacity(0.12))
             .clipShape(Capsule())
     }
 
     // MARK: Private
 
-    private var priorityColor: Color {
-        switch priority {
-        case .urgent: return .red
-        case .normal: return .green
-        case .low: return .blue
+    private var categoryColor: Color {
+        switch category {
+        case .appointment: return .blue
+        case .emergency: return .red
+        case .general: return .gray
+        case .holiday: return .yellow
         }
     }
 }
@@ -370,54 +364,8 @@ struct StatusTag: View {
     private var statusColor: Color {
         switch status {
         case .confirmed: return .green
-        case .pending: return .orange
-        case .canceled: return .red
-        case .completed: return .blue
-        }
-    }
-}
-
-// Appointment Model
-struct Appointment: Identifiable {
-    let id: UUID = .init()
-    let patientName: String
-    let appointmentType: String
-    let time: String
-    let date: Date
-    let status: AppointmentStatus
-}
-
-// Emergency Alert Model
-struct EmergencyAlert: Identifiable {
-    let id: UUID = .init()
-    let title: String
-    let details: String
-    let timeAgo: String
-    let priority: AlertPriority
-}
-
-enum AppointmentStatus: String {
-    case confirmed = "Confirmed"
-    case pending = "Pending"
-    case canceled = "Canceled"
-    case completed = "Completed"
-}
-
-enum AlertPriority: String {
-    case urgent = "Urgent"
-    case normal = "Normal"
-    case low = "Low"
-}
-
-// Preview
-struct DoctorDashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            DoctorDashboardView()
-                .preferredColorScheme(.light)
-
-            DoctorDashboardView()
-                .preferredColorScheme(.dark)
+        case .cancelled: return .red
+        case .completed: return .gray
         }
     }
 }

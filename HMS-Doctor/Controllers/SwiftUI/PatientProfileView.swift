@@ -8,7 +8,7 @@ struct PatientVitals {
 }
 
 struct MedicalRecord: Identifiable {
-    let id = UUID()
+    let id: UUID = .init()
     let date: Date
     let doctorName: String
     let diagnosis: String
@@ -23,37 +23,11 @@ enum MedicalTab: String, CaseIterable {
 }
 
 struct PatientProfileView: View {
-    // MARK: - Properties
+
+    // MARK: Internal
+
     let patient: Appointment
-    @State private var selectedTab: MedicalTab = .records
-    
-    private let vitals = PatientVitals(
-        bloodType: "A+",
-        weight: "65 kg",
-        height: "168 cm"
-    )
-    
-    private let records = [
-        MedicalRecord(
-            date: Date().addingTimeInterval(-7*24*3600),
-            doctorName: "Dr. Smith",
-            diagnosis: "Common Cold",
-            recommendations: "Rest and hydration"
-        ),
-        MedicalRecord(
-            date: Date().addingTimeInterval(-14*24*3600),
-            doctorName: "Dr. Johnson",
-            diagnosis: "Annual Checkup",
-            recommendations: "Continue current medications"
-        )
-    ]
-    
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter
-    }()
-    
+
     // MARK: - Body
     var body: some View {
         ScrollView {
@@ -66,12 +40,12 @@ struct PatientProfileView: View {
                         .frame(width: 100, height: 100)
                         .foregroundColor(.gray)
                         .padding(.top)
-                    
-                    Text(patient.patientName)
+
+                    Text("Unknown Patient")
                         .font(.title2)
                         .fontWeight(.semibold)
                 }
-                
+
                 // Patient Info Card
                 VStack(spacing: 16) {
                     infoRow(title: "Age", value: "42 years")
@@ -83,14 +57,14 @@ struct PatientProfileView: View {
                 .padding()
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
-                
+
                 // Vitals Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Basic Info")
                         .font(.headline)
                         .foregroundColor(.primary)
                         .padding(.horizontal)
-                    
+
                     HStack(spacing: 12) {
                         // Blood Type Card
                         VStack(alignment: .leading, spacing: 6) {
@@ -113,7 +87,7 @@ struct PatientProfileView: View {
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
                         .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
-                        
+
                         // Weight Card
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
@@ -140,7 +114,7 @@ struct PatientProfileView: View {
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
                         .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
-                        
+
                         // Height Card
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
@@ -170,7 +144,7 @@ struct PatientProfileView: View {
                     }
                     .padding(.horizontal)
                 }
-                
+
                 // Medical History Tabs
                 VStack(spacing: 16) {
                     Picker("Medical History", selection: $selectedTab) {
@@ -180,7 +154,7 @@ struct PatientProfileView: View {
                     }
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
-                    
+
                     // Tab Content
                     switch selectedTab {
                     case .records:
@@ -192,16 +166,19 @@ struct PatientProfileView: View {
                         } else {
                             recordsList
                         }
+
                     case .medications:
                         emptyStateView(
                             icon: "pills",
                             message: "No medications available"
                         )
+
                     case .labResults:
                         emptyStateView(
                             icon: "flask",
                             message: "No lab results available"
                         )
+
                     case .notes:
                         emptyStateView(
                             icon: "note.text",
@@ -215,18 +192,38 @@ struct PatientProfileView: View {
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
     }
-    
-    // MARK: - Supporting Views
-    private func infoRow(title: String, value: String) -> some View {
-        HStack {
-            Text(title)
-                .foregroundColor(.secondary)
-            Spacer()
-            Text(value)
-                .foregroundColor(.primary)
-        }
-    }
-    
+
+    // MARK: Private
+
+    @State private var selectedTab: MedicalTab = .records
+
+    private let vitals: PatientVitals = .init(
+        bloodType: "A+",
+        weight: "65 kg",
+        height: "168 cm"
+    )
+
+    private let records = [
+        MedicalRecord(
+            date: Date().addingTimeInterval(-7*24*3600),
+            doctorName: "Dr. Smith",
+            diagnosis: "Common Cold",
+            recommendations: "Rest and hydration"
+        ),
+        MedicalRecord(
+            date: Date().addingTimeInterval(-14*24*3600),
+            doctorName: "Dr. Johnson",
+            diagnosis: "Annual Checkup",
+            recommendations: "Continue current medications"
+        )
+    ]
+
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }()
+
     private var recordsList: some View {
         VStack(spacing: 12) {
             ForEach(records) { record in
@@ -240,10 +237,10 @@ struct PatientProfileView: View {
                             .font(.subheadline)
                             .foregroundColor(.blue)
                     }
-                    
+
                     Text(record.diagnosis)
                         .font(.headline)
-                    
+
                     Text(record.recommendations)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -255,13 +252,24 @@ struct PatientProfileView: View {
         }
         .padding(.horizontal)
     }
-    
+
+    // MARK: - Supporting Views
+    private func infoRow(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .foregroundColor(.primary)
+        }
+    }
+
     private func emptyStateView(icon: String, message: String) -> some View {
         VStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 36))
                 .foregroundColor(Color(.systemGray3))
-            
+
             Text(message)
                 .font(.body)
                 .foregroundColor(Color(.systemGray))
@@ -280,7 +288,7 @@ struct VitalCard: View {
     let title: String
     let value: String
     let icon: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -290,7 +298,7 @@ struct VitalCard: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            
+
             Text(value)
                 .font(.headline)
         }
@@ -299,4 +307,4 @@ struct VitalCard: View {
         .background(Color(.systemBackground))
         .cornerRadius(12)
     }
-} 
+}

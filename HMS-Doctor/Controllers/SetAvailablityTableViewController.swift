@@ -13,8 +13,6 @@ class SetAvailablityTableViewController: UITableViewController {
 
     @IBOutlet var datePicker: UIDatePicker!
     var unavailableDates: [Date: UnavailablePeriod] = [:]
-    private var isAvailabilityHidden: Bool = false
-
     @IBOutlet var startDatePicker: UIDatePicker!
     @IBOutlet var endDatePicker: UIDatePicker!
 
@@ -23,6 +21,10 @@ class SetAvailablityTableViewController: UITableViewController {
 
         updateUI()
     }
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+           return isAvailabilityHidden ? 2 : 3
+       }
 
     @IBAction func dateChanged(_ sender: UIDatePicker) {
         let date = sender.date
@@ -34,17 +36,15 @@ class SetAvailablityTableViewController: UITableViewController {
         }
         print(unavailableDates)
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-           return isAvailabilityHidden ? 2 : 3  
-       }
-    
+
     @IBAction func availabilityToggleButtonOn(_ sender: UISwitch) {
         isAvailabilityHidden = sender.isOn
         tableView.reloadData()
         }
-    
+
     // MARK: Private
+
+    private var isAvailabilityHidden: Bool = false
 
     private func updateUI() {
         datePicker.minimumDate = Date()
