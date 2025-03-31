@@ -23,6 +23,8 @@ struct DoctorDashboardView: View {
 
     // MARK: Internal
 
+    var todaysAppointments: [Appointment]
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
@@ -118,7 +120,6 @@ struct DoctorDashboardView: View {
     private let canceledAppointments: Int
     private let rating: Double
 
-    var todaysAppointments: [Appointment]
     private let emergencyAlerts: [Announcement]
 
 }

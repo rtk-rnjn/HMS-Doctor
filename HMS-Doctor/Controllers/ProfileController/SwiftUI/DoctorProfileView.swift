@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct DoctorProfileView: View {
-    var doctor: Staff? = nil
+    var doctor: Staff?
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.horizontalSizeClass) var sizeClass
 

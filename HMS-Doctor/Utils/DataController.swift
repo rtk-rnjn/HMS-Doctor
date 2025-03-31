@@ -103,7 +103,7 @@ class DataController: ObservableObject {
 
     func fetchAppointments() async -> [Appointment] {
         let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(staff?.id ?? "")")
-        guard var appointments = appointments else {
+        guard var appointments else {
             return []
         }
 

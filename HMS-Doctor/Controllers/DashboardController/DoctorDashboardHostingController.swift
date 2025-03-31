@@ -21,6 +21,6 @@ class DoctorDashboardHostingController: UIHostingController<DoctorDashboardView>
         let appointment: [Appointment] = [
             .init(patientId: "", doctorId: "", startDate: Date(), endDate: Date())
         ]
-        self.rootView.todaysAppointments = appointment
+        rootView.todaysAppointments = appointment
     }
 }
