@@ -73,4 +73,8 @@ extension Date {
         guard let date else { return 0 }
         return abs(round(Date().timeIntervalSince(date)))
     }
+
+    func isToday() -> Bool {
+        return Calendar.current.isDateInToday(self)
+    }
 }

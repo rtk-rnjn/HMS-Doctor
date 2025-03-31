@@ -18,9 +18,9 @@ class DoctorDashboardHostingController: UIHostingController<DoctorDashboardView>
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 
-        let appointment: [Appointment] = [
-            .init(patientId: "", doctorId: "", startDate: Date(), endDate: Date())
-        ]
-        rootView.todaysAppointments = appointment
+        Task {
+            let appointments = await DataController.shared.fetchAppointments()
+            rootView.todaysAppointments = appointments.filter { $0.startDate.isToday() }
+        }
     }
 }
