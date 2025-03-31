@@ -114,6 +114,18 @@ class DataController: ObservableObject {
         return appointments
     }
 
+    func fetchAnnouncements() async -> [Announcement]? {
+        if staff == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let staff else {
+            fatalError("Admin is nil")
+        }
+
+        return await MiddlewareManager.shared.get(url: "/hospital/\(staff.hospitalId)/doctors/announcements")
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""
