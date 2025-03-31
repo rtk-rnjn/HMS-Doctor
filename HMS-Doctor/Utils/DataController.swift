@@ -45,14 +45,6 @@ struct ChangePassword: Codable {
 
 class DataController: ObservableObject {
 
-    // MARK: Lifecycle
-
-    private init() {
-//        Task {
-//            _ = await autoLogin()
-//        }
-    }
-
     // MARK: Public
 
     @Published public private(set) var staff: Staff?
@@ -107,6 +99,19 @@ class DataController: ObservableObject {
             UserDefaults.standard.set(newPassword, forKey: "password")
         }
         return success
+    }
+
+    func fetchAppointments() async -> [Appointment] {
+        let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(staff?.id ?? "")")
+        guard var appointments = appointments else {
+            return []
+        }
+
+        for i in 0..<appointments.count {
+            appointments[i].doctor = staff
+            appointments[i].patient = await MiddlewareManager.shared.get(url: "/patient/\(appointments[i].patientId)")
+        }
+        return appointments
     }
 
     // MARK: Private

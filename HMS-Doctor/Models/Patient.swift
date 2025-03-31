@@ -25,7 +25,7 @@ enum BloodGroup: String, Codable, CaseIterable {
     case na = "N/A"
 }
 
-struct Patient: Codable, Equatable {
+struct Patient: Codable, Equatable, Hashable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case firstName = "first_name"

@@ -18,18 +18,22 @@ struct Appointment: Codable, Identifiable, Hashable {
         case id = "_id"
         case patientId = "patient_id"
         case doctorId = "doctor_id"
-        case startDate = "start_time"
-        case endDate = "end_time"
+        case startDate = "start_date"
+        case endDate = "end_date"
         case status
         case prescription
         case notes
         case reference
+        case createdAt = "created_at"
     }
 
     var id: String = UUID().uuidString
 
     var patientId: String
+    var patient: Patient?
+
     var doctorId: String
+    var doctor: Staff?
 
     var startDate: Date
     var endDate: Date

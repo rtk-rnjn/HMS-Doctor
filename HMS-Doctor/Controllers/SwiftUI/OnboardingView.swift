@@ -94,7 +94,6 @@ struct OnboardingView: View {
             }
             .padding(.bottom, 40)
         }
-        .navigationTitle("")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if !isLastPage {
@@ -108,10 +107,5 @@ struct OnboardingView: View {
                 }
             }
         }
-        .navigationDestination(isPresented: $isOnboardingComplete) {}
     }
-}
-
-#Preview {
-    OnboardingView()
 }

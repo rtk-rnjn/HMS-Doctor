@@ -15,8 +15,12 @@ class DoctorDashboardHostingController: UIHostingController<DoctorDashboardView>
         super.viewDidLoad()
         navigationItem.title = "Dashboard"
 
-        // Enable large titles
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+
+        let appointment: [Appointment] = [
+            .init(patientId: "", doctorId: "", startDate: Date(), endDate: Date())
+        ]
+        self.rootView.todaysAppointments = appointment
     }
 }

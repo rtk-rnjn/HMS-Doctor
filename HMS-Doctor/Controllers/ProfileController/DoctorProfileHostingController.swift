@@ -14,5 +14,6 @@ class DoctorProfileHostingController: UIHostingController<DoctorProfileView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Profile"
+        self.rootView.doctor = DataController.shared.staff
     }
 }

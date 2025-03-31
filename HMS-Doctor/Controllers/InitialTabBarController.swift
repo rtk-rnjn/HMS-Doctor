@@ -14,20 +14,15 @@ class InitialTabBarController: UITabBarController {
         navigationController?.navigationBar.isHidden = true
         navigationController?.setNavigationBarHidden(true, animated: false)
 
-        // Set up Dashboard as the first tab
-        if let viewControllers, !viewControllers.isEmpty {
-            let dashboardStoryboard = UIStoryboard(name: "Dashboard", bundle: nil)
-            if let dashboardController = dashboardStoryboard.instantiateInitialViewController() {
-                var controllers = viewControllers
-                // Replace the first tab (usually Home) with Dashboard
-                controllers[0] = dashboardController
-                setViewControllers(controllers, animated: false)
-                selectedIndex = 0
-            }
-        }
-
         Task {
-            _ = DataController.shared.staff
+            let loggedIn = await DataController.shared.autoLogin()
+            if !loggedIn {
+                let okAction = AlertActionHandler(title: "OK", style: .default) { _ in
+                    self.performSegue(withIdentifier: "segueShowOnBoardingHostingController", sender: nil)
+                }
+                let alert = Utils.getAlert(title: "Error", message: "Authentication Failed. Please log in again", actions: [okAction])
+                present(alert, animated: true)
+            }
         }
     }
 }

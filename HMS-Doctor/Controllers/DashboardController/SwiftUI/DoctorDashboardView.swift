@@ -9,7 +9,7 @@ struct DoctorDashboardView: View {
         totalAppointments: Int = 10,
         completedAppointments: Int = 8,
         canceledAppointments: Int = 2,
-        rating: Double = 4.8,
+        rating: Double = 0,
         todaysAppointments: [Appointment] = [],
         emergencyAlerts: [Announcement] = []
     ) {
@@ -26,8 +26,7 @@ struct DoctorDashboardView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
-                // Monthly Overview Title
-                Text("Monthly Overview")
+                Text("Overview")
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
@@ -87,51 +86,21 @@ struct DoctorDashboardView: View {
 
                     Spacer()
 
-                    Button(action: {
-                        // Action to see all appointments
-                    }) {
-                        Text("See All")
-                            .font(.system(size: 16))
-                            .foregroundColor(.blue)
-                    }
+//                    Button(action: {
+//                        // Action to see all appointments
+//                    }) {
+//                        Text("See All")
+//                            .font(.system(size: 16))
+//                            .foregroundColor(.blue)
+//                    }
                 }
                 .padding(.horizontal)
                 .padding(.top, 32)
                 .padding(.bottom, 12)
 
-                // Appointments List
                 VStack(spacing: 12) {
                     ForEach(todaysAppointments) { appointment in
                         AppointmentCard(appointment: appointment)
-                    }
-                }
-                .padding(.horizontal)
-
-                // Emergency Alerts Section
-                HStack {
-                    Text("Emergency Alerts")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-
-                    Spacer()
-
-                    Button(action: {
-                        // Action to see all alerts
-                    }) {
-                        Text("See All")
-                            .font(.system(size: 16))
-                            .foregroundColor(.blue)
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.top, 32)
-                .padding(.bottom, 12)
-
-                // Alerts List
-                VStack(spacing: 12) {
-                    ForEach(emergencyAlerts) { alert in
-                        AlertCard(alert: alert)
                     }
                 }
                 .padding(.horizontal)
@@ -149,10 +118,7 @@ struct DoctorDashboardView: View {
     private let canceledAppointments: Int
     private let rating: Double
 
-    // Sample appointments data
-    private let todaysAppointments: [Appointment]
-
-    // Sample alerts data
+    var todaysAppointments: [Appointment]
     private let emergencyAlerts: [Announcement]
 
 }
@@ -203,21 +169,19 @@ struct DashboardCard: View {
     }
 }
 
-// Appointment Card Component
 struct AppointmentCard: View {
     let appointment: Appointment
 
     var body: some View {
         HStack(spacing: 12) {
-            // Left side - Patient info
             VStack(alignment: .leading, spacing: 4) {
-                Text("Unknown User") // TODO:
+                Text(appointment.patient?.fullName ?? "Unknown Patient")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
 
-//                Text(appointment.status)
-//                    .font(.system(size: 14))
-//                    .foregroundColor(Color(.systemGray))
+                Text(appointment.doctor?.fullName ?? "Unknown Doctor")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color(.systemGray))
             }
 
             Spacer()

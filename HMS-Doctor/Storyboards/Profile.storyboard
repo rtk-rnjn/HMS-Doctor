@@ -27,7 +27,6 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        
         <!--Profile-->
         <scene sceneID="profile-scene">
             <objects>
@@ -39,12 +38,22 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="nav-item"/>
+                    <connections>
+                        <segue destination="byw-yc-HdX" kind="presentation" identifier="segueShowOnBoardingHostingController" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="n9t-mg-2Bo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="profile-responder" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1000" y="0.0"/>
         </scene>
-        
+        <!--Main-->
+        <scene sceneID="2MC-OA-Wvm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" id="byw-yc-HdX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qsN-qV-9wk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1897" y="0.0"/>
+        </scene>
         <!--Set Availablity-->
         <scene sceneID="BcC-mI-ot6">
             <objects>
@@ -56,17 +65,17 @@
                             <tableViewSection id="XsX-4O-ccl">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DatePickerCell" id="ftu-iQ-1OM">
-                                        <rect key="frame" x="20" y="5" width="353" height="351.66665649414062"/>
+                                        <rect key="frame" x="20" y="5" width="353" height="352.33334350585938"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ftu-iQ-1OM" id="fXR-Lf-rxb">
-                                            <rect key="frame" x="0.0" y="0.0" width="353" height="351.66665649414062"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="353" height="352.33334350585938"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-wL-Luu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="351.66666666666669"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="352.33333333333331"/>
                                                     <subviews>
                                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="FfT-kh-T3d">
-                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="352"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="352.33333333333331"/>
                                                             <connections>
                                                                 <action selector="dateChanged:" destination="Zze-2d-bv9" eventType="valueChanged" id="Tgy-Xc-eyO"/>
                                                             </connections>
@@ -93,7 +102,7 @@
                             <tableViewSection id="x1s-1U-jBH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OnLeaveCell" rowHeight="50" id="elB-X4-eZt">
-                                        <rect key="frame" x="20" y="366.66665649414062" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="367.33334350585938" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="elB-X4-eZt" id="n4I-Hw-cgt">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -127,7 +136,7 @@
                             <tableViewSection id="OPz-rW-Dmv">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SetAvailablityTableViewCell" id="V2h-B2-aUI" customClass="SetAvailablityTableViewCell" customModule="HMS_Doctor" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="426.66665649414062" width="353" height="180.33332824707031"/>
+                                        <rect key="frame" x="20" y="427.33334350585938" width="353" height="180.33332824707031"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="V2h-B2-aUI" id="tDg-dk-XAj">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="180.33332824707031"/>

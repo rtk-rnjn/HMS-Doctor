@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct DoctorProfileView: View {
-    let doctor: Staff? = nil
+    var doctor: Staff? = nil
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.horizontalSizeClass) var sizeClass
-    @State private var showingDeleteConfirmation = false
 
     var body: some View {
         ScrollView {
@@ -18,7 +17,7 @@ struct DoctorProfileView: View {
                         .clipShape(Circle())
 
                     // Name with "Dr." prefix
-                    Text("Dr. \(doctor?.fullName)")
+                    Text("Dr. \(doctor?.fullName ?? "Name")")
                         .font(.system(size: 22, weight: .bold))
 
                     // Redesigned smaller status badge
@@ -55,7 +54,7 @@ struct DoctorProfileView: View {
                         InfoRow(icon: "cross.case.fill", iconColor: .blue, label: "Specialization", value: doctor?.specialization)
                         if doctor?.yearOfExperience ?? 1 > 0 {
                             Divider().padding(.leading, 40)
-                            InfoRow(icon: "clock.fill", iconColor: .blue, label: "Years of Experience", value: "\(doctor?.yearOfExperience) Years")
+                            InfoRow(icon: "clock.fill", iconColor: .blue, label: "Years of Experience", value: "\(doctor?.yearOfExperience ?? 0) Years")
                         }
                     }
 
@@ -67,12 +66,41 @@ struct DoctorProfileView: View {
 
                 // Bottom padding for scroll view
                 Color.clear.frame(height: 20)
+
+                // Change Password Button
+                Button(action: {
+                    // Navigate to Change Password View
+                }) {
+                    Text("Change Password")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+
+                // Logout Button
+                Button(action: {
+                    // Show Logout Confirmation Alert
+
+                }) {
+                    Text("Logout")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
             }
             .padding(.horizontal)
         }
         .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all))
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Doctor Profile")
+
     }
 
     private func formatDate(_ date: Date) -> String {

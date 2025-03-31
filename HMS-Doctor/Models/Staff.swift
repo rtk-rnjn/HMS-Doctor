@@ -13,7 +13,7 @@ enum Gender: String, Codable {
     case other = "Other"
 }
 
-struct UnavailablePeriod: Codable, Equatable {
+struct UnavailablePeriod: Codable, Equatable, Hashable {
     enum CodingKeys: String, CodingKey {
         case startDate = "start_date"
         case endDate = "end_date"
@@ -24,7 +24,7 @@ struct UnavailablePeriod: Codable, Equatable {
 
 }
 
-struct Staff: Codable, Equatable {
+struct Staff: Codable, Equatable, Hashable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case firstName = "first_name"

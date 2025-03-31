@@ -128,54 +128,6 @@ struct AppointmentView: View {
     }
 }
 
-// MARK: - Enhanced Appointment Card
-struct EnhancedAppointmentCard: View {
-    let appointment: Appointment
-
-    var body: some View {
-        NavigationLink(destination: PatientProfileView(patient: appointment)) {
-            VStack(alignment: .leading, spacing: 12) {
-                // Patient Info Row
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Unknown User") // TODO:
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(.primary)
-
-                        Text(appointment.status.rawValue)
-                            .font(.system(size: 15))
-                            .foregroundColor(.gray)
-                    }
-
-                    Spacer()
-
-                    // Time with background
-                    Text(appointment.startDate.humanReadableString())
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundColor(.primary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color(.systemGray6))
-                        )
-                }
-
-                // Status Badge
-                HStack {
-                    Spacer()
-                    StatusBadge(status: appointment.status)
-                }
-            }
-            .padding()
-            .background(Color(.systemBackground))
-            .cornerRadius(12)
-            .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
-
 // MARK: - Status Badge
 struct StatusBadge: View {
 
@@ -199,7 +151,6 @@ struct StatusBadge: View {
         switch status {
         case .confirmed: return .green
         case .cancelled: return .red
-        case .confirmed: return .gray
         default: return .gray
         }
     }

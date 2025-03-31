@@ -10,12 +10,16 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
 
     // MARK: Internal
 
-    let appointments: [Appointment] = []
+    var appointments: [Appointment] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         prepareSearchController()
+        Task {
+            appointments = await DataController.shared.fetchAppointments()
+            self.rootView.appointments = appointments
+        }
     }
 
     func updateSearchResults(for searchController: UISearchController) {}
