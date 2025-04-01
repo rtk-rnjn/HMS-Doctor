@@ -74,4 +74,6 @@ struct Patient: Codable, Equatable, Hashable {
         }
         return "\(firstName) \(lastName)"
     }
+
+    var prescriptions: [Prescription]?
 }

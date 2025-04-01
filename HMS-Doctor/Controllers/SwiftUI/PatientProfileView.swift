@@ -17,7 +17,7 @@ struct MedicalRecord: Identifiable {
 
 enum MedicalTab: String, CaseIterable {
     case records = "Records"
-    case medications = "Medications"
+    case prescription = "Prescriptions"
     case labResults = "Lab Results"
     case notes = "Notes"
 }
@@ -33,8 +33,6 @@ struct PatientProfileView: View {
 
     @State private var isMarkedComplete = false
     //@State private var appointments: Appointment
-
-
 
     // MARK: - Body
 
@@ -166,13 +164,20 @@ struct PatientProfileView: View {
                         } else {
                             recordsList
                         }
-                        
-                    case .medications:
-                        emptyStateView(
-                            icon: "pills",
-                            message: "No medications available"
-                        )
-                        
+
+
+                    case .prescription:
+                        if let prescriptions = patient?.prescriptions as? [Prescription] {
+                            ForEach(prescriptions) { prescription in
+                                PrescriptionCardView(prescription: prescription)
+                            }
+                        } else {
+                            emptyStateView(
+                                icon: "pills",
+                                message: "No medications available"
+                            )
+                        }
+
                     case .labResults:
                         emptyStateView(
                             icon: "flask",
