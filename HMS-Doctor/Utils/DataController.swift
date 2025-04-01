@@ -69,6 +69,7 @@ class DataController: ObservableObject {
         UserDefaults.standard.set(accessToken, forKey: "accessToken")
         UserDefaults.standard.set(emailAddress, forKey: "emailAddress")
         UserDefaults.standard.set(password, forKey: "password")
+        UserDefaults.standard.set(staff.id, forKey: "staffId")
 
         return true
     }
@@ -102,14 +103,21 @@ class DataController: ObservableObject {
     }
 
     func fetchAppointments() async -> [Appointment] {
-        let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(staff?.id ?? "")")
+        guard let id = UserDefaults.standard.string(forKey: "staffId") else {
+            return []
+        }
+
+        let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(id)")
         guard var appointments else {
             return []
         }
 
         for i in 0..<appointments.count {
             appointments[i].doctor = staff
-            appointments[i].patient = await MiddlewareManager.shared.get(url: "/patient/\(appointments[i].patientId)")
+            let patient: Patient? = await MiddlewareManager.shared.get(url: "/patient/\(appointments[i].patientId)")
+
+            appointments[i].patient = patient
+            appointments[i].patient?.prescriptions = await fetchPrescriptions(for: patient)
         }
         return appointments
     }
@@ -137,6 +145,13 @@ class DataController: ObservableObject {
 
         let serverResponse: ServerResponse? = await MiddlewareManager.shared.post(url: "/patient/\(patient.id)/prescription", body: prescriptionData)
         return serverResponse?.success ?? false
+    }
+
+    func fetchPrescriptions(for patient: Patient?) async -> [Prescription]? {
+        guard let patient else {
+            return nil
+        }
+        return await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/prescription")
     }
 
     // MARK: Private

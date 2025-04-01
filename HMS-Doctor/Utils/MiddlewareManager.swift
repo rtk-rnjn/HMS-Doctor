@@ -81,7 +81,7 @@ actor MiddlewareManager {
                 return nil
             }
 
-            Utils.logger.debug("HTTP Status Code: \(httpResponse.statusCode)")
+            Utils.logger.debug("HTTP Status Code: \(httpResponse.statusCode): \(httpResponse.url?.absoluteString ?? "")")
 
             if httpResponse.statusCode != 200 {
                 if let errorJson = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {

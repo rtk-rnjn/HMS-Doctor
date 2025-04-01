@@ -105,7 +105,7 @@ struct PatientDetailsView: View {
 
                 // Records Tabs
                 HStack {
-                    ForEach(["Records", "Medications", "Lab Results", "Notes"], id: \.self) { tab in
+                    ForEach(["Records", "Prescriptions", "Lab Results", "Notes"], id: \.self) { tab in
                         Button(action: {
                             selectedTab = tab
                         }) {
@@ -122,17 +122,6 @@ struct PatientDetailsView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(25)
                 .padding(.horizontal)
-
-                // Medical Records
-                if selectedTab == "Records" {
-                    MedicalRecordRow(
-                        date: "21 Mar 2025",
-                        condition: "Common Cold",
-                        doctor: "Dr. Smith",
-                        notes: "Rest and hydration"
-                    )
-                    .padding(.horizontal)
-                }
             }
             .padding(.vertical)
         }
