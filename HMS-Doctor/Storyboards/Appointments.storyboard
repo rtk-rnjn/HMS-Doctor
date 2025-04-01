@@ -30,10 +30,54 @@
             <objects>
                 <hostingController id="7sp-az-kHB" customClass="AppointmentsHostingController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Appointments" id="wZT-1f-VlG"/>
+                    <connections>
+                        <segue destination="1Gf-pG-kDS" kind="show" identifier="segueShowPatientHostingController" id="KRJ-0s-AKj"/>
+                    </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i0W-pu-77D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1931" y="-2"/>
+        </scene>
+        <!--Patient Hosting Controller-->
+        <scene sceneID="lGR-cl-Ijo">
+            <objects>
+                <hostingController id="1Gf-pG-kDS" customClass="PatientHostingController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="S0B-N2-oTk"/>
+                    <connections>
+                        <segue destination="UxZ-a8-v1F" kind="presentation" identifier="segueShowPrescriptionHostingController" id="QUo-lF-ZFf"/>
+                    </connections>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qak-fv-hdP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2926" y="-2"/>
+        </scene>
+        <!--Prescription Hosting Controller-->
+        <scene sceneID="CQ9-ii-JQ9">
+            <objects>
+                <hostingController id="DzY-pz-roM" customClass="PrescriptionHostingController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="vRD-rd-Y5V"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FiN-RQ-izf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4788.5496183206105" y="-2.1126760563380285"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="db1-GS-nOG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UxZ-a8-v1F" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="D0S-jn-JIY">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="DzY-pz-roM" kind="relationship" relationship="rootViewController" id="Mfp-wT-hbq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BPL-Tb-fsh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3861.8320610687019" y="-2.1126760563380285"/>
         </scene>
     </scenes>
     <resources>

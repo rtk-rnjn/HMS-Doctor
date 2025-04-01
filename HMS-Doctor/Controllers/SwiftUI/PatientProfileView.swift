@@ -26,13 +26,14 @@ struct PatientProfileView: View {
 
     // MARK: Internal
 
-    let patient: Appointment
+    weak var delegate: PatientHostingController?
+    var patient: Patient?
 
     // MARK: - Body
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Profile Header
                 VStack(spacing: 16) {
                     Image(systemName: "person.circle.fill")
                         .resizable()
@@ -41,24 +42,20 @@ struct PatientProfileView: View {
                         .foregroundColor(.gray)
                         .padding(.top)
 
-                    Text("Unknown Patient")
+                    Text(patient?.fullName ?? "Unknown Patient")
                         .font(.title2)
                         .fontWeight(.semibold)
                 }
 
-                // Patient Info Card
                 VStack(spacing: 16) {
-                    infoRow(title: "Age", value: "42 years")
+                    infoRow(title: "Age", value: String(patient?.age ?? 0))
                     Divider()
-                    infoRow(title: "Gender", value: "Male")
-                    Divider()
-                    infoRow(title: "Phone", value: "+1 (555) 123-4567")
+                    infoRow(title: "Gender", value: patient?.gender.rawValue ?? "Other")
                 }
                 .padding()
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
 
-                // Vitals Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Basic Info")
                         .font(.headline)
@@ -66,17 +63,17 @@ struct PatientProfileView: View {
                         .padding(.horizontal)
 
                     HStack(spacing: 12) {
-                        // Blood Type Card
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
                                 Image(systemName: "drop.fill")
                                     .font(.caption)
                                     .foregroundColor(.red)
+
                                 Text("Blood Type")
                                     .font(.caption)
                                     .foregroundColor(Color(.systemGray))
                             }
-                            Text(vitals.bloodType)
+                            Text(patient?.bloodGroup.rawValue ?? "O+")
                                 .font(.title3)
                                 .fontWeight(.bold)
                         }
@@ -86,9 +83,7 @@ struct PatientProfileView: View {
                         .padding(.vertical, 10)
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
-                        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
 
-                        // Weight Card
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
                                 Image(systemName: "scalemass.fill")
@@ -113,7 +108,6 @@ struct PatientProfileView: View {
                         .padding(.vertical, 10)
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
-                        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
 
                         // Height Card
                         VStack(alignment: .leading, spacing: 6) {
@@ -126,7 +120,7 @@ struct PatientProfileView: View {
                                     .foregroundColor(Color(.systemGray))
                             }
                             HStack(alignment: .firstTextBaseline, spacing: 2) {
-                                Text("168")
+                                Text(String(patient?.height ?? 0))
                                     .font(.title3)
                                     .fontWeight(.bold)
                                 Text("cm")
@@ -140,7 +134,6 @@ struct PatientProfileView: View {
                         .padding(.vertical, 10)
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
-                        .shadow(color: Color.black.opacity(0.05), radius: 2, x: 0, y: 1)
                     }
                     .padding(.horizontal)
                 }
@@ -188,35 +181,21 @@ struct PatientProfileView: View {
                 }
             }
             .padding(.vertical)
+
+            Button(action: {
+                delegate?.performSegue(withIdentifier: "segueShowPrescriptionHostingController", sender: patient)
+            }) {
+                Text("Add Prescription")
+            }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationBarTitleDisplayMode(.inline)
     }
 
     // MARK: Private
 
     @State private var selectedTab: MedicalTab = .records
 
-    private let vitals: PatientVitals = .init(
-        bloodType: "A+",
-        weight: "65 kg",
-        height: "168 cm"
-    )
-
-    private let records = [
-        MedicalRecord(
-            date: Date().addingTimeInterval(-7*24*3600),
-            doctorName: "Dr. Smith",
-            diagnosis: "Common Cold",
-            recommendations: "Rest and hydration"
-        ),
-        MedicalRecord(
-            date: Date().addingTimeInterval(-14*24*3600),
-            doctorName: "Dr. Johnson",
-            diagnosis: "Annual Checkup",
-            recommendations: "Continue current medications"
-        )
-    ]
+    private let records: [MedicalRecord] = []
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

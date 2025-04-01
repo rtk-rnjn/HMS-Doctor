@@ -172,6 +172,7 @@ struct DashboardCard: View {
 
 struct AppointmentCard: View {
     let appointment: Appointment
+    weak var delegate: AppointmentsHostingController?
 
     var body: some View {
         HStack(spacing: 12) {
@@ -229,6 +230,9 @@ struct AppointmentCard: View {
                 .fill(Color(.systemBackground))
                 .shadow(color: Color.black.opacity(0.04), radius: 2, x: 0, y: 1)
         )
+        .onTapGesture {
+            delegate?.performSegue(withIdentifier: "segueShowPatientHostingController", sender: appointment)
+        }
     }
 }
 

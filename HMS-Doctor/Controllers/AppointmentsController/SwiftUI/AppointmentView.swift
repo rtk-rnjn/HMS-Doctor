@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AppointmentView: View {
     // MARK: - Properties
+    weak var delegate: AppointmentsHostingController?
+
     @State private var selectedDate: Date = .init()
     @State private var showingAllAppointments = false
     var appointments: [Appointment]
@@ -72,7 +74,7 @@ struct AppointmentView: View {
                         noAppointmentsView
                     } else {
                         ForEach(displayedAppointments) { appointment in
-                            AppointmentCard(appointment: appointment)
+                            AppointmentCard(appointment: appointment, delegate: delegate)
                         }
                     }
                 }
@@ -98,8 +100,7 @@ struct AppointmentView: View {
                 .foregroundColor(.primary)
 
             Text(showingAllAppointments
-                 ? "You don't have any appointments scheduled."
-                 : "You don't have any appointments scheduled for \(dateFormatter.string(from: selectedDate)). Select a different date to view other appointments.")
+                 ? "You don't have any appointments scheduled." : "You don't have any appointments scheduled for \(dateFormatter.string(from: selectedDate)). Select a different date to view other appointments.")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

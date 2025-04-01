@@ -126,6 +126,19 @@ class DataController: ObservableObject {
         return await MiddlewareManager.shared.get(url: "/hospital/\(staff.hospitalId)/doctors/announcements")
     }
 
+    func addPrescription(_ prescription: Prescription, to patient: Patient?) async -> Bool {
+        guard let patient = patient else {
+            return false
+        }
+
+        guard let prescriptionData = prescription.toData() else {
+            fatalError("Could not add prescription: Invalid data")
+        }
+
+        let serverResponse: ServerResponse? = await MiddlewareManager.shared.post(url: "/patient/\(patient.id)/prescription", body: prescriptionData)
+        return serverResponse?.success ?? false
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""
