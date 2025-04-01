@@ -27,17 +27,21 @@ enum Frequency: Codable, Hashable {
     case weekly(days: [Int], time: DateComponents)
     case custom(DateComponents)
 
+    // MARK: Internal
+
     var description: String {
         switch self {
-        case .interval(let hours):
+        case let .interval(hours):
             return "Every \(hours) Hours"
-        case .daily(let times):
+        case let .daily(times):
             let formattedTimes = times.map { "\($0.hour ?? 0):\($0.minute ?? 0)" }
             return "Daily (\(formattedTimes.joined(separator: ", ")))"
-        case .weekly(let days, let time):
+
+        case let .weekly(days, time):
             let daysString = days.map { ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][$0 % 7] }.joined(separator: ", ")
             return "Weekly (\(daysString) at \(time.hour ?? 0):\(time.minute ?? 0))"
-        case .custom(let time):
+
+        case let .custom(time):
             return "Custom (\(time.hour ?? 0):\(time.minute ?? 0))"
         }
     }

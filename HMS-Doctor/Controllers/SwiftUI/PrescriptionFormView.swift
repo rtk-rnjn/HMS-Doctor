@@ -5,14 +5,13 @@
 //  Created by RITIK RANJAN on 31/03/25.
 //
 
-
 import SwiftUI
 
 struct PrescriptionFormView: View {
-    weak var delegate: PrescriptionHostingController?
 
-    @State private var diagnosis: String = ""
-    @State private var showingMedicineForm = false
+    // MARK: Internal
+
+    weak var delegate: PrescriptionHostingController?
 
     var body: some View {
         Form {
@@ -21,7 +20,7 @@ struct PrescriptionFormView: View {
             }
 
             Section(header: Text("Medicines")) {
-                if ((delegate?.medicines.isEmpty) != nil) {
+                if (delegate?.medicines.isEmpty) != nil {
                     Text("No medicines added")
                         .foregroundColor(.gray)
                 } else {
@@ -56,6 +55,11 @@ struct PrescriptionFormView: View {
         }
 
     }
+
+    // MARK: Private
+
+    @State private var diagnosis: String = ""
+    @State private var showingMedicineForm = false
 
     private func savePrescription() {
         let newPrescription = Prescription(diagnosis: diagnosis, medicines: delegate!.medicines)
@@ -125,9 +129,11 @@ struct AddMedicineView: View {
 }
 
 struct CustomTimePicker: View {
+
+    // MARK: Internal
+
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedFrequency: Frequency
-    @State private var customTime = DateComponents(hour: 9, minute: 0)
 
     var body: some View {
         NavigationView {
@@ -153,4 +159,9 @@ struct CustomTimePicker: View {
             }
         }
     }
+
+    // MARK: Private
+
+    @State private var customTime: DateComponents = .init(hour: 9, minute: 0)
+
 }

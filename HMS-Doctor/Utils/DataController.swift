@@ -127,7 +127,7 @@ class DataController: ObservableObject {
     }
 
     func addPrescription(_ prescription: Prescription, to patient: Patient?) async -> Bool {
-        guard let patient = patient else {
+        guard let patient else {
             return false
         }
 

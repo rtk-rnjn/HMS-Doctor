@@ -7,6 +7,4 @@
 
 import UIKit
 
-class OTPResetViewController: UIViewController {
-    
-}
+class OTPResetViewController: UIViewController {}

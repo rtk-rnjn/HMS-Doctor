@@ -21,7 +21,14 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
             self.rootView.appointments = appointments
         }
 
-        self.rootView.delegate = self
+        rootView.delegate = self
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueShowPatientHostingController", let appointment = sender as? Appointment {
+            let destination = segue.destination as? PatientHostingController
+            destination?.appointment = appointment
+        }
     }
 
     func updateSearchResults(for searchController: UISearchController) {}
@@ -37,13 +44,6 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueShowPatientHostingController", let appointment = sender as? Appointment {
-            let destination = segue.destination as? PatientHostingController
-            destination?.appointment = appointment
-        }
     }
 
 }

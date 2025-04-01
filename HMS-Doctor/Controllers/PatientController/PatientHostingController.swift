@@ -8,17 +8,22 @@
 import SwiftUI
 
 class PatientHostingController: UIHostingController<PatientProfileView> {
-    var appointment: Appointment?
+
+    // MARK: Lifecycle
 
     required init?(coder: NSCoder) {
         super.init(coder: coder, rootView: PatientProfileView())
     }
 
+    // MARK: Internal
+
+    var appointment: Appointment?
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.rootView.patient = appointment?.patient
-        self.rootView.delegate = self
+        rootView.patient = appointment?.patient
+        rootView.delegate = self
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

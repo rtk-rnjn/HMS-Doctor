@@ -53,10 +53,6 @@ struct Patient: Codable, Equatable, Hashable {
     var password: String
     var dateOfBirth: Date
 
-    var age: Int {
-        Calendar.current.dateComponents([.year], from: dateOfBirth, to: Date()).year ?? 0
-    }
-
     var gender: Gender = .other
     var bloodGroup: BloodGroup
     var height: Int
@@ -67,6 +63,10 @@ struct Patient: Codable, Equatable, Hashable {
 
     var role: Role = .patient
     var active: Bool = true
+
+    var age: Int {
+        Calendar.current.dateComponents([.year], from: dateOfBirth, to: Date()).year ?? 0
+    }
 
     var fullName: String? {
         guard let lastName else {

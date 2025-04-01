@@ -8,12 +8,17 @@
 import SwiftUI
 
 class PrescriptionHostingController: UIHostingController<PrescriptionFormView> {
-    var medicines: [Medicine] = []
-    var patient: Patient?
+
+    // MARK: Lifecycle
 
     required init?(coder: NSCoder) {
         super.init(coder: coder, rootView: PrescriptionFormView())
     }
+
+    // MARK: Internal
+
+    var medicines: [Medicine] = []
+    var patient: Patient?
 
     override func viewDidLoad() {
         super.viewDidLoad()

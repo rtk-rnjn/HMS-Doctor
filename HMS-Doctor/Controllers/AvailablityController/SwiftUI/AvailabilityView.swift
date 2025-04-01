@@ -16,22 +16,22 @@ struct AvailabilityView: View {
     }
 
     var body: some View {
-        
+
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                
+
                 // Schedule for Multiple Days
                 Text("Schedule for Multiple Days")
                     .font(.headline)
                     .padding(.horizontal)
-                
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(next14Days, id: \.self) { date in
                             VStack {
                                 Text(shortDay(date))
                                     .font(.caption)
-                                
+
                                 Text(dayNumber(date))
                                     .font(.headline)
                                     .frame(width: 40, height: 40)
@@ -46,23 +46,23 @@ struct AvailabilityView: View {
                     }
                     .padding(.horizontal)
                 }
-                
+
                 Divider()
-                
+
                 // Toggle for On Leave
                 Toggle("On Leave", isOn: $isOnLeave)
                     .padding()
                     .background(Color.white)
                     .cornerRadius(10)
                     .padding(.horizontal)
-                
+
                 // Reason TextField (Only shown when On Leave is enabled)
                 if isOnLeave {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Reason for Leave")
                             .font(.headline)
                             .padding(.horizontal)
-                        
+
                         TextEditor(text: $leaveReason)
                             .frame(height: 120) // Bigger TextField
                             .padding(8) // Add padding inside the TextEditor
@@ -75,9 +75,9 @@ struct AvailabilityView: View {
                     }
                     .padding(.horizontal)
                 }
-                
+
                 Spacer()
-                
+
                 // Apply Button
                 Button(action: {
                     // Apply leave logic
@@ -93,15 +93,14 @@ struct AvailabilityView: View {
                 }
                 .padding()
                 .disabled(selectedDates.isEmpty)
-                
+
             }
         }
         .background(Color(uiColor: .systemGray6))
         .alert("Request Sent", isPresented: $showPopup) { // Native iOS Alert
-            Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) {}
         }
     }
-    
 
     // MARK: Private
 
