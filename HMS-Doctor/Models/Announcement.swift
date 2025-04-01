@@ -9,6 +9,7 @@ import Foundation
 
 struct Announcement: Codable, Equatable, Identifiable {
     enum CodingKeys: String, CodingKey {
+        case id = "_id"
         case title
         case body
         case createdAt = "created_at"
@@ -16,7 +17,7 @@ struct Announcement: Codable, Equatable, Identifiable {
         case category
     }
 
-    var id: UUID = .init()
+    var id: String = UUID().uuidString
 
     var title: String
     var body: String

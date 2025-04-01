@@ -120,7 +120,7 @@ class DataController: ObservableObject {
         }
 
         guard let staff else {
-            fatalError("Admin is nil")
+            fatalError("Staff is nil")
         }
 
         return await MiddlewareManager.shared.get(url: "/hospital/\(staff.hospitalId)/doctors/announcements")
