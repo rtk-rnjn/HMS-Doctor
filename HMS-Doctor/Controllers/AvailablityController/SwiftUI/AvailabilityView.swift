@@ -87,10 +87,12 @@ struct AvailabilityView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
+                        .background((isOnLeave && !selectedDates.isEmpty) ? Color.blue : Color.gray.opacity(0.5))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
                 .padding()
+                .disabled(!(isOnLeave && !selectedDates.isEmpty))
 
             }
         }
