@@ -28,6 +28,9 @@ struct PatientProfileView: View {
 
     weak var delegate: PatientHostingController?
     var patient: Patient?
+    @State private var isMarkedComplete = false
+
+
 
     // MARK: - Body
 
@@ -187,8 +190,24 @@ struct PatientProfileView: View {
             }) {
                 Text("Add Prescription")
             }
+            
+            Button(action: {
+                isMarkedComplete = true
+            }) {
+                Text(isMarkedComplete ? "Completed" : "Mark For Complete")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(isMarkedComplete ? Color.gray : Color.blue)
+                    .cornerRadius(12)
+            }
+            .disabled(isMarkedComplete)
+            .padding(.horizontal)
+            
         }
+        
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        
     }
 
     // MARK: Private
