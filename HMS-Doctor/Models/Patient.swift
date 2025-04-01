@@ -64,6 +64,9 @@ struct Patient: Codable, Equatable, Hashable {
     var role: Role = .patient
     var active: Bool = true
 
+    var prescriptions: [Prescription]?
+    var medicalRecords: [MedicalReport]?
+
     var age: Int {
         Calendar.current.dateComponents([.year], from: dateOfBirth, to: Date()).year ?? 0
     }
@@ -75,5 +78,4 @@ struct Patient: Codable, Equatable, Hashable {
         return "\(firstName) \(lastName)"
     }
 
-    var prescriptions: [Prescription]?
 }

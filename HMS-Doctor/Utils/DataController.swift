@@ -118,6 +118,7 @@ class DataController: ObservableObject {
 
             appointments[i].patient = patient
             appointments[i].patient?.prescriptions = await fetchPrescriptions(for: patient)
+            appointments[i].patient?.medicalRecords = await fetchMedicalReport(for: patient)
         }
         return appointments
     }
@@ -152,6 +153,14 @@ class DataController: ObservableObject {
             return nil
         }
         return await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/prescription")
+    }
+
+    func fetchMedicalReport(for patient: Patient?) async -> [MedicalReport] {
+        guard let patient else {
+            return []
+        }
+        let reports: [MedicalReport]? = await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/medical-reports")
+        return reports ?? []
     }
 
     // MARK: Private
