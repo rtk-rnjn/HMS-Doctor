@@ -40,7 +40,6 @@ struct AppointmentView: View {
                     .cornerRadius(12)
                     .padding(.horizontal)
                     .padding(.top, 8)
-                    .onChange(of: selectedDate) { _ in
                         if showingAllAppointments {
                             showingAllAppointments = false
                         }
