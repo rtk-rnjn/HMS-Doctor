@@ -177,12 +177,12 @@ struct AppointmentCard: View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(appointment.patient?.fullName ?? "Unknown Patient")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.primary)
-
-                Text(appointment.doctor?.fullName ?? "Unknown Doctor")
                     .font(.system(size: 14))
                     .foregroundColor(Color(.systemGray))
+
+                Text(appointment.doctor?.fullName ?? "Unknown Doctor")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.primary)
             }
 
             Spacer()
@@ -190,7 +190,7 @@ struct AppointmentCard: View {
             // Right side - Time and status
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
-                Text(appointment.createdAt.humanReadableString())
+                Text(appointment.startDate.humanReadableString())
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
                     .padding(.horizontal, 8)
