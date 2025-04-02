@@ -59,7 +59,7 @@ struct DoctorProfileView: View {
                     }
 
                     // Department Section
-                    InfoSectionCard(title: "Department & Schedule") {
+                    InfoSectionCard(title: "Department") {
                         InfoRow(icon: "building.2.fill", iconColor: .blue, label: "Department", value: doctor?.department)
                     }
                 }
