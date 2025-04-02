@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nav-root">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nav-root">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,7 +13,7 @@
                     <tabBarItem key="tabBarItem" title="Dashboard" image="square.grid.2x2.fill" catalog="system" id="tab-item"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="nav-bar">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -32,7 +32,7 @@
                     <navigationItem key="navigationItem" title="Dashboard" id="SR8-ar-Ynt">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="bell.fill" catalog="system" id="Tx6-Vd-bb8">
                             <connections>
-                                <segue destination="d64-U4-PZk" kind="presentation" identifier="" id="swl-Hs-tcO"/>
+                                <segue destination="d64-U4-PZk" kind="show" id="YQq-n0-Huc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -41,10 +41,12 @@
             </objects>
             <point key="canvasLocation" x="918" y="0.0"/>
         </scene>
-        <!--Announcement Hosting Controller-->
+        <!--Notifications-->
         <scene sceneID="nHl-fD-er6">
             <objects>
-                <hostingController id="d64-U4-PZk" customClass="AnnouncementHostingController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController"/>
+                <hostingController id="d64-U4-PZk" customClass="AnnouncementHostingController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Notifications" largeTitleDisplayMode="never" id="QRm-xi-Icm"/>
+                </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="39w-J1-eQh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1863" y="0.0"/>

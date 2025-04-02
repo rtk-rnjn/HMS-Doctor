@@ -14,7 +14,6 @@ struct AnnouncementView: View {
     var announcements: [Announcement] = []
 
     var body: some View {
-        NavigationView {
             List(announcements, id: \.title) { announcement in
                 HStack(spacing: 12) {
                     categoryIcon(for: announcement.category)
@@ -34,17 +33,7 @@ struct AnnouncementView: View {
                 }
                 .padding(4)
             }
-            .navigationTitle("Notifications")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Close") {
-                        dismiss()
-                    }
-                }
-            }
         }
-    }
-
     // MARK: Private
 
     @Environment(\.dismiss) private var dismiss
