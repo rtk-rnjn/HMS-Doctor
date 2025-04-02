@@ -8,6 +8,7 @@
 import UIKit
 
 class OTPResetViewController: UIViewController {
+
     // MARK: Internal
 
     @IBOutlet var emailTextField: UITextField!
@@ -33,7 +34,7 @@ class OTPResetViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "otpViewController", let email = sender as? String, let setPasswordViewController = segue.destination as? SetPasswordViewController {
+        if segue.identifier == "segueShowSetPasswordViewController", let email = sender as? String, let setPasswordViewController = segue.destination as? SetPasswordViewController {
 
             setPasswordViewController.email = email
         }

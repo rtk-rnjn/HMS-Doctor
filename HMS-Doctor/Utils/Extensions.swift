@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Encodable {
     func toDictionary() -> [String: Any]? {
@@ -76,5 +77,28 @@ extension Date {
 
     func isToday() -> Bool {
         return Calendar.current.isDateInToday(self)
+    }
+}
+
+extension UITextField {
+    func configureEyeButton(with eyeButton: UIButton) {
+        eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+
+        eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        eyeButton.addTarget(self, action: #selector(togglePasswordVisibility(_:)), for: .touchUpInside)
+
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
+        containerView.addSubview(eyeButton)
+
+        eyeButton.frame = CGRect(x: -8, y: 0, width: 30, height: 30)
+        rightView = containerView
+        rightViewMode = .always
+        isSecureTextEntry = true
+    }
+
+    @objc private func togglePasswordVisibility(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        isSecureTextEntry.toggle()
     }
 }

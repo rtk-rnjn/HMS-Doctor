@@ -28,8 +28,8 @@ class SetPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        newPasswordTextField.configureEyeButton(with: newPasswordEyeButton)
-//        confirmPasswordTextField.configureEyeButton(with: confirmPasswordEyeButton)
+        newPasswordTextField.configureEyeButton(with: newPasswordEyeButton)
+        confirmPasswordTextField.configureEyeButton(with: confirmPasswordEyeButton)
 
         navigationItem.hidesBackButton = true
     }
