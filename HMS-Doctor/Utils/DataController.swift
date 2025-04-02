@@ -19,6 +19,16 @@ struct Token: Codable {
     var user: Staff?
 }
 
+struct HardPasswordReset: Codable {
+    enum CodingKeys: String, CodingKey {
+        case emailAddress = "email_address"
+        case newPassword = "new_password"
+    }
+
+    var emailAddress: String
+    var newPassword: String
+}
+
 struct UserLogin: Codable {
     enum CodingKeys: String, CodingKey {
         case emailAddress = "email_address"
@@ -100,6 +110,26 @@ class DataController: ObservableObject {
             UserDefaults.standard.set(newPassword, forKey: "password")
         }
         return success
+    }
+
+    func hardPasswordReset(emailAddress: String, password: String) async -> Bool {
+        let hardPasswordReset = HardPasswordReset(emailAddress: emailAddress, newPassword: password)
+        guard let hardPasswordResetData = hardPasswordReset.toData() else {
+            fatalError("Could not hard reset password")
+        }
+
+        let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/change-password", body: hardPasswordResetData)
+        return response?.success ?? false
+    }
+
+    func requestOtp(emailAddress: String) async -> Bool {
+        let response: ServerResponse? = await MiddlewareManager.shared.get(url: "/request-otp", queryParameters: ["to_email": emailAddress])
+        return response?.success ?? false
+    }
+
+    func verifyOtp(emailAddress: String, otp: String) async -> Bool {
+        let response: ServerResponse? = await MiddlewareManager.shared.get(url: "/verify-otp", queryParameters: ["to_email": emailAddress, "otp": otp])
+        return response?.success ?? false
     }
 
     func fetchAppointments() async -> [Appointment] {

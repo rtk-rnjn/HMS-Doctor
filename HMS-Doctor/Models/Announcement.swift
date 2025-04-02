@@ -9,7 +9,6 @@ import Foundation
 
 struct Announcement: Codable, Equatable, Identifiable {
     enum CodingKeys: String, CodingKey {
-        case id = "_id"
         case title
         case body
         case createdAt = "created_at"

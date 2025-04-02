@@ -28,11 +28,8 @@ struct PatientProfileView: View {
 
     weak var delegate: PatientHostingController?
     var patient: Patient?
-    
-    @State private var showConfirmation = false
 
-    @State private var isMarkedComplete = false
-    //@State private var appointments: Appointment
+    // @State private var appointments: Appointment
 
     // MARK: - Body
 
@@ -46,12 +43,12 @@ struct PatientProfileView: View {
                         .frame(width: 100, height: 100)
                         .foregroundColor(.gray)
                         .padding(.top)
-                    
+
                     Text(patient?.fullName ?? "Unknown Patient")
                         .font(.title2)
                         .fontWeight(.semibold)
                 }
-                
+
                 VStack(spacing: 16) {
                     infoRow(title: "Age", value: String(patient?.age ?? 0))
                     Divider()
@@ -60,20 +57,20 @@ struct PatientProfileView: View {
                 .padding()
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
-                
+
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Basic Info")
                         .font(.headline)
                         .foregroundColor(.primary)
                         .padding(.horizontal)
-                    
+
                     HStack(spacing: 12) {
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
                                 Image(systemName: "drop.fill")
                                     .font(.caption)
                                     .foregroundColor(.red)
-                                
+
                                 Text("Blood Type")
                                     .font(.caption)
                                     .foregroundColor(Color(.systemGray))
@@ -88,7 +85,7 @@ struct PatientProfileView: View {
                         .padding(.vertical, 10)
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
-                        
+
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
                                 Image(systemName: "scalemass.fill")
@@ -113,7 +110,7 @@ struct PatientProfileView: View {
                         .padding(.vertical, 10)
                         .background(Color(.systemBackground))
                         .cornerRadius(12)
-                        
+
                         // Height Card
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 4) {
@@ -142,7 +139,7 @@ struct PatientProfileView: View {
                     }
                     .padding(.horizontal)
                 }
-                
+
                 // Medical History Tabs
                 VStack(spacing: 16) {
                     Picker("Medical History", selection: $selectedTab) {
@@ -152,7 +149,7 @@ struct PatientProfileView: View {
                     }
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
-                    
+
                     // Tab Content
                     switch selectedTab {
                     case .records:
@@ -164,7 +161,6 @@ struct PatientProfileView: View {
                         } else {
                             recordsList
                         }
-
 
                     case .prescription:
                         if let prescriptions = patient?.prescriptions as? [Prescription] {
@@ -183,7 +179,7 @@ struct PatientProfileView: View {
                             icon: "flask",
                             message: "No lab results available"
                         )
-                        
+
                     case .notes:
                         emptyStateView(
                             icon: "note.text",
@@ -198,7 +194,7 @@ struct PatientProfileView: View {
                         }) {
                             Text("Add Prescription")
                         }
-            
+
             if !isMarkedComplete {
                 Button(action: {
                     showConfirmation = true
@@ -212,20 +208,24 @@ struct PatientProfileView: View {
                 }
                 .padding(.horizontal)
                 .alert("Are you sure you want to complete the record?", isPresented: $showConfirmation) {
-                    Button("Cancel", role: .cancel) { }
+                    Button("Cancel", role: .cancel) {}
                     Button("OK", role: .destructive) {
                         isMarkedComplete = true
-                        //appointments.status = .completed
+                        // appointments.status = .completed
                     }
                 }
             }
         }
-        
+
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        
+
     }
 
     // MARK: Private
+
+    @State private var showConfirmation = false
+
+    @State private var isMarkedComplete = false
 
     @State private var selectedTab: MedicalTab = .records
 
