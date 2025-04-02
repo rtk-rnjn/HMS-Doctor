@@ -118,4 +118,10 @@ class SignInViewController: UIViewController {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true, completion: nil)
     }
+    
+    
+    @IBAction func forgetPasswordButtonTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "otpViewController", sender: nil)
+    }
+    
 }
