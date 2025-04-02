@@ -91,7 +91,7 @@ struct AppointmentView: View {
 
             Image(systemName: "calendar.badge.exclamationmark")
                 .font(.system(size: 60))
-                .foregroundColor(Color(.systemGray3))
+                .foregroundColor(Color("iconBlue"))
                 .padding(.bottom, 8)
 
             Text("No Appointments Found")
@@ -116,7 +116,7 @@ struct AppointmentView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
-                        .background(Color.blue)
+                        .background(Color("successBlue"))
                         .cornerRadius(10)
                 }
                 .padding(.top, 8)
