@@ -193,6 +193,14 @@ class DataController: ObservableObject {
         return reports ?? []
     }
 
+    func fetchReview() async -> [Review]? {
+        guard let id = UserDefaults.standard.string(forKey: "staffId") else {
+            return []
+        }
+
+        return await MiddlewareManager.shared.get(url: "/doctor/\(id)/reviews")
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""
