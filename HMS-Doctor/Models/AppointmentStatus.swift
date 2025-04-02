@@ -11,6 +11,7 @@ enum AppointmentStatus: String, Codable {
     case confirmed = "Confirmed"
     case completed = "Completed"
     case cancelled = "Cancelled"
+    case onGoing = "On going"
 }
 
 struct Appointment: Codable, Identifiable, Hashable {
@@ -20,7 +21,6 @@ struct Appointment: Codable, Identifiable, Hashable {
         case doctorId = "doctor_id"
         case startDate = "start_date"
         case endDate = "end_date"
-        case status
         case prescription
         case notes
         case reference
@@ -37,7 +37,17 @@ struct Appointment: Codable, Identifiable, Hashable {
 
     var startDate: Date
     var endDate: Date
-    var status: AppointmentStatus = .confirmed
+    var status: AppointmentStatus {
+        let now = Date()
+
+        if startDate < now && now < endDate {
+            return .onGoing
+        } else if endDate < now {
+            return .completed
+        } else {
+            return .confirmed
+        }
+    }
 
     var prescription: String?
     var notes: String?

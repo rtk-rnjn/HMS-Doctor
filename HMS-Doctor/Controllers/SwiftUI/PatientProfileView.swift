@@ -190,10 +190,11 @@ struct PatientProfileView: View {
             }
             .padding(.vertical)
             Button(action: {
-                            delegate?.performSegue(withIdentifier: "segueShowPrescriptionHostingController", sender: patient)
-                        }) {
-                            Text("Add Prescription")
-                        }
+                delegate?.performSegue(withIdentifier: "segueShowPrescriptionHostingController", sender: patient)
+            }) {
+                Text("Add Prescription")
+            }
+            .disabled(delegate?.appointment?.status == .completed || delegate?.appointment?.status == .cancelled || delegate?.appointment?.status == .confirmed)
 
             if !isMarkedComplete {
                 Button(action: {
@@ -207,11 +208,11 @@ struct PatientProfileView: View {
                         .cornerRadius(12)
                 }
                 .padding(.horizontal)
+                .disabled(delegate?.appointment?.status == .completed || delegate?.appointment?.status == .cancelled || delegate?.appointment?.status == .confirmed)
                 .alert("Are you sure you want to complete the record?", isPresented: $showConfirmation) {
                     Button("Cancel", role: .cancel) {}
                     Button("OK", role: .destructive) {
                         isMarkedComplete = true
-                        // appointments.status = .completed
                     }
                 }
             }

@@ -87,14 +87,6 @@ struct DoctorDashboardView: View {
                         .foregroundColor(.primary)
 
                     Spacer()
-
-//                    Button(action: {
-//                        // Action to see all appointments
-//                    }) {
-//                        Text("See All")
-//                            .font(.system(size: 16))
-//                            .foregroundColor(.blue)
-//                    }
                 }
                 .padding(.horizontal)
                 .padding(.top, 32)
@@ -181,7 +173,7 @@ struct AppointmentCard: View {
                     .font(.system(size: 14))
                     .foregroundColor(Color(.systemGray))
 
-                Text(appointment.doctor?.fullName ?? "Unknown Doctor")
+                Text(appointment.reference == nil ? "New Patient" : "Follow up")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
             }
@@ -332,9 +324,10 @@ struct StatusTag: View {
 
     private var statusColor: Color {
         switch status {
-        case .confirmed: return .green
+        case .confirmed: return .blue
         case .cancelled: return .red
         case .completed: return .gray
+        case .onGoing: return .green
         }
     }
 }
