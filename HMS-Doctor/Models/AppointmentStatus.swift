@@ -14,7 +14,7 @@ enum AppointmentStatus: String, Codable {
     case onGoing = "On going"
 }
 
-struct Appointment: Codable, Identifiable, Hashable {
+struct Appointment: Codable, Identifiable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case patientId = "patient_id"

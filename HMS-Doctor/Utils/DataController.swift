@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Token: Codable {
+struct Token: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"
         case tokenType = "token_type"
@@ -163,6 +163,15 @@ class DataController: ObservableObject {
         }
 
         return await MiddlewareManager.shared.get(url: "/hospital/\(staff.hospitalId)/doctors/announcements")
+    }
+
+    func markAppointmentAsDone(_ appointment: Appointment?) async -> Bool {
+        guard let appointment, let appointmentData = appointment.toData() else {
+            fatalError()
+        }
+
+        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: appointmentData)
+        return serverResponse?.success ?? false
     }
 
     func addPrescription(_ prescription: Prescription, to patient: Patient?) async -> Bool {
