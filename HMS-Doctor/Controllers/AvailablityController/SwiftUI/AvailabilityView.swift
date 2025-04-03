@@ -12,6 +12,8 @@ struct AvailabilityView: View {
     // MARK: Internal
 
     var appointments: [Appointment] = []
+    @State var showReasonAlert: Bool = false
+
     var next14Days: [Date] {
         (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
     }
@@ -73,6 +75,9 @@ struct AvailabilityView: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.gray, lineWidth: 1) // Optional: Add a border
                             )
+                            .onChange(of: leaveReason) { newValue in
+                                leaveReason = filterAlphabeticInput(newValue)
+                            }
                     }
                     .padding(.horizontal)
                 }
@@ -81,21 +86,27 @@ struct AvailabilityView: View {
 
                 // Apply Button
                 Button(action: {
-                    // Apply leave logic
-                    showPopup = true
-                }) {
-                    Text("Apply for leave")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background((isOnLeave && !selectedDates.isEmpty) ? Color.blue : Color.gray.opacity(0.5))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding()
-                .disabled(!(isOnLeave && !selectedDates.isEmpty))
+                    if leaveReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            showReasonAlert = true
+                        } else {
+                            showPopup = true
+                        }
+                    }) {
+                        Text("Apply for leave")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background((isOnLeave && !selectedDates.isEmpty && isValidReason) ? Color.blue : Color.gray.opacity(0.5))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                    .disabled(!(isOnLeave && !selectedDates.isEmpty && isValidReason))
 
             }
+            .alert("Write the reason for leave", isPresented: $showReasonAlert) {
+                        Button("OK", role: .cancel) { }
+                    }
         }
         .background(Color(uiColor: .systemGray6))
         .alert("Request Sent", isPresented: $showPopup) { // Native iOS Alert
@@ -152,4 +163,14 @@ struct AvailabilityView: View {
             print("Selected date: \(formattedDate(date))") // Print selected date
         }
     }
+    private func filterAlphabeticInput(_ input: String) -> String {
+        return input.filter { $0.isLetter || $0.isWhitespace }
+    }
+ 
+    private var isValidReason: Bool {
+        let trimmed = leaveReason.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !trimmed.isEmpty && trimmed.range(of: "^[a-zA-Z ]*$", options: .regularExpression) != nil
+    }
+
+    
 }
