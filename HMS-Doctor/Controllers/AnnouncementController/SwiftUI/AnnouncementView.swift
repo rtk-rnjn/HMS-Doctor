@@ -13,31 +13,52 @@ struct AnnouncementView: View {
 
     var announcements: [Announcement] = []
 
-    var body: some View {
-            List(announcements, id: \.title) { announcement in
-                HStack(spacing: 12) {
-                    categoryIcon(for: announcement.category)
-                        .foregroundColor(categoryColor(for: announcement.category))
-                        .font(.title2)
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(announcement.title)
-                            .font(.headline)
-                        Text(announcement.body)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Text(announcement.createdAt, style: .date)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .padding(4)
-            }
-        }
-
     // MARK: Private
 
     @Environment(\.dismiss) private var dismiss
+
+    private var groupedAnnouncements: [(date: Date, announcements: [Announcement])] {
+        let grouped = Dictionary(grouping: announcements) { announcement in
+            Calendar.current.startOfDay(for: announcement.createdAt)
+        }
+        return grouped.map { (date: $0.key, announcements: $0.value.sorted { $0.createdAt > $1.createdAt }) }
+            .sorted { $0.date > $1.date }
+    }
+
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }()
+
+    var body: some View {
+        List {
+            ForEach(groupedAnnouncements, id: \.date) { section in
+                Section(header: Text(dateFormatter.string(from: section.date))) {
+                    ForEach(section.announcements, id: \.title) { announcement in
+                        HStack(spacing: 12) {
+                            categoryIcon(for: announcement.category)
+                                .foregroundColor(categoryColor(for: announcement.category))
+                                .font(.title2)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(announcement.title)
+                                    .font(.headline)
+                                Text(announcement.body)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                Text(announcement.createdAt, style: .time)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .padding(4)
+                    }
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+    }
 
     private func categoryIcon(for category: AnnouncementCategory) -> Image {
         switch category {
