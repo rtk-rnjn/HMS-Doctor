@@ -37,6 +37,12 @@ struct Appointment: Codable, Identifiable, Hashable, Sendable {
 
     var startDate: Date
     var endDate: Date
+    var prescription: String?
+    var notes: String?
+
+    var reference: String?
+    var createdAt: Date = .init()
+
     var status: AppointmentStatus {
         let now = Date()
 
@@ -48,11 +54,5 @@ struct Appointment: Codable, Identifiable, Hashable, Sendable {
             return .confirmed
         }
     }
-
-    var prescription: String?
-    var notes: String?
-
-    var reference: String?
-    var createdAt: Date = .init()
 
 }

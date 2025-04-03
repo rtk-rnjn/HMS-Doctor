@@ -34,6 +34,7 @@ struct AnnouncementView: View {
                 .padding(4)
             }
         }
+
     // MARK: Private
 
     @Environment(\.dismiss) private var dismiss
