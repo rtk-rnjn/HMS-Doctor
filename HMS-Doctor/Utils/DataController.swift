@@ -199,7 +199,7 @@ class DataController: ObservableObject {
             fatalError()
         }
 
-        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: appointmentData)
+        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: nil)
         return serverResponse?.success ?? false
     }
 
@@ -244,7 +244,7 @@ class DataController: ObservableObject {
         if staff == nil {
             let loggedIn = await autoLogin()
             if !loggedIn {
-                fatalError()
+                return nil
             }
         }
 
