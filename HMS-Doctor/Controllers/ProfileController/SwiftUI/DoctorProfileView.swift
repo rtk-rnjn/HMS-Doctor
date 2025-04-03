@@ -18,11 +18,11 @@ struct DoctorProfileView: View {
 
                     // Name with "Dr." prefix
                     Text("Dr. \(doctor?.fullName ?? "Name")")
-                        .font(.system(size: 22, weight: .bold))
+                        .font(.title2.bold())
 
                     // Redesigned smaller status badge
                     Text(doctor?.onLeave ?? false ? "Inactive" : "Active")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.caption.weight(.medium))
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .background(doctor?.onLeave ?? false ? Color.orange : Color.green)
@@ -118,7 +118,7 @@ struct StatItem: View {
     var body: some View {
         VStack(spacing: 6) {
             Image(systemName: icon)
-                .font(.system(size: 24))
+                .font(.title3)
                 .foregroundColor(.blue)
                 .padding(.bottom, 2)
 
@@ -151,7 +151,7 @@ struct InfoSectionCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(title)
-                .font(.system(size: 20, weight: .bold))
+                .font(.title3.bold())
                 .padding(.leading, 8)
 
             VStack(spacing: 0) {
@@ -174,7 +174,7 @@ struct InfoRow: View {
         HStack(alignment: .center, spacing: 16) {
             Image(systemName: icon)
                 .foregroundColor(iconColor)
-                .font(.system(size: 20))
+                .font(.title3)
                 .frame(width: 24, height: 24)
 
             VStack(alignment: .leading, spacing: 2) {

@@ -288,7 +288,7 @@ struct PatientProfileView: View {
     private func emptyStateView(icon: String, message: String) -> some View {
         VStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 36))
+                .font(.title)
                 .foregroundColor(Color(.systemGray3))
 
             Text(message)
