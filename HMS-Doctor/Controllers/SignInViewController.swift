@@ -17,22 +17,29 @@ class SignInViewController: UIViewController {
 
     let eyeButton: UIButton = .init(type: .custom)
 
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            eyeButton.tintColor = .gray
-            eyeButton.isEnabled = false
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        eyeButton.tintColor = .gray
+        eyeButton.isEnabled = false
 
-            passwordTextField.configureEyeButton(with: eyeButton)
-            passwordTextField.addTarget(self, action: #selector(passwordEntered), for: .editingChanged)
-            emailTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
-                    passwordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+        passwordTextField.configureEyeButton(with: eyeButton)
+        passwordTextField.addTarget(self, action: #selector(passwordEntered), for: .editingChanged)
+        emailTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+                passwordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
 
-                    // Initially disable sign-in button
-                    signInButton.isEnabled = false
-                    signInButton.alpha = 1.0
+                // Initially disable sign-in button
+                signInButton.isEnabled = false
+                signInButton.alpha = 1.0
 
-            navigationItem.hidesBackButton = true
-        }
+        navigationItem.hidesBackButton = true
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowResetPasswordViewController", let resetPasswordViewController = segue.destination as? ResetPasswordViewController {
