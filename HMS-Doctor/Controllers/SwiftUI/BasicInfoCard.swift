@@ -105,7 +105,7 @@ struct PatientDetailsView: View {
 
                 // Records Tabs
                 HStack {
-                    ForEach(["Records", "Prescriptions", "Lab Results", "Notes"], id: \.self) { tab in
+                    ForEach(["Records", "Prescriptions", "Notes"], id: \.self) { tab in
                         Button(action: {
                             selectedTab = tab
                         }) {
