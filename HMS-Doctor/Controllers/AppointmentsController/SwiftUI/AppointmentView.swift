@@ -116,7 +116,7 @@ struct AppointmentView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 12)
-                        .background(Color.blue)
+                        .background(Color("successBlue"))
                         .cornerRadius(10)
                 }
                 .padding(.top, 8)

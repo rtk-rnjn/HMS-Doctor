@@ -47,7 +47,7 @@ struct DoctorDashboardView: View {
                         title: "Total Appointments",
                         icon: "calendar",
                         backgroundColor: Color(.systemBlue).opacity(0.12),
-                        iconColor: .blue
+                        iconColor: Color("iconBlue")
                     )
 
                     // Completed Appointments Card
@@ -55,8 +55,8 @@ struct DoctorDashboardView: View {
                         value: String(completedAppointments),
                         title: "Completed",
                         icon: "checkmark.circle.fill",
-                        backgroundColor: Color.green.opacity(0.12),
-                        iconColor: .green
+                        backgroundColor: Color(.systemBlue).opacity(0.12),
+                        iconColor: Color("iconBlue")
                     )
 
                     // Canceled Appointments Card
@@ -64,8 +64,8 @@ struct DoctorDashboardView: View {
                         value: String(canceledAppointments),
                         title: "Canceled",
                         icon: "xmark.circle.fill",
-                        backgroundColor: Color.red.opacity(0.12),
-                        iconColor: .red
+                        backgroundColor: Color(.systemBlue).opacity(0.12),
+                        iconColor: Color("iconBlue")
                     )
 
                     // Rating Card
@@ -73,8 +73,8 @@ struct DoctorDashboardView: View {
                         value: String(format: "%.1f", rating),
                         title: "Rating",
                         icon: "star.fill",
-                        backgroundColor: Color.orange.opacity(0.12),
-                        iconColor: .orange
+                        backgroundColor: Color(.systemBlue).opacity(0.12),
+                        iconColor: Color("iconBlue")
                     )
                 }
                 .padding(.horizontal)

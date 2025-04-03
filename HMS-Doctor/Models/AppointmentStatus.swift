@@ -14,7 +14,7 @@ enum AppointmentStatus: String, Codable {
     case onGoing = "On going"
 }
 
-struct Appointment: Codable, Identifiable, Hashable {
+struct Appointment: Codable, Identifiable, Hashable, Sendable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case patientId = "patient_id"
@@ -37,6 +37,12 @@ struct Appointment: Codable, Identifiable, Hashable {
 
     var startDate: Date
     var endDate: Date
+    var prescription: String?
+    var notes: String?
+
+    var reference: String?
+    var createdAt: Date = .init()
+
     var status: AppointmentStatus {
         let now = Date()
 
@@ -48,11 +54,5 @@ struct Appointment: Codable, Identifiable, Hashable {
             return .confirmed
         }
     }
-
-    var prescription: String?
-    var notes: String?
-
-    var reference: String?
-    var createdAt: Date = .init()
 
 }

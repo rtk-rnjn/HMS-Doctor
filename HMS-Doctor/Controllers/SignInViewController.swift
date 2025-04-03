@@ -21,7 +21,7 @@ class SignInViewController: UIViewController {
             super.viewDidLoad()
             eyeButton.tintColor = .gray
             eyeButton.isEnabled = false
-            
+
             passwordTextField.configureEyeButton(with: eyeButton)
             passwordTextField.addTarget(self, action: #selector(passwordEntered), for: .editingChanged)
             emailTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
@@ -82,6 +82,10 @@ class SignInViewController: UIViewController {
         }
     }
 
+    @IBAction func forgetPasswordButtonTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "segueShowOTPResetPasswordViewController", sender: nil)
+    }
+
     // MARK: Private
 
     @objc private func togglePasswordVisibility(_ sender: UIButton) {
@@ -93,10 +97,5 @@ class SignInViewController: UIViewController {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true, completion: nil)
     }
-    
-    
-    @IBAction func forgetPasswordButtonTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "segueShowOTPResetPasswordViewController", sender: nil)
-    }
-    
+
 }

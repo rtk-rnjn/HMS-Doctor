@@ -212,7 +212,14 @@ struct PatientProfileView: View {
                 .alert("Are you sure you want to complete the record?", isPresented: $showConfirmation) {
                     Button("Cancel", role: .cancel) {}
                     Button("OK", role: .destructive) {
-                        isMarkedComplete = true
+                        Task {
+                            let marked = await DataController.shared.markAppointmentAsDone(delegate?.appointment)
+                            if marked {
+                                DispatchQueue.main.async {
+                                    isMarkedComplete = true
+                                }
+                            }
+                        }
                     }
                 }
             }
