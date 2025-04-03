@@ -90,7 +90,7 @@ struct AppointmentView: View {
             Spacer()
 
             Image(systemName: "calendar.badge.exclamationmark")
-                .font(.system(size: 60))
+                .font(.system(.largeTitle, design: .default)).bold()
                 .foregroundColor(Color(.systemGray3))
                 .padding(.bottom, 8)
 
@@ -138,7 +138,7 @@ struct StatusBadge: View {
 
     var body: some View {
         Text(status.rawValue)
-            .font(.system(size: 13, weight: .medium))
+            .font(.caption.weight(.medium))
             .foregroundColor(statusColor)
             .padding(.horizontal, 10)
             .padding(.vertical, 4)

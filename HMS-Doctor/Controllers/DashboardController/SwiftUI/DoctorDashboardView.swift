@@ -133,7 +133,7 @@ struct DashboardCard: View {
                     .frame(width: 34, height: 34)
 
                 Image(systemName: icon)
-                    .font(.system(size: 15))
+                    .font(.footnote)
                     .foregroundColor(iconColor)
             }
 
@@ -142,12 +142,12 @@ struct DashboardCard: View {
 
             // Value - make it larger and more prominent
             Text(value)
-                .font(.system(size: 30, weight: .bold))
+                .font(.largeTitle.bold())
                 .foregroundColor(.primary)
 
             // Title - smaller and lighter
             Text(title)
-                .font(.system(size: 13))
+                .font(.caption)
                 .foregroundColor(Color(.systemGray))
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -170,11 +170,11 @@ struct AppointmentCard: View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(appointment.patient?.fullName ?? "Unknown Patient")
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(Color(.systemGray))
 
                 Text(appointment.reference == nil ? "New Patient" : "Follow up")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.body)
                     .foregroundColor(.primary)
             }
 
@@ -184,7 +184,7 @@ struct AppointmentCard: View {
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
                 Text(appointment.startDate.humanReadableString())
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.body)
                     .foregroundColor(.primary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -196,7 +196,7 @@ struct AppointmentCard: View {
                 // Status tag
                 if appointment.status == .completed {
                     Text("Completed")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.caption2.weight(.medium))
                         .foregroundColor(.blue)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
@@ -204,7 +204,7 @@ struct AppointmentCard: View {
                         .clipShape(Capsule())
                 } else if appointment.status == .confirmed {
                     Text("Confirmed")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.caption2.weight(.medium))
                         .foregroundColor(.blue)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
@@ -237,11 +237,11 @@ struct AlertCard: View {
             // Left side - Alert info
             VStack(alignment: .leading, spacing: 4) {
                 Text(alert.title)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.body)
                     .foregroundColor(.primary)
 
                 Text(alert.body)
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(Color(.systemGray))
             }
 
@@ -251,7 +251,7 @@ struct AlertCard: View {
             VStack(alignment: .trailing, spacing: 8) {
                 // Time with background
                 Text(alert.createdAt.humanReadableString())
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.body)
                     .foregroundColor(.primary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
@@ -282,7 +282,7 @@ struct PriorityTag: View {
 
     var body: some View {
         Text(category.rawValue)
-            .font(.system(size: 11, weight: .medium))
+            .font(.caption2.weight(.medium))
             .foregroundColor(categoryColor)
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
@@ -312,7 +312,7 @@ struct StatusTag: View {
     var body: some View {
         // Text label for statuses
         Text(status.rawValue)
-            .font(.system(size: 11, weight: .medium))
+            .font(.caption2.weight(.medium))
             .foregroundColor(statusColor)
             .padding(.horizontal, 8)
             .padding(.vertical, 3)
