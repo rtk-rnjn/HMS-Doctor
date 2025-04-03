@@ -53,6 +53,14 @@ struct ChangePassword: Codable {
     var newPassword: String
 }
 
+struct RatingResponse: Codable, Sendable {
+    enum CodingKeys: String, CodingKey {
+        case rating
+    }
+
+    var rating: Double = 0.0
+}
+
 class DataController: ObservableObject {
 
     // MARK: Public
@@ -208,6 +216,22 @@ class DataController: ObservableObject {
         }
 
         return await MiddlewareManager.shared.get(url: "/doctor/\(id)/reviews")
+    }
+
+    func fetchAverageRating() async -> RatingResponse? {
+
+        if staff == nil {
+            let loggedIn = await autoLogin()
+            if !loggedIn {
+                fatalError()
+            }
+        }
+
+        guard let staff else {
+            fatalError()
+        }
+
+        return await MiddlewareManager.shared.get(url: "/staff/\(staff.id)/average-rating")
     }
 
     // MARK: Private

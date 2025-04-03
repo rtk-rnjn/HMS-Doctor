@@ -2,28 +2,14 @@ import SwiftUI
 
 struct DoctorDashboardView: View {
 
-    // MARK: Lifecycle
+    var totalAppointments: Int = 0
+    var completedAppointments: Int = 0
+    var canceledAppointments: Int = 0
+    var rating: Double = 0.0
 
-    // Initializer with default values for preview and testing
-    init(
-        totalAppointments: Int = 10,
-        completedAppointments: Int = 8,
-        canceledAppointments: Int = 2,
-        rating: Double = 0,
-        todaysAppointments: [Appointment] = [],
-        emergencyAlerts: [Announcement] = []
-    ) {
-        self.totalAppointments = totalAppointments
-        self.completedAppointments = completedAppointments
-        self.canceledAppointments = canceledAppointments
-        self.rating = rating
-        self.todaysAppointments = todaysAppointments
-        self.emergencyAlerts = emergencyAlerts
-    }
+    var todaysAppointments: [Appointment] = []
 
-    // MARK: Internal
-
-    var todaysAppointments: [Appointment]
+    var emergencyAlerts: [Announcement] = []
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -103,16 +89,6 @@ struct DoctorDashboardView: View {
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
-
-    // MARK: Private
-
-    // Sample data - replace with actual data from your model
-    private let totalAppointments: Int
-    private let completedAppointments: Int
-    private let canceledAppointments: Int
-    private let rating: Double
-
-    private let emergencyAlerts: [Announcement]
 
 }
 
