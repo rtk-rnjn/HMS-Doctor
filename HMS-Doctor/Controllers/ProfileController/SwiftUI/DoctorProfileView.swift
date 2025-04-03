@@ -2,6 +2,8 @@ import SwiftUI
 
 struct DoctorProfileView: View {
     var doctor: Staff?
+    weak var delegate: DoctorProfileHostingController?
+
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.horizontalSizeClass) var sizeClass
 
@@ -69,7 +71,7 @@ struct DoctorProfileView: View {
 
                 // Change Password Button
                 Button(action: {
-                    // Navigate to Change Password View
+                    delegate?.performSegue(withIdentifier: "segueShowChangePasswordTableViewController", sender: nil)
                 }) {
                     Text("Change Password")
                         .font(.headline)
@@ -83,8 +85,7 @@ struct DoctorProfileView: View {
 
                 // Logout Button
                 Button(action: {
-                    // Show Logout Confirmation Alert
-
+                    showAlert = true
                 }) {
                     Text("Logout")
                         .font(.headline)
@@ -100,9 +101,16 @@ struct DoctorProfileView: View {
         }
         .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all))
         .navigationBarTitleDisplayMode(.inline)
-
+        .alert("Are you sure?", isPresented: $showAlert)  {
+            Button("Cancel", role: .cancel) {}
+            Button("Logout", role: .destructive) {
+                DataController.shared.logout()
+                delegate?.performSegue(withIdentifier: "segueShowOnBoardingHostingController", sender: nil)
+            }
+        }
     }
 
+    @State private var showAlert: Bool = false
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"

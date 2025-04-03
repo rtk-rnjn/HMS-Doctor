@@ -11,6 +11,7 @@ struct AvailabilityView: View {
 
     // MARK: Internal
 
+    var appointments: [Appointment] = []
     var next14Days: [Date] {
         (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
     }
@@ -98,16 +99,27 @@ struct AvailabilityView: View {
         }
         .background(Color(uiColor: .systemGray6))
         .alert("Request Sent", isPresented: $showPopup) { // Native iOS Alert
-            Button("OK", role: .cancel) {}
+            Button("OK", role: .cancel) {
+                Task {
+                    let request = LeaveRequest(reason: leaveReason, dates: selectedDates)
+                    let requested = await DataController.shared.requestForLeave(request)
+
+                    DispatchQueue.main.async {
+                        if requested {
+                            // TODO:
+                        }
+                    }
+                }
+            }
         }
     }
 
     // MARK: Private
 
-    @State private var selectedDates: [Date] = []
-    @State private var isOnLeave: Bool = false
-    @State private var leaveReason: String = ""
-    @State private var showPopup: Bool = false
+    @State var selectedDates: [Date] = []
+    @State var isOnLeave: Bool = false
+    @State var leaveReason: String = ""
+    @State var showPopup: Bool = false
 
     private let daysLimit = 14
     private let calendar: Calendar = .current
@@ -139,12 +151,5 @@ struct AvailabilityView: View {
             selectedDates.append(date)
             print("Selected date: \(formattedDate(date))") // Print selected date
         }
-    }
-}
-
-// MARK: - Preview
-struct AvailabilityView_Previews: PreviewProvider {
-    static var previews: some View {
-        AvailabilityView()
     }
 }
