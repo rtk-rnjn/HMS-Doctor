@@ -24,6 +24,7 @@ struct Appointment: Codable, Identifiable, Hashable, Sendable {
         case prescription
         case notes
         case reference
+        case cancelled
         case createdAt = "created_at"
     }
 
@@ -41,6 +42,7 @@ struct Appointment: Codable, Identifiable, Hashable, Sendable {
     var notes: String?
 
     var reference: String?
+    var cancelled: Bool = false
     var createdAt: Date = .init()
 
     var status: AppointmentStatus {

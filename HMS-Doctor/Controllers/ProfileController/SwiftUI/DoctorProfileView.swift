@@ -2,6 +2,8 @@ import SwiftUI
 
 struct DoctorProfileView: View {
     var doctor: Staff?
+    weak var delegate: DoctorProfileHostingController?
+
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.horizontalSizeClass) var sizeClass
 
@@ -74,6 +76,7 @@ struct DoctorProfileView: View {
                 // Bottom padding for scroll view
                 Color.clear.frame(height: 20)
 
+
                 // Action Buttons
                 VStack(spacing: 16) {
                     // Change Password Button
@@ -86,6 +89,14 @@ struct DoctorProfileView: View {
                             Text("Change Password")
                                 .font(.headline)
                         }
+
+                // Change Password Button
+                Button(action: {
+                    delegate?.performSegue(withIdentifier: "segueShowChangePasswordTableViewController", sender: nil)
+                }) {
+                    Text("Change Password")
+                        .font(.headline)
+
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 15)
@@ -94,6 +105,7 @@ struct DoctorProfileView: View {
                                 .fill(Color.blue.gradient)
                         )
                         .padding(.horizontal)
+
                     }
 
                     // Logout Button
@@ -106,6 +118,16 @@ struct DoctorProfileView: View {
                             Text("Logout")
                                 .font(.headline)
                         }
+
+                }
+
+                // Logout Button
+                Button(action: {
+                    showAlert = true
+                }) {
+                    Text("Logout")
+                        .font(.headline)
+
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 15)
@@ -122,8 +144,18 @@ struct DoctorProfileView: View {
         }
         .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all))
         .navigationBarTitleDisplayMode(.inline)
+
+        .alert("Are you sure?", isPresented: $showAlert)  {
+            Button("Cancel", role: .cancel) {}
+            Button("Logout", role: .destructive) {
+                DataController.shared.logout()
+                delegate?.performSegue(withIdentifier: "segueShowOnBoardingHostingController", sender: nil)
+            }
+        }
+
     }
 
+    @State private var showAlert: Bool = false
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"

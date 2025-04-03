@@ -12,4 +12,15 @@ class AvailabilityHostingViewController: UIHostingController<AvailabilityView> {
     required init?(coder: NSCoder) {
         super.init(coder: coder, rootView: AvailabilityView())
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        Task {
+            let appointments: [Appointment] = await DataController.shared.fetchAppointments()
+            DispatchQueue.main.async {
+                self.rootView.appointments = appointments
+            }
+        }
+    }
 }

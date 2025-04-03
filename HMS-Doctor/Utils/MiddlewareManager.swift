@@ -29,7 +29,7 @@ actor MiddlewareManager {
         return await request(url: url, method: "PUT", body: body)
     }
 
-    func patch<T: Codable>(url: String, body: Data) async -> T? {
+    func patch<T: Codable>(url: String, body: Data?) async -> T? {
         return await request(url: url, method: "PATCH", body: body)
     }
 

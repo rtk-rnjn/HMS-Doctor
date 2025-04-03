@@ -53,6 +53,32 @@ struct ChangePassword: Codable {
     var newPassword: String
 }
 
+struct RatingResponse: Codable, Sendable {
+    enum CodingKeys: String, CodingKey {
+        case rating
+    }
+
+    var rating: Double = 0.0
+}
+
+struct LeaveRequest: Codable, Sendable {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case doctorId = "doctor_id"
+        case reason
+        case approved
+        case createdAt
+        case dates
+    }
+
+    var id: String = UUID().uuidString
+    var doctorId: String?
+    var reason: String
+    var approved: Bool = false
+    var createdAt: Date = .init()
+    var dates: [Date] = []
+}
+
 class DataController: ObservableObject {
 
     // MARK: Public
@@ -95,6 +121,9 @@ class DataController: ObservableObject {
 
     func logout() {
         UserDefaults.standard.removeObject(forKey: "accessToken")
+        UserDefaults.standard.removeObject(forKey: "emailAddress")
+        UserDefaults.standard.removeObject(forKey: "password")
+        UserDefaults.standard.removeObject(forKey: "staffId")
     }
 
     func changePassword(oldPassword: String, newPassword: String) async -> Bool {
@@ -170,7 +199,7 @@ class DataController: ObservableObject {
             fatalError()
         }
 
-        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: appointmentData)
+        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: nil)
         return serverResponse?.success ?? false
     }
 
@@ -208,6 +237,38 @@ class DataController: ObservableObject {
         }
 
         return await MiddlewareManager.shared.get(url: "/doctor/\(id)/reviews")
+    }
+
+    func fetchAverageRating() async -> RatingResponse? {
+
+        if staff == nil {
+            let loggedIn = await autoLogin()
+            if !loggedIn {
+                return nil
+            }
+        }
+
+        guard let staff else {
+            fatalError()
+        }
+
+        return await MiddlewareManager.shared.get(url: "/staff/\(staff.id)/average-rating")
+    }
+
+    func requestForLeave(_ leaveRequest: LeaveRequest) async -> Bool {
+        var newRequest = leaveRequest
+        newRequest.doctorId = staff?.id
+
+        guard let leaveRequestData = newRequest.toData() else {
+            return false
+        }
+
+        guard let staff else {
+            return false
+        }
+
+        let serverResponse: ServerResponse? = await MiddlewareManager.shared.post(url: "/staff/\(staff.id)/leave-request", body: leaveRequestData)
+        return serverResponse?.success ?? false
     }
 
     // MARK: Private

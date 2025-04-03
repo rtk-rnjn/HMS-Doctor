@@ -15,5 +15,6 @@ class DoctorProfileHostingController: UIHostingController<DoctorProfileView> {
         super.viewDidLoad()
         navigationItem.title = "Profile"
         rootView.doctor = DataController.shared.staff
+        rootView.delegate = self
     }
 }

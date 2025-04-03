@@ -11,6 +11,7 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
     // MARK: Internal
 
     var appointments: [Appointment] = []
+    var searchText: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,22 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
         }
     }
 
-    func updateSearchResults(for searchController: UISearchController) {}
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {
+            self.rootView.appointments = appointments
+            return
+        }
+
+        if searchText.isEmpty || searchText == "" {
+            self.rootView.appointments = appointments
+            return
+        }
+
+        self.searchText = searchText
+        self.rootView.appointments = appointments.filter {
+            $0.patient?.fullName?.contains(searchText) ?? false
+        }
+    }
 
     // MARK: Private
 
