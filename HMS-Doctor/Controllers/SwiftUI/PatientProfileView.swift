@@ -18,8 +18,6 @@ struct MedicalRecord: Identifiable {
 enum MedicalTab: String, CaseIterable {
     case records = "Records"
     case prescription = "Prescriptions"
-    case labResults = "Lab Results"
-    case notes = "Notes"
 }
 
 struct PatientProfileView: View {
@@ -173,18 +171,6 @@ struct PatientProfileView: View {
                                 message: "No medications available"
                             )
                         }
-
-                    case .labResults:
-                        emptyStateView(
-                            icon: "flask",
-                            message: "No lab results available"
-                        )
-
-                    case .notes:
-                        emptyStateView(
-                            icon: "note.text",
-                            message: "No notes available"
-                        )
                     }
                 }
             }
