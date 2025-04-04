@@ -229,8 +229,8 @@ struct AvailabilityView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color(.systemGray4), lineWidth: 1)
                 )
-                .onChange(of: leaveReason) { newValue in
-                    leaveReason = filterAlphabeticInput(newValue)
+                .onChange(of: leaveReason) {
+                    leaveReason = filterAlphabeticInput(leaveReason)
                 }
         }
         .padding()
