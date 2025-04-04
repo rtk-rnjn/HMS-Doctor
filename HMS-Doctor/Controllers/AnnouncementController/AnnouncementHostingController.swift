@@ -19,6 +19,12 @@ class AnnouncementHostingController: UIHostingController<AnnouncementView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         Task {
             if let announcements = await DataController.shared.fetchAnnouncements() {
                 rootView.announcements = announcements

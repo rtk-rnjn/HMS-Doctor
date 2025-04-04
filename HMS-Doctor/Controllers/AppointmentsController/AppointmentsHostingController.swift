@@ -17,12 +17,17 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
         super.viewDidLoad()
 
         prepareSearchController()
+
+        rootView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         Task {
             appointments = await DataController.shared.fetchAppointments()
             self.rootView.appointments = appointments
         }
-
-        rootView.delegate = self
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

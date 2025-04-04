@@ -18,6 +18,11 @@ class AvailabilityHostingViewController: UIHostingController<AvailabilityView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         self.previousLeaveRequest = DataController.shared.fetchStoredLeaveRequest()
 
         Task {
