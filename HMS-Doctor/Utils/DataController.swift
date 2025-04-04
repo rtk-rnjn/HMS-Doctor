@@ -195,7 +195,7 @@ class DataController: ObservableObject {
     }
 
     func markAppointmentAsDone(_ appointment: Appointment?) async -> Bool {
-        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: nil)
+        let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment?.id)/mark-as-done", body: nil)
         return serverResponse?.success ?? false
     }
 
