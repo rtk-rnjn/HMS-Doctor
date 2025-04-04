@@ -13,13 +13,18 @@ class AvailabilityHostingViewController: UIHostingController<AvailabilityView> {
         super.init(coder: coder, rootView: AvailabilityView())
     }
 
+    var previousLeaveRequest: LeaveRequest?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.previousLeaveRequest = DataController.shared.fetchStoredLeaveRequest()
 
         Task {
             let appointments: [Appointment] = await DataController.shared.fetchAppointments()
             DispatchQueue.main.async {
                 self.rootView.appointments = appointments
+                self.rootView.previousLeaveRequest = self.previousLeaveRequest
             }
         }
     }

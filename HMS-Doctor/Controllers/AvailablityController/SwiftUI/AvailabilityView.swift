@@ -10,6 +10,7 @@ import SwiftUI
 struct AvailabilityView: View {
     // MARK: - Properties
     var appointments: [Appointment] = []
+    var previousLeaveRequest: LeaveRequest?
 
     @State private var selectedDates: Set<Date> = []
     @State private var isOnLeave: Bool = false
@@ -35,7 +36,17 @@ struct AvailabilityView: View {
     
 
     var next14Days: [Date] {
-        (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
+        let allDays = (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
+
+        guard let previousLeaveRequest else {
+            return allDays
+        }
+
+        return allDays.filter { day in
+            previousLeaveRequest.dates.contains { leaveDate in
+                calendar.isDate(day, equalTo: leaveDate, toGranularity: .day)
+            }
+        }
     }
     
     var body: some View {

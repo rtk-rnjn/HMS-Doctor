@@ -266,8 +266,24 @@ class DataController: ObservableObject {
             return false
         }
 
+        UserDefaults.standard.set(leaveRequestData, forKey: "savedLeaveRequest")
+
         let serverResponse: ServerResponse? = await MiddlewareManager.shared.post(url: "/staff/\(staff.id)/leave-request", body: leaveRequestData)
         return serverResponse?.success ?? false
+    }
+
+    func fetchStoredLeaveRequest() -> LeaveRequest? {
+        guard let data = UserDefaults.standard.data(forKey: "savedLeaveRequest") else {
+            return nil
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        do {
+            return try decoder.decode(LeaveRequest.self, from: data)
+        } catch {
+            return nil
+        }
     }
 
     func fetchDoctor(bySymptom symptom: String) async -> Staff? {

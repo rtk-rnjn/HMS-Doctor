@@ -45,7 +45,7 @@ struct DoctorProfileView: View {
                     InfoCard(title: "Personal Information") {
                         InfoItem(icon: "person.fill", label: "Full Name", value: doctor?.fullName)
                         InfoItem(icon: "calendar", label: "Date of Birth", value: formatDate(doctor?.dateOfBirth ?? Date()))
-                        InfoItem(icon: "person.2.fill", label: "Gender", value: "Other")
+                        InfoItem(icon: "person.2.fill", label: "Gender", value: doctor?.gender.rawValue ?? "N/A")
                         InfoItem(icon: "phone.fill", label: "Contact Number", value: doctor?.contactNumber)
                         InfoItem(icon: "envelope.fill", label: "Email Address", value: doctor?.emailAddress)
                     }

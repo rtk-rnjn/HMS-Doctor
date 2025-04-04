@@ -94,7 +94,7 @@ struct PatientProfileView: View {
                                     .foregroundColor(Color(.systemGray))
                             }
                             HStack(alignment: .firstTextBaseline, spacing: 2) {
-                                Text("65")
+                                Text(String(patient?.weight ?? 0))
                                     .font(.title3)
                                     .fontWeight(.bold)
                                 Text("kg")
