@@ -79,7 +79,11 @@ class SignInViewController: UIViewController {
 
             DispatchQueue.main.async {
                 if loggedIn {
-                    self.performSegue(withIdentifier: "segueShowResetPasswordViewController", sender: nil)
+                    if UserDefaults.standard.bool(forKey: "isUserLoggedIn") {
+                        self.performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+                    } else {
+                        self.performSegue(withIdentifier: "segueShowResetPasswordViewController", sender: nil)
+                    }
 
                 } else {
                     self.showAlert(message: "Invalid email or password")

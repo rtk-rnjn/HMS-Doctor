@@ -195,10 +195,9 @@ class DataController: ObservableObject {
     }
 
     func markAppointmentAsDone(_ appointment: Appointment?) async -> Bool {
-        guard let appointment, let appointmentData = appointment.toData() else {
-            fatalError()
+        guard let appointment else {
+            return false
         }
-
         let serverResponse: ServerResponse? = await MiddlewareManager.shared.patch(url: "/appointment/\(appointment.id)/mark-as-done", body: nil)
         return serverResponse?.success ?? false
     }
@@ -269,6 +268,10 @@ class DataController: ObservableObject {
 
         let serverResponse: ServerResponse? = await MiddlewareManager.shared.post(url: "/staff/\(staff.id)/leave-request", body: leaveRequestData)
         return serverResponse?.success ?? false
+    }
+
+    func fetchDoctor(bySymptom symptom: String) async -> Staff? {
+        return nil
     }
 
     // MARK: Private

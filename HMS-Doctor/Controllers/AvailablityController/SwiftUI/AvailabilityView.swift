@@ -10,6 +10,7 @@ import SwiftUI
 struct AvailabilityView: View {
     // MARK: - Properties
     var appointments: [Appointment] = []
+
     @State private var selectedDates: Set<Date> = []
     @State private var isOnLeave: Bool = false
     @State private var leaveReason: String = ""
@@ -31,6 +32,10 @@ struct AvailabilityView: View {
         return formatter
     }()
     
+
+    @State var showReasonAlert: Bool = false
+
+
     var next14Days: [Date] {
         (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
     }
@@ -186,6 +191,38 @@ struct AvailabilityView: View {
                         .foregroundColor(.white)
                         .opacity((selectedDates.isEmpty && !isOnLeave) ? 0.6 : 1.0)
                         .padding(.horizontal)
+
+                }
+
+                Divider()
+
+                // Toggle for On Leave
+                Toggle("On Leave", isOn: $isOnLeave)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+
+                // Reason TextField (Only shown when On Leave is enabled)
+                if isOnLeave {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Reason for Leave")
+                            .font(.headline)
+                            .padding(.horizontal)
+
+                        TextEditor(text: $leaveReason)
+                            .frame(height: 120) // Bigger TextField
+                            .padding(8) // Add padding inside the TextEditor
+                            .background(Color.white) // Set background to white
+                            .clipShape(RoundedRectangle(cornerRadius: 10)) // Apply rounded corners
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray, lineWidth: 1) // Optional: Add a border
+                            )
+                            .onChange(of: leaveReason) { newValue in
+                                leaveReason = filterAlphabeticInput(newValue)
+                            }
+
                     }
                     .disabled(selectedDates.isEmpty && !isOnLeave)
                 }
@@ -210,6 +247,7 @@ struct AvailabilityView: View {
                 }
                 
                 Button(action: {
+
                     withAnimation(.spring(response: 0.3)) {
                         isRangeMode.toggle()
                         selectedDates.removeAll()
@@ -242,6 +280,28 @@ struct AvailabilityView: View {
             }
             .padding(.trailing, 20)
             .padding(.bottom, 20)
+                    if leaveReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            showReasonAlert = true
+                        } else {
+                            showPopup = true
+                        }
+                    }) {
+                        Text("Apply for leave")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background((isOnLeave && !selectedDates.isEmpty && isValidReason) ? Color.blue : Color.gray.opacity(0.5))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                    .disabled(!(isOnLeave && !selectedDates.isEmpty && isValidReason))
+
+            }
+            .alert("Write the reason for leave", isPresented: $showReasonAlert) {
+                        Button("OK", role: .cancel) { }
+                    }
+
         }
         .onAppear {
             selectionHaptics.prepare()
@@ -435,4 +495,14 @@ extension AvailabilityView {
         guard let start = rangeStart else { return false }
         return date > start && date <= calendar.date(byAdding: .day, value: 14, to: start)!
     }
+    private func filterAlphabeticInput(_ input: String) -> String {
+        return input.filter { $0.isLetter || $0.isWhitespace }
+    }
+ 
+    private var isValidReason: Bool {
+        let trimmed = leaveReason.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !trimmed.isEmpty && trimmed.range(of: "^[a-zA-Z ]*$", options: .regularExpression) != nil
+    }
+
+    
 }
