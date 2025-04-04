@@ -18,6 +18,7 @@ struct AvailabilityView: View {
     @State private var isRangeMode = false
     @State private var rangeStart: Date?
     @State private var showTooltip = false
+    @State private var showReasonAlert = false
     
     private let calendar = Calendar.current
     private let today = Date()
@@ -33,280 +34,23 @@ struct AvailabilityView: View {
     }()
     
 
-    @State var showReasonAlert: Bool = false
-
-
     var next14Days: [Date] {
         (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
     }
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    // Header Section
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Schedule for Multiple Days")
-                            .font(.title2.bold())
-                            .foregroundColor(.primary)
-                        Text("Select dates to mark your availability")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                    
-                    // Calendar Section
-                    VStack(spacing: 20) {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 12) {
-                                ForEach(Array(zip(next14Days.indices, next14Days)), id: \.1) { index, date in
-                                    DateCircle(
-                                        date: date,
-                                        isSelected: selectedDates.contains(date),
-                                        isInRange: isDateInRange(date),
-                                        isRangeStart: isRangeMode && date == rangeStart,
-                                        isRangeEnd: isRangeMode && rangeStart != nil && date > rangeStart!,
-                                        showTrailingLine: isRangeMode && shouldShowTrailingLine(for: date),
-                                        showLeadingLine: isRangeMode && shouldShowLeadingLine(for: date),
-                                        onTap: { handleDateSelection(date) }
-                                    )
-                                    .transition(.scale.combined(with: .opacity))
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                        
-                        // Selected Dates Summary
-                        if !selectedDates.isEmpty {
-                            VStack(spacing: 12) {
-                                HStack {
-                                    Image(systemName: "calendar.badge.checkmark")
-                                        .foregroundColor(.blue)
-                                    Text("\(selectedDates.count) date\(selectedDates.count > 1 ? "s" : "") selected")
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.primary)
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        withAnimation {
-                                            selectedDates.removeAll()
-                                            rangeStart = nil
-                                            selectionHaptics.selectionChanged()
-                                        }
-                                    }) {
-                                        Text("Clear")
-                                            .font(.footnote)
-                                            .foregroundColor(.red)
-                                    }
-                                }
-                                
-                                // Selected Dates List
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 8) {
-                                        ForEach(Array(selectedDates).sorted(by: { $0 < $1 }), id: \.self) { date in
-                                            Text(dateFormatter.string(from: date))
-                                                .font(.footnote)
-                                                .padding(.horizontal, 12)
-                                                .padding(.vertical, 6)
-                                                .background(
-                                                    Capsule()
-                                                        .fill(Color.blue.opacity(0.1))
-                                                )
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(.horizontal)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                        }
-                    }
-                    .padding(.vertical, 8)
-                    
-                    // Leave Section
-                    VStack(spacing: 16) {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Leave Application")
-                                    .font(.headline)
-                                Text("Toggle to apply for leave")
-                                    .font(.footnote)
-                                    .foregroundColor(.secondary)
-                            }
-                            
-                            Spacer()
-                            
-                            Toggle("", isOn: Binding(
-                                get: { isOnLeave },
-                                set: { newValue in
-                                    withAnimation {
-                                        isOnLeave = newValue
-                                        impactHaptics.impactOccurred()
-                                    }
-                                }
-                            ))
-                            .tint(.blue)
-                        }
-                        .padding()
-                        .background(Color(.secondarySystemGroupedBackground))
-                        .cornerRadius(12)
-                        
-                        if isOnLeave {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Reason for Leave")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                
-                                TextField("Enter your reason here", text: $leaveReason, axis: .vertical)
-                                    .lineLimit(3...6)
-                                    .textFieldStyle(.roundedBorder)
-                                    .padding(.vertical, 8)
-                            }
-                            .padding()
-                            .background(Color(.secondarySystemGroupedBackground))
-                            .cornerRadius(12)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                        }
-                    }
-                    .padding(.horizontal)
-                    .animation(.spring(response: 0.3), value: isOnLeave)
-                    
-                    // Apply Button
-                    Button(action: {
-                        haptics.prepare()
-                        showingConfirmation = true
-                    }) {
-                        HStack {
-                            Image(systemName: "checkmark.circle.fill")
-                            Text("Apply")
-                                .fontWeight(.semibold)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.blue)
-                        )
-                        .foregroundColor(.white)
-                        .opacity((selectedDates.isEmpty && !isOnLeave) ? 0.6 : 1.0)
-                        .padding(.horizontal)
-
-                }
-
-                Divider()
-
-                // Toggle for On Leave
-                Toggle("On Leave", isOn: $isOnLeave)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-
-                // Reason TextField (Only shown when On Leave is enabled)
-                if isOnLeave {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Reason for Leave")
-                            .font(.headline)
-                            .padding(.horizontal)
-
-                        TextEditor(text: $leaveReason)
-                            .frame(height: 120) // Bigger TextField
-                            .padding(8) // Add padding inside the TextEditor
-                            .background(Color.white) // Set background to white
-                            .clipShape(RoundedRectangle(cornerRadius: 10)) // Apply rounded corners
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 1) // Optional: Add a border
-                            )
-                            .onChange(of: leaveReason) { newValue in
-                                leaveReason = filterAlphabeticInput(newValue)
-                            }
-
-                    }
-                    .disabled(selectedDates.isEmpty && !isOnLeave)
-                }
-                .padding(.vertical)
-            }
-            .background(Color(.systemGroupedBackground).ignoresSafeArea())
-            
-            // Floating Selection Mode Button
-            VStack(alignment: .trailing, spacing: 8) {
-                // Tooltip
-                if showTooltip {
-                    Text(isRangeMode ? "Tap two dates to select a range" : "Tap dates to select individually")
-                        .font(.caption)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color(.secondarySystemBackground))
-                                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-                        )
-                        .transition(.scale.combined(with: .opacity))
-                }
-                
-                Button(action: {
-
-                    withAnimation(.spring(response: 0.3)) {
-                        isRangeMode.toggle()
-                        selectedDates.removeAll()
-                        rangeStart = nil
-                        selectionHaptics.selectionChanged()
-                        impactHaptics.impactOccurred()
-                        
-                        // Show tooltip briefly
-                        showTooltip = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            withAnimation {
-                                showTooltip = false
-                            }
-                        }
-                    }
-                }) {
-                    HStack(spacing: 8) {
-                        Image(systemName: isRangeMode ? "arrow.left.arrow.right" : "hand.tap")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(.white)
-                            .frame(width: 24, height: 24)
-                    }
-                    .padding(16)
-                    .background(
-                        Circle()
-                            .fill(Color.blue)
-                            .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
-                    )
-                }
-            }
-            .padding(.trailing, 20)
-            .padding(.bottom, 20)
-                    if leaveReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            showReasonAlert = true
-                        } else {
-                            showPopup = true
-                        }
-                    }) {
-                        Text("Apply for leave")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background((isOnLeave && !selectedDates.isEmpty && isValidReason) ? Color.blue : Color.gray.opacity(0.5))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding()
-                    .disabled(!(isOnLeave && !selectedDates.isEmpty && isValidReason))
-
-            }
-            .alert("Write the reason for leave", isPresented: $showReasonAlert) {
-                        Button("OK", role: .cancel) { }
-                    }
-
+            mainContent
+            selectionModeButton
         }
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
         .onAppear {
             selectionHaptics.prepare()
             haptics.prepare()
             impactHaptics.prepare()
+        }
+        .alert("Write the reason for leave", isPresented: $showReasonAlert) {
+            Button("OK", role: .cancel) { }
         }
         .alert("Confirm Application", isPresented: $showingConfirmation) {
             Button("Cancel", role: .cancel) {
@@ -322,6 +66,238 @@ struct AvailabilityView: View {
                 Text("Are you sure you want to mark your availability for \(selectedDates.count) date\(selectedDates.count > 1 ? "s" : "")?")
             }
         }
+    }
+    
+    // MARK: - View Components
+    private var mainContent: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                headerSection
+                calendarSection
+                leaveSection
+                applyButton
+            }
+        }
+    }
+    
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Schedule for Multiple Days")
+                .font(.title2.bold())
+                .foregroundColor(.primary)
+            Text("Select dates to mark your availability")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal)
+        .padding(.top, 8)
+    }
+    
+    private var calendarSection: some View {
+        VStack(spacing: 20) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(Array(zip(next14Days.indices, next14Days)), id: \.1) { index, date in
+                        DateCircle(
+                            date: date,
+                            isSelected: selectedDates.contains(date),
+                            isInRange: isDateInRange(date),
+                            isRangeStart: isRangeMode && date == rangeStart,
+                            isRangeEnd: isRangeMode && rangeStart != nil && date > rangeStart!,
+                            showTrailingLine: isRangeMode && shouldShowTrailingLine(for: date),
+                            showLeadingLine: isRangeMode && shouldShowLeadingLine(for: date),
+                            onTap: { handleDateSelection(date) }
+                        )
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .padding(.horizontal)
+            }
+            
+            if !selectedDates.isEmpty {
+                selectedDatesSummary
+            }
+        }
+        .padding(.vertical, 8)
+    }
+    
+    private var selectedDatesSummary: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "calendar.badge.checkmark")
+                    .foregroundColor(.blue)
+                Text("\(selectedDates.count) date\(selectedDates.count > 1 ? "s" : "") selected")
+                    .fontWeight(.medium)
+                    .foregroundColor(.primary)
+                Spacer()
+                
+                Button(action: {
+                    withAnimation {
+                        selectedDates.removeAll()
+                        rangeStart = nil
+                        selectionHaptics.selectionChanged()
+                    }
+                }) {
+                    Text("Clear")
+                        .font(.footnote)
+                        .foregroundColor(.red)
+                }
+            }
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(Array(selectedDates).sorted(by: { $0 < $1 }), id: \.self) { date in
+                        Text(dateFormatter.string(from: date))
+                            .font(.footnote)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(
+                                Capsule()
+                                    .fill(Color.blue.opacity(0.1))
+                            )
+                            .foregroundColor(.blue)
+                    }
+                }
+            }
+        }
+        .padding(.horizontal)
+        .transition(.move(edge: .bottom).combined(with: .opacity))
+    }
+    
+    private var leaveSection: some View {
+        VStack(spacing: 16) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Leave Application")
+                        .font(.headline)
+                    Text("Toggle to apply for leave")
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                Toggle("", isOn: Binding(
+                    get: { isOnLeave },
+                    set: { newValue in
+                        withAnimation {
+                            isOnLeave = newValue
+                            impactHaptics.impactOccurred()
+                        }
+                    }
+                ))
+                .tint(.blue)
+            }
+            .padding()
+            .background(Color(.secondarySystemGroupedBackground))
+            .cornerRadius(12)
+            
+            if isOnLeave {
+                leaveReasonInput
+            }
+        }
+        .padding(.horizontal)
+        .animation(.spring(response: 0.3), value: isOnLeave)
+    }
+    
+    private var leaveReasonInput: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Reason for Leave")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            TextEditor(text: $leaveReason)
+                .frame(height: 120)
+                .padding(8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(.systemGray4), lineWidth: 1)
+                )
+                .onChange(of: leaveReason) { newValue in
+                    leaveReason = filterAlphabeticInput(newValue)
+                }
+        }
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(12)
+        .transition(.move(edge: .top).combined(with: .opacity))
+    }
+    
+    private var applyButton: some View {
+        Button(action: {
+            if leaveReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && isOnLeave {
+                showReasonAlert = true
+            } else {
+                haptics.prepare()
+                showingConfirmation = true
+            }
+        }) {
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                Text("Apply")
+                    .fontWeight(.semibold)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill((isOnLeave && !selectedDates.isEmpty && isValidReason) ? Color.blue : Color.blue.opacity(0.6))
+            )
+            .foregroundColor(.white)
+            .padding(.horizontal)
+        }
+        .disabled(!(isOnLeave && !selectedDates.isEmpty && isValidReason))
+    }
+    
+    private var selectionModeButton: some View {
+        VStack(alignment: .trailing, spacing: 8) {
+            if showTooltip {
+                Text(isRangeMode ? "Tap two dates to select a range" : "Tap dates to select individually")
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color(.secondarySystemBackground))
+                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    )
+                    .transition(.scale.combined(with: .opacity))
+            }
+            
+            Button(action: {
+                withAnimation(.spring(response: 0.3)) {
+                    isRangeMode.toggle()
+                    selectedDates.removeAll()
+                    rangeStart = nil
+                    selectionHaptics.selectionChanged()
+                    impactHaptics.impactOccurred()
+                    
+                    showTooltip = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        withAnimation {
+                            showTooltip = false
+                        }
+                    }
+                }
+            }) {
+                HStack(spacing: 8) {
+                    Image(systemName: isRangeMode ? "arrow.left.arrow.right" : "hand.tap")
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.white)
+                        .frame(width: 24, height: 24)
+                }
+                .padding(16)
+                .background(
+                    Circle()
+                        .fill(Color.blue)
+                        .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
+                )
+            }
+        }
+        .padding(.trailing, 20)
+        .padding(.bottom, 20)
     }
     
     private func handleDateSelection(_ date: Date) {
