@@ -8,32 +8,11 @@
 import SwiftUI
 
 struct AvailabilityView: View {
-    // MARK: - Properties
+
+    // MARK: Internal
+
     var appointments: [Appointment] = []
     var previousLeaveRequest: LeaveRequest?
-
-    @State private var selectedDates: Set<Date> = []
-    @State private var isOnLeave: Bool = false
-    @State private var leaveReason: String = ""
-    @State private var showingConfirmation = false
-    @State private var isRangeMode = false
-    @State private var rangeStart: Date?
-    @State private var showTooltip = false
-    @State private var showReasonAlert = false
-    
-    private let calendar = Calendar.current
-    private let today = Date()
-    private let daysLimit = 14
-    private let haptics = UINotificationFeedbackGenerator()
-    private let selectionHaptics = UISelectionFeedbackGenerator()
-    private let impactHaptics = UIImpactFeedbackGenerator(style: .medium)
-    
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy"
-        return formatter
-    }()
-    
 
     var next14Days: [Date] {
         let allDays = (1..<daysLimit+1).compactMap { calendar.date(byAdding: .day, value: $0, to: today) }
@@ -48,7 +27,7 @@ struct AvailabilityView: View {
             }
         }
     }
-    
+
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             mainContent
@@ -61,7 +40,7 @@ struct AvailabilityView: View {
             impactHaptics.prepare()
         }
         .alert("Write the reason for leave", isPresented: $showReasonAlert) {
-            Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) {}
         }
         .alert("Confirm Application", isPresented: $showingConfirmation) {
             Button("Cancel", role: .cancel) {
@@ -78,7 +57,31 @@ struct AvailabilityView: View {
             }
         }
     }
-    
+
+    // MARK: Private
+
+    @State private var selectedDates: Set<Date> = []
+    @State private var isOnLeave: Bool = false
+    @State private var leaveReason: String = ""
+    @State private var showingConfirmation = false
+    @State private var isRangeMode = false
+    @State private var rangeStart: Date?
+    @State private var showTooltip = false
+    @State private var showReasonAlert = false
+
+    private let calendar: Calendar = .current
+    private let today: Date = .init()
+    private let daysLimit = 14
+    private let haptics: UINotificationFeedbackGenerator = .init()
+    private let selectionHaptics: UISelectionFeedbackGenerator = .init()
+    private let impactHaptics: UIImpactFeedbackGenerator = .init(style: .medium)
+
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter
+    }()
+
     // MARK: - View Components
     private var mainContent: some View {
         ScrollView {
@@ -90,7 +93,7 @@ struct AvailabilityView: View {
             }
         }
     }
-    
+
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Schedule for Multiple Days")
@@ -103,12 +106,12 @@ struct AvailabilityView: View {
         .padding(.horizontal)
         .padding(.top, 8)
     }
-    
+
     private var calendarSection: some View {
         VStack(spacing: 20) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(Array(zip(next14Days.indices, next14Days)), id: \.1) { index, date in
+                    ForEach(Array(zip(next14Days.indices, next14Days)), id: \.1) { _, date in
                         DateCircle(
                             date: date,
                             isSelected: selectedDates.contains(date),
@@ -124,14 +127,14 @@ struct AvailabilityView: View {
                 }
                 .padding(.horizontal)
             }
-            
+
             if !selectedDates.isEmpty {
                 selectedDatesSummary
             }
         }
         .padding(.vertical, 8)
     }
-    
+
     private var selectedDatesSummary: some View {
         VStack(spacing: 12) {
             HStack {
@@ -141,7 +144,7 @@ struct AvailabilityView: View {
                     .fontWeight(.medium)
                     .foregroundColor(.primary)
                 Spacer()
-                
+
                 Button(action: {
                     withAnimation {
                         selectedDates.removeAll()
@@ -154,7 +157,7 @@ struct AvailabilityView: View {
                         .foregroundColor(.red)
                 }
             }
-            
+
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(Array(selectedDates).sorted(by: { $0 < $1 }), id: \.self) { date in
@@ -174,7 +177,7 @@ struct AvailabilityView: View {
         .padding(.horizontal)
         .transition(.move(edge: .bottom).combined(with: .opacity))
     }
-    
+
     private var leaveSection: some View {
         VStack(spacing: 16) {
             HStack {
@@ -185,9 +188,9 @@ struct AvailabilityView: View {
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 Toggle("", isOn: Binding(
                     get: { isOnLeave },
                     set: { newValue in
@@ -202,7 +205,7 @@ struct AvailabilityView: View {
             .padding()
             .background(Color(.secondarySystemGroupedBackground))
             .cornerRadius(12)
-            
+
             if isOnLeave {
                 leaveReasonInput
             }
@@ -210,13 +213,13 @@ struct AvailabilityView: View {
         .padding(.horizontal)
         .animation(.spring(response: 0.3), value: isOnLeave)
     }
-    
+
     private var leaveReasonInput: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Reason for Leave")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            
+
             TextEditor(text: $leaveReason)
                 .frame(height: 120)
                 .padding(8)
@@ -235,7 +238,7 @@ struct AvailabilityView: View {
         .cornerRadius(12)
         .transition(.move(edge: .top).combined(with: .opacity))
     }
-    
+
     private var applyButton: some View {
         Button(action: {
             if leaveReason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && isOnLeave {
@@ -261,7 +264,7 @@ struct AvailabilityView: View {
         }
         .disabled(!(isOnLeave && !selectedDates.isEmpty && isValidReason))
     }
-    
+
     private var selectionModeButton: some View {
         VStack(alignment: .trailing, spacing: 8) {
             if showTooltip {
@@ -276,7 +279,7 @@ struct AvailabilityView: View {
                     )
                     .transition(.scale.combined(with: .opacity))
             }
-            
+
             Button(action: {
                 withAnimation(.spring(response: 0.3)) {
                     isRangeMode.toggle()
@@ -284,7 +287,7 @@ struct AvailabilityView: View {
                     rangeStart = nil
                     selectionHaptics.selectionChanged()
                     impactHaptics.impactOccurred()
-                    
+
                     showTooltip = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         withAnimation {
@@ -310,11 +313,11 @@ struct AvailabilityView: View {
         .padding(.trailing, 20)
         .padding(.bottom, 20)
     }
-    
+
     private func handleDateSelection(_ date: Date) {
         withAnimation(.spring(response: 0.3)) {
             selectionHaptics.selectionChanged()
-            
+
             if isRangeMode {
                 if rangeStart == nil {
                     // Start new range
@@ -325,7 +328,7 @@ struct AvailabilityView: View {
                     let start = min(rangeStart!, date)
                     let end = max(rangeStart!, date)
                     var current = start
-                    
+
                     selectedDates.removeAll()
                     while current <= end {
                         selectedDates.insert(current)
@@ -343,12 +346,12 @@ struct AvailabilityView: View {
             }
         }
     }
-    
+
     private func isDateInRange(_ date: Date) -> Bool {
         guard isRangeMode, let start = rangeStart else { return false }
         return date >= start && date <= calendar.date(byAdding: .day, value: 14, to: start)!
     }
-    
+
     private func applyForLeave() {
         if !selectedDates.isEmpty || isOnLeave {
             haptics.notificationOccurred(.success)
@@ -360,13 +363,13 @@ struct AvailabilityView: View {
             haptics.notificationOccurred(.error)
         }
     }
-    
+
     private func shortDay(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"
         return formatter.string(from: date)
     }
-    
+
     private func dayNumber(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"
@@ -376,6 +379,9 @@ struct AvailabilityView: View {
 
 // MARK: - Supporting Views
 struct DateCircle: View {
+
+    // MARK: Internal
+
     let date: Date
     let isSelected: Bool
     let isInRange: Bool
@@ -384,15 +390,13 @@ struct DateCircle: View {
     let showTrailingLine: Bool
     let showLeadingLine: Bool
     let onTap: () -> Void
-    
-    @Environment(\.colorScheme) private var colorScheme
-    
+
     var body: some View {
         VStack(spacing: 4) {
             Text(shortDay(date))
                 .font(.caption.weight(.medium))
                 .foregroundColor(.secondary)
-            
+
             ZStack {
                 // Connecting lines
                 if showLeadingLine {
@@ -401,14 +405,14 @@ struct DateCircle: View {
                         .frame(width: 12, height: 2)
                         .offset(x: -26)
                 }
-                
+
                 if showTrailingLine {
                     Rectangle()
                         .fill(Color.blue.opacity(0.3))
                         .frame(width: 12, height: 2)
                         .offset(x: 26)
                 }
-                
+
                 Text(dayNumber(date))
                     .font(.headline)
                     .frame(width: 40, height: 40)
@@ -429,7 +433,11 @@ struct DateCircle: View {
         }
         .onTapGesture(perform: onTap)
     }
-    
+
+    // MARK: Private
+
+    @Environment(\.colorScheme) private var colorScheme
+
     private var backgroundColor: Color {
         if isSelected {
             return .blue
@@ -439,7 +447,7 @@ struct DateCircle: View {
             return Color(.systemBackground)
         }
     }
-    
+
     private var strokeColor: Color {
         if isSelected {
             return .blue
@@ -451,7 +459,7 @@ struct DateCircle: View {
             return Color(.systemGray4)
         }
     }
-    
+
     private var textColor: Color {
         if isSelected {
             return .white
@@ -461,13 +469,13 @@ struct DateCircle: View {
             return .primary
         }
     }
-    
+
     private func shortDay(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"
         return formatter.string(from: date)
     }
-    
+
     private func dayNumber(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"
@@ -480,15 +488,16 @@ extension AvailabilityView {
         guard let start = rangeStart else { return false }
         return date >= start && date < calendar.date(byAdding: .day, value: 14, to: start)!
     }
-    
+
     private func shouldShowLeadingLine(for date: Date) -> Bool {
         guard let start = rangeStart else { return false }
         return date > start && date <= calendar.date(byAdding: .day, value: 14, to: start)!
     }
+
     private func filterAlphabeticInput(_ input: String) -> String {
         return input.filter { $0.isLetter || $0.isWhitespace }
     }
- 
+
     private var isValidReason: Bool {
         let trimmed = leaveReason.trimmingCharacters(in: .whitespacesAndNewlines)
         return !trimmed.isEmpty && trimmed.range(of: "^[a-zA-Z ]*$", options: .regularExpression) != nil

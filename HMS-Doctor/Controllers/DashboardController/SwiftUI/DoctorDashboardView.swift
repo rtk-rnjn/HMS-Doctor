@@ -64,11 +64,11 @@ struct DoctorDashboardView: View {
                             .font(.system(size: 40))
                             .foregroundColor(.secondary)
                             .padding(.top, 32)
-                        
+
                         Text("No Appointments Today")
                             .font(.headline)
                             .foregroundColor(.primary)
-                        
+
                         Text("You have no appointments scheduled for today.")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
@@ -95,13 +95,14 @@ struct DoctorDashboardView: View {
 
 // Dashboard Card Component
 struct DashboardCard: View {
+
+    // MARK: Internal
+
     let value: String
     let title: String
     let icon: String
     let iconColor: Color
-    
-    @Environment(\.colorScheme) private var colorScheme
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Icon at top
@@ -134,6 +135,11 @@ struct DashboardCard: View {
                 .fill(Color(.secondarySystemGroupedBackground))
         )
     }
+
+    // MARK: Private
+
+    @Environment(\.colorScheme) private var colorScheme
+
 }
 
 struct AppointmentCard: View {

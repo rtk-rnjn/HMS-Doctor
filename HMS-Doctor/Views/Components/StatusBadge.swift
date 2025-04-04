@@ -1,9 +1,16 @@
 import SwiftUI
 
 struct StatusBadge: View {
-    let status: Status
-    let size: Size
-    
+
+    // MARK: Lifecycle
+
+    init(status: Status, size: Size = .regular) {
+        self.status = status
+        self.size = size
+    }
+
+    // MARK: Internal
+
     enum Status {
         case active
         case inactive
@@ -11,7 +18,9 @@ struct StatusBadge: View {
         case pending
         case completed
         case cancelled
-        
+
+        // MARK: Internal
+
         var title: String {
             switch self {
             case .active: return "Active"
@@ -22,7 +31,7 @@ struct StatusBadge: View {
             case .cancelled: return "Cancelled"
             }
         }
-        
+
         var colors: (background: Color, foreground: Color) {
             switch self {
             case .active:
@@ -38,18 +47,20 @@ struct StatusBadge: View {
             }
         }
     }
-    
+
     enum Size {
         case small
         case regular
-        
+
+        // MARK: Internal
+
         var font: Font {
             switch self {
             case .small: return .caption.weight(.medium)
             case .regular: return .footnote.weight(.medium)
             }
         }
-        
+
         var padding: (h: CGFloat, v: CGFloat) {
             switch self {
             case .small: return (8, 4)
@@ -57,12 +68,10 @@ struct StatusBadge: View {
             }
         }
     }
-    
-    init(status: Status, size: Size = .regular) {
-        self.status = status
-        self.size = size
-    }
-    
+
+    let status: Status
+    let size: Size
+
     var body: some View {
         Text(status.title)
             .font(size.font)
@@ -72,4 +81,4 @@ struct StatusBadge: View {
             .foregroundColor(status.colors.foreground)
             .cornerRadius(8)
     }
-} 
+}

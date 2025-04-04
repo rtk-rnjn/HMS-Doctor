@@ -9,21 +9,21 @@ import UIKit
 import SwiftUI
 
 class AvailabilityHostingViewController: UIHostingController<AvailabilityView> {
+
+    // MARK: Lifecycle
+
     required init?(coder: NSCoder) {
         super.init(coder: coder, rootView: AvailabilityView())
     }
 
+    // MARK: Internal
+
     var previousLeaveRequest: LeaveRequest?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.previousLeaveRequest = DataController.shared.fetchStoredLeaveRequest()
+        previousLeaveRequest = DataController.shared.fetchStoredLeaveRequest()
 
         Task {
             let appointments: [Appointment] = await DataController.shared.fetchAppointments()

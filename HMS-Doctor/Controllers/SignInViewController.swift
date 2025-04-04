@@ -37,10 +37,6 @@ class SignInViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowResetPasswordViewController", let resetPasswordViewController = segue.destination as? ResetPasswordViewController {
             resetPasswordViewController.staff = sender as? Staff
@@ -98,6 +94,10 @@ class SignInViewController: UIViewController {
     }
 
     // MARK: Private
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 
     @objc private func togglePasswordVisibility(_ sender: UIButton) {
         sender.isSelected.toggle()

@@ -17,11 +17,6 @@ class AnnouncementHostingController: UIHostingController<AnnouncementView> {
 
     // MARK: Internal
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

@@ -39,17 +39,17 @@ class AppointmentsHostingController: UIHostingController<AppointmentView>, UISea
 
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else {
-            self.rootView.appointments = appointments
+            rootView.appointments = appointments
             return
         }
 
         if searchText.isEmpty || searchText == "" {
-            self.rootView.appointments = appointments
+            rootView.appointments = appointments
             return
         }
 
         self.searchText = searchText
-        self.rootView.appointments = appointments.filter {
+        rootView.appointments = appointments.filter {
             $0.patient?.fullName?.contains(searchText) ?? false
         }
     }

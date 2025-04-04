@@ -3,12 +3,12 @@ import SwiftUI
 struct DoctorProfileView: View {
     var doctor: Staff?
     weak var delegate: DoctorProfileHostingController?
-    
+
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.horizontalSizeClass) var sizeClass
     @Environment(\.colorScheme) private var colorScheme
     @State private var showAlert: Bool = false
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
@@ -19,26 +19,26 @@ struct DoctorProfileView: View {
                         Circle()
                             .fill(Color(.tertiarySystemGroupedBackground))
                             .frame(width: sizeClass == .regular ? 160 : 140)
-                        
+
                         Image(systemName: "person.circle.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: sizeClass == .regular ? 140 : 120)
                             .foregroundColor(Color(.systemGray3))
                     }
-                    
+
                     // Name and Status
                     VStack(spacing: 12) {
                         Text("Dr. \(doctor?.fullName ?? "Name")")
                             .font(.title.bold())
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
-                        
+
                         StatusBadge(status: doctor?.onLeave ?? false ? .onLeave : .active)
                     }
                 }
                 .padding(.top, 20)
-                
+
                 // Information Cards
                 VStack(spacing: 24) {
                     // Personal Information
@@ -49,7 +49,7 @@ struct DoctorProfileView: View {
                         InfoItem(icon: "phone.fill", label: "Contact Number", value: doctor?.contactNumber)
                         InfoItem(icon: "envelope.fill", label: "Email Address", value: doctor?.emailAddress)
                     }
-                    
+
                     // Professional Information
                     InfoCard(title: "Professional Information") {
                         InfoItem(icon: "creditcard.fill", label: "Medical License", value: doctor?.licenseId)
@@ -58,13 +58,13 @@ struct DoctorProfileView: View {
                             InfoItem(icon: "clock.fill", label: "Experience", value: "\(doctor?.yearOfExperience ?? 0) Years")
                         }
                     }
-                    
+
                     // Department Information
                     InfoCard(title: "Department") {
                         InfoItem(icon: "building.2.fill", label: "Department", value: doctor?.department)
                     }
                 }
-                
+
                 // Action Buttons
                 VStack(spacing: 16) {
                     Button(action: {
@@ -80,7 +80,7 @@ struct DoctorProfileView: View {
                         .foregroundColor(.blue)
                         .cornerRadius(12)
                     }
-                    
+
                     Button(action: { showAlert = true }) {
                         HStack {
                             Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -106,7 +106,7 @@ struct DoctorProfileView: View {
             }
         }
     }
-    
+
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"
@@ -116,21 +116,26 @@ struct DoctorProfileView: View {
 
 // MARK: - Supporting Views
 struct InfoCard<Content: View>: View {
-    let title: String
-    let content: Content
-    
+
+    // MARK: Lifecycle
+
     init(title: String, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
     }
-    
+
+    // MARK: Internal
+
+    let title: String
+    let content: Content
+
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text(title)
                 .font(.title3.bold())
                 .foregroundColor(.primary)
                 .padding(.horizontal)
-            
+
             VStack(spacing: 0) {
                 content
             }
@@ -146,24 +151,24 @@ struct InfoItem: View {
     let icon: String
     let label: String
     let value: String?
-    
+
     var body: some View {
         HStack(spacing: 16) {
             Image(systemName: icon)
                 .font(.system(size: 18))
                 .foregroundColor(.blue)
                 .frame(width: 24)
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(label)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                
+
                 Text(value ?? "Not provided")
                     .font(.body)
                     .foregroundColor(.primary)
             }
-            
+
             Spacer()
         }
         .padding(.vertical, 12)
