@@ -26,11 +26,11 @@
             <objects>
                 <viewController storyboardIdentifier="SignInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="SignInViewController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="7lB-7c-cVf">
-                                <rect key="frame" x="20" y="249" width="353" height="344"/>
+                                <rect key="frame" x="20" y="254" width="353" height="344"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Jih-qA-EAd">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="63.666666666666664"/>
@@ -129,11 +129,11 @@
             <objects>
                 <viewController storyboardIdentifier="ResetPasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GGi-QF-tqf" customClass="ResetPasswordViewController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UnQ-tA-u6a">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="LtF-zu-zon">
-                                <rect key="frame" x="20" y="285.33333333333337" width="353" height="271.33333333333337"/>
+                                <rect key="frame" x="20" y="290.33333333333337" width="353" height="271.33333333333337"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="g0t-g7-Fh3">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="50.333333333333336"/>
@@ -243,11 +243,11 @@
             <objects>
                 <viewController storyboardIdentifier="OTPResetViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="u2m-q4-4oH" customClass="OTPResetViewController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Jw-Ue-MIV">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ij5-GH-qQO">
-                                <rect key="frame" x="20" y="295.33333333333331" width="353" height="251.66666666666669"/>
+                                <rect key="frame" x="20" y="300.33333333333331" width="353" height="251.66666666666669"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4DA-UW-oht">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
@@ -316,11 +316,11 @@
             <objects>
                 <viewController storyboardIdentifier="SetPasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="WAt-dc-uAq" customClass="SetPasswordViewController" customModule="HMS_Doctor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5ox-PP-RgK">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="l4O-Qu-iAf">
-                                <rect key="frame" x="20" y="295.33333333333331" width="353" height="251.66666666666669"/>
+                                <rect key="frame" x="20" y="300.33333333333331" width="353" height="251.66666666666669"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set New Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mBI-kc-ik3">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
@@ -386,9 +386,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ttn-eR-iGs"/>
         <segue reference="Z9E-JM-77L"/>
-        <segue reference="6PN-3A-Klt"/>
+        <segue reference="HsC-zi-OsF"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">

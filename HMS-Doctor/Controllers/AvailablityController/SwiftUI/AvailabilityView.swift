@@ -341,7 +341,10 @@ struct AvailabilityView: View {
     private func applyForLeave() {
         if !selectedDates.isEmpty || isOnLeave {
             haptics.notificationOccurred(.success)
-            // Handle leave application
+            Task {
+                let leaveRequest = LeaveRequest(reason: leaveReason, dates: Array(selectedDates))
+                _ = await DataController.shared.requestForLeave(leaveRequest)
+            }
         } else {
             haptics.notificationOccurred(.error)
         }
