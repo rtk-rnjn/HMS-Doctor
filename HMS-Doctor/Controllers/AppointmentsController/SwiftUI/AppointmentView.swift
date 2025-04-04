@@ -106,7 +106,7 @@ struct AppointmentView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
 
-            if !showingAllAppointments {
+            if !showingAllAppointments && !Calendar.current.isDateInToday(selectedDate) {
                 Button(action: {
                     selectedDate = Date()
                 }) {
@@ -129,30 +129,17 @@ struct AppointmentView: View {
     }
 }
 
-// MARK: - Status Badge
-struct StatusBadge: View {
-
-    // MARK: Internal
-
-    let status: AppointmentStatus
-
-    var body: some View {
-        Text(status.rawValue)
-            .font(.caption.weight(.medium))
-            .foregroundColor(statusColor)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(statusColor.opacity(0.12))
-            .clipShape(Capsule())
-    }
-
-    // MARK: Private
-
-    private var statusColor: Color {
-        switch status {
-        case .confirmed: return .green
-        case .cancelled: return .red
-        default: return .gray
+extension StatusBadge.Status {
+    init(appointmentStatus: AppointmentStatus) {
+        switch appointmentStatus {
+        case .confirmed:
+            self = .active
+        case .cancelled:
+            self = .cancelled
+        case .completed:
+            self = .completed
+        case .onGoing:
+            self = .active
         }
     }
 }

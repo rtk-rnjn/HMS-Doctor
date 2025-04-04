@@ -26,14 +26,13 @@ struct DoctorDashboardView: View {
                 LazyVGrid(columns: [
                     GridItem(.flexible()),
                     GridItem(.flexible())
-                ], spacing: 12) {
+                ], spacing: 16) {
                     // Total Appointments Card
                     DashboardCard(
                         value: String(totalAppointments),
                         title: "Total Appointments",
                         icon: "calendar",
-                        backgroundColor: Color(.systemBlue).opacity(0.12),
-                        iconColor: Color("iconBlue")
+                        iconColor: .blue
                     )
 
                     // Completed Appointments Card
@@ -41,8 +40,7 @@ struct DoctorDashboardView: View {
                         value: String(completedAppointments),
                         title: "Completed",
                         icon: "checkmark.circle.fill",
-                        backgroundColor: Color(.systemBlue).opacity(0.12),
-                        iconColor: Color("iconBlue")
+                        iconColor: .green
                     )
 
                     // Canceled Appointments Card
@@ -50,8 +48,7 @@ struct DoctorDashboardView: View {
                         value: String(canceledAppointments),
                         title: "Canceled",
                         icon: "xmark.circle.fill",
-                        backgroundColor: Color(.systemBlue).opacity(0.12),
-                        iconColor: Color("iconBlue")
+                        iconColor: .red
                     )
 
                     // Rating Card
@@ -59,8 +56,7 @@ struct DoctorDashboardView: View {
                         value: String(format: "%.1f", rating),
                         title: "Rating",
                         icon: "star.fill",
-                        backgroundColor: Color(.systemBlue).opacity(0.12),
-                        iconColor: Color("iconBlue")
+                        iconColor: .yellow
                     )
                 }
                 .padding(.horizontal)
@@ -78,12 +74,33 @@ struct DoctorDashboardView: View {
                 .padding(.top, 32)
                 .padding(.bottom, 12)
 
-                VStack(spacing: 12) {
-                    ForEach(todaysAppointments) { appointment in
-                        AppointmentCard(appointment: appointment)
+                if todaysAppointments.isEmpty {
+                    VStack(spacing: 16) {
+                        Image(systemName: "calendar.badge.exclamationmark")
+                            .font(.system(size: 40))
+                            .foregroundColor(.secondary)
+                            .padding(.top, 32)
+                        
+                        Text("No Appointments Today")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        Text("You have no appointments scheduled for today.")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 32)
+                } else {
+                    VStack(spacing: 12) {
+                        ForEach(todaysAppointments) { appointment in
+                            AppointmentCard(appointment: appointment)
+                        }
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             .padding(.bottom, 20)
         }
@@ -97,43 +114,40 @@ struct DashboardCard: View {
     let value: String
     let title: String
     let icon: String
-    let backgroundColor: Color
     let iconColor: Color
-
+    
+    @Environment(\.colorScheme) private var colorScheme
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 12) {
             // Icon at top
             ZStack {
                 Circle()
-                    .fill(backgroundColor)
-                    .frame(width: 34, height: 34)
+                    .fill(iconColor.opacity(colorScheme == .dark ? 0.2 : 0.1))
+                    .frame(width: 36, height: 36)
 
                 Image(systemName: icon)
-                    .font(.footnote)
+                    .font(.system(size: 16))
                     .foregroundColor(iconColor)
             }
 
-            Spacer()
-                .frame(height: 4)
-
             // Value - make it larger and more prominent
             Text(value)
-                .font(.largeTitle.bold())
+                .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.primary)
 
             // Title - smaller and lighter
             Text(title)
-                .font(.caption)
-                .foregroundColor(Color(.systemGray))
+                .font(.subheadline)
+                .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 14)
-        .padding(.horizontal, 14)
+        .padding(.vertical, 16)
+        .padding(.horizontal, 16)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: Color.black.opacity(0.04), radius: 2, x: 0, y: 1)
+                .fill(Color(.secondarySystemGroupedBackground))
         )
     }
 }
