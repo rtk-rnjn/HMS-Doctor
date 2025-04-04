@@ -171,6 +171,4 @@ struct AvailabilityView: View {
         let trimmed = leaveReason.trimmingCharacters(in: .whitespacesAndNewlines)
         return !trimmed.isEmpty && trimmed.range(of: "^[a-zA-Z ]*$", options: .regularExpression) != nil
     }
-
-    
 }
