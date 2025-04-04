@@ -40,23 +40,7 @@ struct DoctorDashboardView: View {
                         value: String(completedAppointments),
                         title: "Completed",
                         icon: "checkmark.circle.fill",
-                        iconColor: .green
-                    )
-
-                    // Canceled Appointments Card
-                    DashboardCard(
-                        value: String(canceledAppointments),
-                        title: "Canceled",
-                        icon: "xmark.circle.fill",
-                        iconColor: .red
-                    )
-
-                    // Rating Card
-                    DashboardCard(
-                        value: String(format: "%.1f", rating),
-                        title: "Rating",
-                        icon: "star.fill",
-                        iconColor: .yellow
+                        iconColor: .blue
                     )
                 }
                 .padding(.horizontal)
