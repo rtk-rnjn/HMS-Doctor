@@ -53,14 +53,6 @@ struct ChangePassword: Codable {
     var newPassword: String
 }
 
-struct RatingResponse: Codable, Sendable {
-    enum CodingKeys: String, CodingKey {
-        case rating
-    }
-
-    var rating: Double = 0.0
-}
-
 struct LeaveRequest: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case id
@@ -228,30 +220,6 @@ class DataController: ObservableObject {
         }
         let reports: [MedicalReport]? = await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/medical-reports")
         return reports ?? []
-    }
-
-    func fetchReview() async -> [Review]? {
-        guard let id = UserDefaults.standard.string(forKey: "staffId") else {
-            return []
-        }
-
-        return await MiddlewareManager.shared.get(url: "/doctor/\(id)/reviews")
-    }
-
-    func fetchAverageRating() async -> RatingResponse? {
-
-        if staff == nil {
-            let loggedIn = await autoLogin()
-            if !loggedIn {
-                return nil
-            }
-        }
-
-        guard let staff else {
-            fatalError()
-        }
-
-        return await MiddlewareManager.shared.get(url: "/staff/\(staff.id)/average-rating")
     }
 
     func requestForLeave(_ leaveRequest: LeaveRequest) async -> Bool {
