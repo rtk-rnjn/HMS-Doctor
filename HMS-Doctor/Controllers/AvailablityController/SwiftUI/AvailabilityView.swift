@@ -154,7 +154,7 @@ struct AvailabilityView: View {
                 }) {
                     Text("Clear")
                         .font(.footnote)
-                        .foregroundColor(.red)
+                        .foregroundColor(Color("errorBlue"))
                 }
             }
 
