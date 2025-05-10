@@ -20,12 +20,11 @@ class DoctorDashboardHostingController: UIHostingController<DoctorDashboardView>
 
         Task {
             let appointments = await DataController.shared.fetchAppointments()
-            let rating = await DataController.shared.fetchAverageRating()
+            
             rootView.todaysAppointments = appointments.filter { $0.startDate.isToday() }
             rootView.totalAppointments = appointments.count
+            rootView.completedAppointments = (appointments.filter { $0.status == .completed }).count
             rootView.canceledAppointments = (appointments.filter { $0.status == .cancelled || $0.cancelled == true }).count
-            rootView.rating = rating?.rating ?? 0.0
-
         }
     }
 }
